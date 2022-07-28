@@ -22,7 +22,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="71dp"
         android:layout_marginEnd="72dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintBottom_toTopOf="@+id/gridView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,18 +32,20 @@
 
     <TextView
         android:id="@+id/email"
-        android:textIsSelectable="true"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profileAvatar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/action_settings"
+        android:minHeight="48dp"
         android:text=""
         android:textAlignment="center"
+        android:textIsSelectable="true"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintBottom_toTopOf="@+id/gridView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fullName"
@@ -51,40 +53,55 @@
 
     <TextView
         android:id="@+id/fullName"
-        android:textIsSelectable="true"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profileAvatar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/action_settings"
+        android:minHeight="48dp"
         android:text=""
         android:textAlignment="center"
+        android:textIsSelectable="true"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintBottom_toTopOf="@+id/gridView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileAvatar"
         app:layout_constraintVertical_bias="0.121" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="345dp"
-        android:layout_height="287dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="340dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+<!--    <ScrollView-->
+<!--        android:id="@+id/scrollView2"-->
+<!--        android:layout_width="345dp"-->
+<!--        android:layout_height="287dp"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_marginTop="340dp"-->
+<!--        android:layout_marginEnd="10dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical" />-->
+<!--    </ScrollView>-->
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="358dp"
+        android:layout_height="251dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginBottom="132dp"
+        android:numColumns="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <FrameLayout
         android:layout_width="392dp"
@@ -93,8 +110,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/gridView"
+        app:layout_constraintVertical_bias="0.742">
 
         <Button
             android:id="@+id/button3"

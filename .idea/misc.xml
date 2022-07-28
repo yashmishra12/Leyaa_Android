@@ -6,9 +6,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22373657226562504" />
         <entry key="app/src/main/res/layout/activity_view.xml" value="0.20212765957446807" />
         <entry key="app/src/main/res/layout/fragment_invitation.xml" value="0.23162393162393163" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.31219177246093754" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.3099761962890626" />
         <entry key="app/src/main/res/layout/fragment_reminder.xml" value="0.23162393162393163" />
         <entry key="app/src/main/res/layout/fragment_rooms.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/grid_item.xml" value="0.23076923076923078" />
         <entry key="app/src/main/res/layout/inside_page.xml" value="0.20212765957446807" />
         <entry key="app/src/main/res/layout/inside_room.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/loginpage.xml" value="0.23150787353515626" />
