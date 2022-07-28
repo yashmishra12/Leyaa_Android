@@ -34,7 +34,7 @@ public class Registration extends AppCompatActivity {
     String userID;
     TextView registeredLoginBtn;
     public static final String TAG = "TAG";
-
+    public  FirebaseUser fuser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +89,10 @@ public class Registration extends AppCompatActivity {
 
                             // send verification link
 
-                            FirebaseUser fuser = mAuth.getCurrentUser();
+                            fuser = mAuth.getCurrentUser();
                             Toast.makeText(Registration.this, "User Created.", Toast.LENGTH_SHORT).show();
                             userID = mAuth.getCurrentUser().getUid();
+
                             DocumentReference documentReference = mStore.collection("users").document(userID);
                             Map<String,Object> user = new HashMap<>();
                             user.put("fullname",fullName);
