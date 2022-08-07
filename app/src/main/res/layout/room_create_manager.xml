@@ -5,18 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/newRoomName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"
         android:ems="10"
         android:hint="Room Name"
         android:inputType="textPersonName"
@@ -25,12 +18,14 @@
         android:paddingTop="20dp"
         android:paddingEnd="20dp"
         android:paddingRight="20dp"
+
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/createNewRoomButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.253" />
 
     <Button
         android:id="@+id/createNewRoomButton"
@@ -39,10 +34,10 @@
         android:text="Create Room"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.754"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newRoomName"
-        app:layout_constraintVertical_bias="0.277" />
+        app:layout_constraintVertical_bias="0.173" />
 
     <Button
         android:id="@+id/roomCreateBack"
@@ -51,6 +46,14 @@
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.195"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createNewRoomButton" />
+        app:layout_constraintTop_toBottomOf="@+id/newRoomName"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>

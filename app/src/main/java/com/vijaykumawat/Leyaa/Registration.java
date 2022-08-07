@@ -1,6 +1,7 @@
 package com.vijaykumawat.Leyaa;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +51,7 @@ public class Registration extends AppCompatActivity {
         registeredLoginBtn = findViewById(R.id.alreadyRegistered);
 
         btn2_signup.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 String email = user_name.getText().toString().trim();
@@ -81,8 +84,8 @@ public class Registration extends AppCompatActivity {
 
 
 
-
                 mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
@@ -113,7 +116,7 @@ public class Registration extends AppCompatActivity {
                                 }
                             });
 
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), RoomListActivity.class));
 
                         }else {
                             Toast.makeText(Registration.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

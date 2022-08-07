@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#0B5387</item>
+        <item name="colorPrimaryDark">#0B5387</item>
+        <item name="colorAccent">#0B5387</item>
+    </style>
+
+    <style name="BottomNavigationView" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#0B5387</item>
+        <item name="colorPrimaryDark">#0B5387</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.BottomNavigationView.Active</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.BottomNavigationView.Inactive</item>
+    </style>
+    <style name="TextAppearance"/>
+    <style name="TextAppearance.BottomNavigationView"/>
+    <style name="TextAppearance.BottomNavigationView.Inactive">
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="TextAppearance.BottomNavigationView.Active">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+
+
+</resources>

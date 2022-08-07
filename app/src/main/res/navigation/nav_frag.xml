@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_frag"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.vijaykumawat.Leyaa.ProfileActivity"
+        android:label="Home"
+        tools:layout="@layout/profile_activity" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.vijaykumawat.Leyaa.Invitation"
+        android:label="Profile"
+        tools:layout="@layout/invitation_activity" />
+
+</navigation>

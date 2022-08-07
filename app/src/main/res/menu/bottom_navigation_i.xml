@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_room"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_room" />
+
+    <item
+        android:id="@+id/navigation_reminder"
+        android:icon="@android:drawable/ic_popup_reminder"
+        android:title="@string/title_reminder" />
+
+    <item
+        android:id="@+id/navigation_invitation"
+        android:icon="@drawable/ic_invitation_1_24"
+        android:title="@string/title_invitation" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="@string/title_profile" />
+
+</menu>

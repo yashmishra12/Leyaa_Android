@@ -12,4 +12,5 @@
     <color name="colorAccent">#E91E63</color>
     <color name="bordercolor">#E91E63</color>
     <color name="toolbarcolor">#0B5387</color>
+    <color name="fab_pressed">#546e7a</color>
 </resources>

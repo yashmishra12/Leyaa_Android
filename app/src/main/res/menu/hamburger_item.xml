@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/message_wall"
+        android:icon="@drawable/ic_baseline_message_24"
+        android:title="Message Wall"/>
+
+    <item android:id="@+id/bill_split"
+        android:icon="@drawable/ic_bill_24"
+        android:title="Bill Split"/>
+
+    <item android:id="@+id/edit_room_name_ic"
+        android:icon="@drawable/ic_edit_24"
+        android:title="Edit Room Name"/>
+
+    <item
+        android:id="@+id/notify_friends_ic"
+        android:icon="@drawable/ic_baseline_arrow_drop_down_circle_24"
+        android:title="Notify Friends">
+        <menu>
+            <item android:id="@+id/shopping"
+                android:icon="@drawable/ic_baseline_shopping_cart_24"
+                android:title="Going Shopping"/>
+
+            <item android:id="@+id/doing_laundry"
+                android:icon="@drawable/ic_bill_24"
+                android:title="Doing Laundry"/>
+
+            <item android:id="@+id/fridge_is_full"
+                android:icon="@drawable/ic_bill_24"
+                android:title="Fridge is Full"/>
+
+            <item android:id="@+id/clean_house"
+                android:icon="@drawable/ic_bill_24"
+                android:title="Clean House"/>
+        </menu>
+    </item>
+
+
+
+</menu>

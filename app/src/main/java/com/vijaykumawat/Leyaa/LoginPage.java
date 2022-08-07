@@ -28,7 +28,7 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loginpage);
 
-        user_name=findViewById(R.id.email);
+        user_name=findViewById(R.id.iaminside);
         pass_word=findViewById(R.id.password);
         Button btn_login = findViewById(R.id.btn_login);
         Button btn_sign = findViewById(R.id.btn_signup);
@@ -72,7 +72,7 @@ public class LoginPage extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
                 if(task.isSuccessful())
                 {
-                    startActivity(new Intent(LoginPage.this, MainActivity.class));
+                    startActivity(new Intent(LoginPage.this, RoomListActivity.class));
                 }
                 else
                 {
