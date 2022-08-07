@@ -75,7 +75,6 @@ public class nameChange extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-
                                 finish();
 
                             }
