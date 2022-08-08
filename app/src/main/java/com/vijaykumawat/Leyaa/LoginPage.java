@@ -72,7 +72,9 @@ public class LoginPage extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
                 if(task.isSuccessful())
                 {
-                    startActivity(new Intent(LoginPage.this, RoomListActivity.class));
+                    Intent i = new Intent(LoginPage.this, RoomListActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//make sure user cant go back
+                    startActivity(i);
                 }
                 else
                 {
