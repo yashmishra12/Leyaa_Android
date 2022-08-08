@@ -87,7 +87,7 @@ public class ProfilePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_activity);
+        setContentView(R.layout.profile_page);
 
         GridAdapter gridAdapter = new GridAdapter(this, itemName ,itemImages);
 
@@ -95,6 +95,7 @@ public class ProfilePage extends AppCompatActivity {
         Button resetButton = (Button) findViewById(R.id.resetAvatar);
         Button saveButton = (Button) findViewById(R.id.saveAvatar);
         Button signoutButton = findViewById(R.id.signout_button_profile);
+        Button backButton = findViewById(R.id.profileBackButton);
         Button editName = findViewById(R.id.editNameButton);
 
         final String[] avatar = {""};
@@ -154,7 +155,7 @@ public class ProfilePage extends AppCompatActivity {
         });
 
 
-
+// email copied
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +167,7 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
 
-
+    // Full Name Copied
         fullName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,7 +212,7 @@ public class ProfilePage extends AppCompatActivity {
 
 
 
-        // Sign Out Button pressed
+//         Sign Out Button pressed
         signoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -228,6 +229,11 @@ public class ProfilePage extends AppCompatActivity {
         editName.setOnClickListener(view -> {
             Intent intent = new Intent(ProfilePage.this, ProfilenameChange.class);
             intent.putExtra("nameValue", fullName.getText().toString());
+            startActivity(intent);
+        });
+
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(ProfilePage.this, RoomListActivity.class);
             startActivity(intent);
         });
 
