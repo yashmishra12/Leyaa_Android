@@ -38,8 +38,9 @@
         <activity android:name=".Reminder_Activity"/>
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".Invitation"/>
-        <activity android:name=".Room_Creation"></activity>
+        <activity android:name=".Room_Creation" ></activity>
         <activity android:name=".Inside_Room_Activity"></activity>
+        <activity android:name=".EditRoomName"></activity>
 
 
 

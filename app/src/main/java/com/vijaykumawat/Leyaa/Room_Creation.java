@@ -1,11 +1,14 @@
 package com.vijaykumawat.Leyaa;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,27 +38,36 @@ public class Room_Creation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.room_create_manager);
         createButton = findViewById(R.id.createNewRoomButton);
         mAuth = FirebaseAuth.getInstance();
         mStore = FirebaseFirestore.getInstance();
         roomName = findViewById(R.id.newRoomName);
-
+        roomName.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         Button backButton = findViewById(R.id.roomCreateBack);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                imm.hideSoftInputFromWindow(roomName.getWindowToken(), 0);
                 finish();
             }
         });
 
 
+
         createButton.setOnClickListener(new View.OnClickListener() {
+
 
             @Override
             public void onClick(View view) {
                 String nameRoom = roomName.getText().toString();
+
+                imm.hideSoftInputFromWindow(roomName.getWindowToken(), 0);
                 if (nameRoom.isEmpty() == false) {
                     FirebaseUser fuser = mAuth.getCurrentUser();
                     String userID = fuser.getUid();
@@ -67,6 +79,8 @@ public class Room_Creation extends AppCompatActivity {
                     room.put("members", Arrays.asList(userID));
                     room.put("newItems", Arrays.asList());
                     room.put("title", nameRoom);
+
+
 
 
                     documentReference.set(room).addOnSuccessListener(new OnSuccessListener<Void>() {

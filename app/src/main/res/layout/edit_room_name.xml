@@ -7,11 +7,11 @@
 
 
     <EditText
-        android:id="@+id/newRoomName"
+        android:id="@+id/newroomname"
         android:layout_width="375dp"
         android:layout_height="60dp"
         android:ems="10"
-        android:hint="Room Name"
+        android:hint="New Name"
         android:inputType="textPersonName"
         android:padding="20dp"
         android:paddingLeft="20dp"
@@ -31,40 +31,46 @@
 
 
     <Button
-        android:id="@+id/createNewRoomButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Room"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.781"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newRoomName"
-        app:layout_constraintVertical_bias="0.086" />
-
-    <Button
-        android:id="@+id/roomCreateBack"
+        android:id="@+id/btn_edit_room_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.201"
+        app:layout_constraintHorizontal_bias="0.229"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newRoomName"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintTop_toBottomOf="@+id/newroomname"
+        app:layout_constraintVertical_bias="0.118" />
+
+    <Button
+        android:id="@+id/btn_update_room_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.752"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newroomname"
+        app:layout_constraintVertical_bias="0.118" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="414dp"
         android:layout_height="348dp"
-        app:layout_constraintBottom_toTopOf="@+id/newRoomName"
+        app:layout_constraintBottom_toTopOf="@+id/newroomname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/createroom" />
+        app:srcCompat="@drawable/edititem" />
+
+    <requestFocus
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="353dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

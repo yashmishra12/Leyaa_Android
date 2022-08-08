@@ -1,9 +1,11 @@
 package com.vijaykumawat.Leyaa;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,14 +16,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class Inside_Room_Activity extends BaseActivity  {
+public class Inside_Room_Activity extends BaseActivity {
     NavigationView nav;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
-//    RoomListActivity titledata = new RoomListActivity();
+    String roomName="";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
 
@@ -31,7 +37,10 @@ public class Inside_Room_Activity extends BaseActivity  {
 
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
 
-        toolbar.setTitle("Kaise b krke room ka naam lana h ");
+
+
+        toolbar.setTitle(roomName);
+
 
 
         nav=(NavigationView)findViewById(R.id.navmenu);
@@ -59,7 +68,8 @@ public class Inside_Room_Activity extends BaseActivity  {
                         break;
 
                     case R.id.edit_room_name_ic:
-                        Toast.makeText(getApplicationContext(),"Edit Room Name",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"Edit Room Name",Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(Inside_Room_Activity.this, EditRoomName.class));
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
 

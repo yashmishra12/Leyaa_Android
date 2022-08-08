@@ -1,5 +1,7 @@
 package com.vijaykumawat.Leyaa;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room_Title, RoomAdapte
     @Override
     public RoomHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_title,parent,false);
+
         return new RoomHolder(view);
     }
 
@@ -42,13 +45,18 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room_Title, RoomAdapte
             room_title = itemView.findViewById(R.id.room_title);
 
 
+
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
                     int position = getAbsoluteAdapterPosition();
+
+
+
                     if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
+
 
 
                 }
