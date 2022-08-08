@@ -74,30 +74,6 @@ public class EditRoomName extends AppCompatActivity {
 
 
 
-        saveNewName.setOnClickListener(view -> {
-            if (!newNameText.getText().toString().isEmpty()) {
-                documentReference
-                        .update("title", newNameText.getText().toString())
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-//                                Fragment fragment = new ProfileFragment();
-//                                FragmentManager fragmentManager = getSupportFragmentManager();
-//
-//                                fragmentManager.beginTransaction().replace(R.id.nameChangeFrame, fragment).commit();
-////                                finish();
-
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("TAG", "Error updating document", e);
-                            }
-                        });
-            }
-        });
 
     }
 }

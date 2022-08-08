@@ -11,8 +11,8 @@
         android:label="Home"
         tools:layout="@layout/profile_activity" />
     <fragment
-        android:id="@+id/profile"
-        android:name="com.vijaykumawat.Leyaa.Invitation"
+        android:id="@+id/navigation_invitation"
+        android:name="com.vijaykumawat.Leyaa.InvitationListActivity"
         android:label="Profile"
         tools:layout="@layout/invitation_activity" />
 

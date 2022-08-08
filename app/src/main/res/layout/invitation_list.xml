@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/recycler_view_invitation"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
@@ -53,18 +53,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginVertical="60dp"
-        android:layout_marginStart="@dimen/dialogplus_default_center_margin"
-        android:layout_marginTop="@dimen/dialogplus_default_center_margin"
-        android:layout_marginEnd="@dimen/dialogplus_default_center_margin"
-        android:layout_marginBottom="@dimen/dialogplus_default_center_margin"
-        android:backgroundTint="#0B5387"
-        android:clickable="true"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_add" />
 </FrameLayout>
