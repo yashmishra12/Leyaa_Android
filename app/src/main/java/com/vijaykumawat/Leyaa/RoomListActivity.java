@@ -3,6 +3,7 @@ package com.vijaykumawat.Leyaa;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,7 @@ public class RoomListActivity extends BaseActivity {
     private RoomAdapter adapter;
     FloatingActionButton floatingButton;
     String userID;
+
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -61,10 +63,11 @@ public class RoomListActivity extends BaseActivity {
 
 
         Query query = mstore.collection("rooms").whereArrayContains("members",mUid );
-        Log.d("myTag", String.valueOf(mUid) + "-----------------------------------");
-        Log.d("myTag", String.valueOf(query) + "--------------------------");
+//        Log.d("myTag", String.valueOf(mUid) + "-----------------------------------");
+//        Log.d("myTag", String.valueOf(query) + "--------------------------");
         FirestoreRecyclerOptions<Room_Title> options = new FirestoreRecyclerOptions.Builder<Room_Title>()
                 .setQuery(query, Room_Title.class).build();
+
 
         adapter = new RoomAdapter(options);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -77,7 +80,8 @@ public class RoomListActivity extends BaseActivity {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 startActivity(new Intent(RoomListActivity.this, Inside_Room_Activity.class).putExtra("selected room",position ));
 
-                //Toast.makeText(getActivity(), "Position: " + position + " ID: " + id, Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(RoomListActivity.this, "Position: " + position + " ID: " + String.valueOf(query2), Toast.LENGTH_SHORT).show();
 
             }
         });
