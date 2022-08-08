@@ -1,32 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/signout_button_profile"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_centerInParent="true"
-        android:textAlignment="center"
-        android:text="Profile Activity"
-        />
+        android:layout_gravity="right"
+        android:layout_margin="5dp"
+        android:text="Sign Out" />
 
-    <include
-        layout="@layout/element_bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        />
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="fill"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="247dp"
+            android:gravity="center_horizontal|top"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/profileAvatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="clip_horizontal|top"
+                android:layout_marginTop="5dp"
+                android:maxWidth="200dp"
+                android:maxHeight="200dp"
+                android:minWidth="200dp"
+                android:minHeight="200dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/fullName"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/profileAvatar"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textIsSelectable="true"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/editNameButton"
+                android:layout_width="37dp"
+                android:layout_height="21dp"
+                android:layout_gravity="top|left"
+                android:layout_marginStart="10dp"
+                android:background="#FFFFFF"
+
+                android:clickable="true"
+                android:contentDescription="@string/close"
+                android:gravity="bottom"
+                android:padding="2dp"
+                android:paddingStart="2dp"
+                android:paddingLeft="2dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="2dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="2dp"
+                android:src="@android:drawable/ic_notification_clear_all"
+                android:text="Edit"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                app:backgroundTint="#000870C3"
+                app:fabSize="auto"
+                app:icon="@drawable/ic_baseline_edit_24"
+                app:iconPadding="0dp"
+                app:iconSize="12dp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profileAvatar"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="-5dp"
+            android:contentDescription="@string/app_name"
+            android:minHeight="48dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textIsSelectable="true"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/gridView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fullName"
+            app:layout_constraintVertical_bias="0.11" />
+
+
+        <GridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="251dp"
+            android:numColumns="5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/resetAvatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_weight="1"
+                android:text="Reset" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/saveAvatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="50dp"
+                android:layout_weight="1"
+                android:text="Save" />
+
+        </LinearLayout>
+
+        <include
+            layout="@layout/element_bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
+
+    </LinearLayout>
+
+
+</FrameLayout>

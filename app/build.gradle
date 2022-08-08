@@ -44,6 +44,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.firebaseui:firebase-ui-database:6.0.2'
     implementation 'com.firebaseui:firebase-ui-database:8.0.1'
+    implementation 'com.google.android.material:material:1.1.0'
 
     // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.1'
