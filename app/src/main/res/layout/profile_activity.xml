@@ -107,6 +107,7 @@
                 android:src="@android:drawable/ic_notification_clear_all"
                 android:text="Edit"
                 android:textAlignment="center"
+                android:textColor="#757575"
                 android:textSize="10sp"
                 app:backgroundTint="#000870C3"
                 app:fabSize="auto"
@@ -181,13 +182,19 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
         <include
             layout="@layout/element_bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </FrameLayout>
