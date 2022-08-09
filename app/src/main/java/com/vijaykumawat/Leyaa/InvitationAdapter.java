@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data, InvitationAdapter.RoomHolder> {
 
     private OnItemClickListener listener;
+    private OnItemClickListener listener2;
 
     public InvitationAdapter(@NonNull FirestoreRecyclerOptions<Invitation_Data> options) {
         super(options);
@@ -46,6 +47,14 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
         getSnapshots().getSnapshot(position).getReference().delete();
     }
 
+    public void acceptRequest(int position){
+        String id  =  getSnapshots().getSnapshot(position).getReference().getId();
+        Log.d("myTag", String.valueOf(id) + "-------------document IDDDDD-------------");
+
+
+
+    }
+
     class RoomHolder extends RecyclerView.ViewHolder {
         TextView senderName;
         TextView roomName;
@@ -58,57 +67,17 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
             roomName = itemView.findViewById(R.id.room_title_inv);
 
 
-
-
-
-
                 //cancel
-//            itemView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View view){
-//
-//                    Toast.makeText(view.getContext(), "Rejected!" , Toast.LENGTH_SHORT ).show();
-//
-//
-//
-//
-//                }
-//            });
-
             itemView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    int position = getAbsoluteAdapterPosition();
-
-
-
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
-                    }
-
-
+                    //deleteRequest(getAbsoluteAdapterPosition());
+                    Toast.makeText(view.getContext(), "Rejected!" , Toast.LENGTH_SHORT ).show();
 
                 }
             });
 
-
-
-                //accept
-//            itemView.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View view){
-//
-//                    Toast.makeText(view.getContext(), "Accepted!" , Toast.LENGTH_SHORT ).show();
-//
-//
-//
-//
-//                }
-//            });
-
-
-//
-//            itemView.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener(){
+//            itemView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener(){
 //                @Override
 //                public void onClick(View view){
 //                    int position = getAbsoluteAdapterPosition();
@@ -123,6 +92,40 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
 //
 //                }
 //            });
+
+
+
+//          accept
+            itemView.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    acceptRequest(getAbsoluteAdapterPosition());
+                    Toast.makeText(view.getContext(), "Accepted!" , Toast.LENGTH_SHORT ).show();
+
+
+
+
+
+                }
+            });
+
+
+
+
+//            itemView.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View view){
+//                    int position = getAbsoluteAdapterPosition();
+//
+//                    if (position != RecyclerView.NO_POSITION && listener2 != null) {
+//                        listener2.onItemClick(getSnapshots().getSnapshot(position), position);
+//                    }
+//
+//
+//
+//                }
+//            });
+
         }
 
 
@@ -133,8 +136,17 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
+    public interface OnItemClickListener2 {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+    public void setOnItemClickListener2(OnItemClickListener listener2) {
+        this.listener2 = listener2;
+    }
+
+
 
 }

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,7 @@ public class InvitationListActivity extends BaseActivity {
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
 
     private InvitationAdapter adapter;
+    private InvitationAdapter adapter2;
     private InvitationAdapter accept;
     FloatingActionButton floatingButton;
     String userID;
@@ -72,31 +74,55 @@ public class InvitationListActivity extends BaseActivity {
 
 
         adapter = new InvitationAdapter(options);
+        adapter2 = new InvitationAdapter(options);
+
+
         RecyclerView recyclerView = findViewById(R.id.recycler_view_invitation);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new CustLinearLayoutManager(this));
+
+
         recyclerView.setAdapter(adapter);
 
+            //ConcatAdapter concatenated = new ConcatAdapter(adapter, adapter2);
+            //recyclerView.setAdapter(concatenated);
+
+//        adapter.setOnItemClickListener(new InvitationAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+//                //startActivity(new Intent(InvitationListActivity.this, Inside_Room_Activity.class).putExtra("selected room",position ));
+//                Intent intent = new Intent(InvitationListActivity.this, InvitationListActivity.class);
+//
+//
+//                String id = documentSnapshot.getId();
+//                //intent.putExtra("documentID_room", id);
+//                adapter.deleteRequest(position);
+//
+//
+//                Toast.makeText(InvitationListActivity.this,  " Deleted " , Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
 
 
-        adapter.setOnItemClickListener(new InvitationAdapter.OnItemClickListener() {
+
+        recyclerView.setAdapter(adapter2);
+        adapter2.setOnItemClickListener2(new InvitationAdapter.OnItemClickListener() {
+
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 //startActivity(new Intent(InvitationListActivity.this, Inside_Room_Activity.class).putExtra("selected room",position ));
                 Intent intent = new Intent(InvitationListActivity.this, InvitationListActivity.class);
-
-
                 String id = documentSnapshot.getId();
-                //intent.putExtra("documentID_room", id);
-                adapter.deleteRequest(position);
+                intent.putExtra("documentID_room", id);
+                //adapter.deleteRequest(position);
 
 
-                Toast.makeText(InvitationListActivity.this,  " Deleted " , Toast.LENGTH_SHORT).show();
+                Toast.makeText(InvitationListActivity.this,  " Accepted invi Lisr " , Toast.LENGTH_SHORT).show();
 
             }
         });
-
 
 
     }
@@ -106,12 +132,14 @@ public class InvitationListActivity extends BaseActivity {
     public void onStop(){
         super.onStop();
         adapter.stopListening();
+        adapter2.stopListening();
     }
 
     @Override
     public void onStart(){
         super.onStart();
         adapter.startListening();
+        adapter2.startListening();
     }
 
 }

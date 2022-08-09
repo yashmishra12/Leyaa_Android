@@ -79,9 +79,10 @@ public class RoomListActivity extends BaseActivity {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 startActivity(new Intent(RoomListActivity.this, Inside_Room_Activity.class).putExtra("selected room",position ));
+                String id = documentSnapshot.getId();
 
 
-                //Toast.makeText(RoomListActivity.this, "Position: " + position + " ID: " + String.valueOf(query2), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(RoomListActivity.this, "Room ID  " + id , Toast.LENGTH_SHORT).show();
 
             }
         });
