@@ -45,6 +45,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             switch (item.getItemId()){
+
+
                 case R.id.navigation_room:{
                     startActivity(new Intent(this, RoomListActivity.class));
 
@@ -56,19 +58,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
 
                     break;
                 }
-                case R.id.navigation_profile:{
-                    startActivity(new Intent(this, ProfileActivity.class));
 
-                    break;
-                }
+              
                 case R.id.navigation_invitation:{
 
                     startActivity(new Intent(this, InvitationListActivity.class));
 
+
                     break;
                 }
             }
-            //finish()
         return true;
     }
 

@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class nameChange extends AppCompatActivity {
+public class ProfilenameChange extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 

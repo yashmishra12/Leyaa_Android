@@ -1,10 +1,13 @@
 package com.vijaykumawat.Leyaa;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,10 +48,16 @@ public class RoomListActivity extends BaseActivity {
         return R.id.navigation_room;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Button userNav = findViewById(R.id.userNav);
 
+        userNav.setOnClickListener(view -> {
+            Intent intent = new Intent(RoomListActivity.this, ProfilePage.class);
+            startActivity(intent);
+        });
 
         setUpRecyclerView();
 

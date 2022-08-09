@@ -93,6 +93,7 @@ public class Registration extends AppCompatActivity {
                             // send verification link
 
                             fuser = mAuth.getCurrentUser();
+
                             Toast.makeText(Registration.this, "User Created.", Toast.LENGTH_SHORT).show();
                             userID = mAuth.getCurrentUser().getUid();
 
