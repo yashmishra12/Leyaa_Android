@@ -32,8 +32,9 @@ public class InvitationListActivity extends BaseActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
-    private CollectionReference room_col = mstore.collection("roomRequest");
+
     private InvitationAdapter adapter;
+    private InvitationAdapter accept;
     FloatingActionButton floatingButton;
     String userID;
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -79,15 +80,24 @@ public class InvitationListActivity extends BaseActivity {
 
 
 
-//        adapter.setOnItemClickListener(new InvitationAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-//                startActivity(new Intent(InvitationListActivity.this, Inside_Room_Activity.class).putExtra("selected room",position ));
-//
-//                //Toast.makeText(getActivity(), "Position: " + position + " ID: " + id, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
+        adapter.setOnItemClickListener(new InvitationAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                //startActivity(new Intent(InvitationListActivity.this, Inside_Room_Activity.class).putExtra("selected room",position ));
+                Intent intent = new Intent(InvitationListActivity.this, InvitationListActivity.class);
+
+
+                String id = documentSnapshot.getId();
+                //intent.putExtra("documentID_room", id);
+                adapter.deleteRequest(position);
+
+
+                Toast.makeText(InvitationListActivity.this,  " Deleted " , Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
 
     }
 

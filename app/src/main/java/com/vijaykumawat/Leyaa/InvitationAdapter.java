@@ -1,12 +1,10 @@
 package com.vijaykumawat.Leyaa;
 
 
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -42,6 +42,10 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
         return new RoomHolder(view);
     }
 
+    public void deleteRequest(int position){
+        getSnapshots().getSnapshot(position).getReference().delete();
+    }
+
     class RoomHolder extends RecyclerView.ViewHolder {
         TextView senderName;
         TextView roomName;
@@ -53,34 +57,75 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
             senderName = itemView.findViewById(R.id.sendername);
             roomName = itemView.findViewById(R.id.room_title_inv);
 
-            itemView.findViewById(R.id.imageButton2);
+
 
 
 
 
                 //cancel
+//            itemView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View view){
+//
+//                    Toast.makeText(view.getContext(), "Rejected!" , Toast.LENGTH_SHORT ).show();
+//
+//
+//
+//
+//                }
+//            });
+
             itemView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    Toast.makeText(view.getContext(), "Rejected!" , Toast.LENGTH_SHORT ).show();
+                    int position = getAbsoluteAdapterPosition();
+
+
+
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                    }
+
 
 
                 }
             });
+
+
 
                 //accept
-            itemView.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view){
+//            itemView.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View view){
+//
+//                    Toast.makeText(view.getContext(), "Accepted!" , Toast.LENGTH_SHORT ).show();
+//
+//
+//
+//
+//                }
+//            });
 
-                    Toast.makeText(view.getContext(), "Accepted!" , Toast.LENGTH_SHORT ).show();
 
-
-
-
-                }
-            });
+//
+//            itemView.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View view){
+//                    int position = getAbsoluteAdapterPosition();
+//
+//
+//
+//                    if (position != RecyclerView.NO_POSITION && listener != null) {
+//                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+//                    }
+//
+//
+//
+//                }
+//            });
         }
+
+
 
 
     }

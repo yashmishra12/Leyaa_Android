@@ -1,12 +1,14 @@
 package com.vijaykumawat.Leyaa;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -38,6 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         overridePendingTransition(0, 0);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -60,7 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
                 }
                 case R.id.navigation_invitation:{
 
-                    startActivity(new Intent(this, Invitation.class));
+                    startActivity(new Intent(this, InvitationListActivity.class));
 
                     break;
                 }
