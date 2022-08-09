@@ -36,9 +36,16 @@
 
 
         <activity android:name=".Reminder_Activity"/>
-        <activity android:name=".Invitation"/>
-        <activity android:name=".Room_Creation" />
-        <activity android:name=".Inside_Room_Activity" />
+
+        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".InvitationListActivity"/>
+        <activity android:name=".Room_Creation" ></activity>
+        <activity android:name=".Inside_Room_Activity"></activity>
+
+        <activity android:name=".EditRoomName"></activity>
+
+        <activity android:name=".nameChange"></activity>
+
 
         <activity android:name=".EditRoomName" />
 

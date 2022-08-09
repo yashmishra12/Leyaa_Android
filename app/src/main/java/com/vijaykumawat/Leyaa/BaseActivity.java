@@ -49,19 +49,24 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
 
                 case R.id.navigation_room:{
                     startActivity(new Intent(this, RoomListActivity.class));
+
+
                     break;
                 }
                 case R.id.navigation_reminder:{
                     startActivity(new Intent(this, Reminder_Activity.class));
+
                     break;
                 }
 
+              
                 case R.id.navigation_invitation:{
-                    startActivity(new Intent(this, Invitation.class));
+
+                    startActivity(new Intent(this, InvitationListActivity.class));
+
+
                     break;
                 }
-
-
             }
         return true;
     }
