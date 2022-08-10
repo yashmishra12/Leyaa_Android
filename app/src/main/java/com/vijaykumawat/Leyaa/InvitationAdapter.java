@@ -1,6 +1,7 @@
 package com.vijaykumawat.Leyaa;
 
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data, InvitationAdapter.RoomHolder> {
 
     private OnItemClickListener listener;
     private OnItemClickListener listener2;
+    FirebaseAuth mAuth;
+    private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
 
     public InvitationAdapter(@NonNull FirestoreRecyclerOptions<Invitation_Data> options) {
         super(options);
@@ -32,6 +38,7 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
     protected void onBindViewHolder(@NonNull RoomHolder holder, int position, @NonNull Invitation_Data model) {
         holder.senderName.setText(model.getSenderName());
         holder.roomName.setText(model.getRoomName());
+
 
     }
 
@@ -48,9 +55,30 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
     }
 
     public void acceptRequest(int position){
-        String id  =  getSnapshots().getSnapshot(position).getReference().getId();
-        Log.d("myTag", String.valueOf(id) + "-------------document IDDDDD-------------");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Invitation_Data data=new Invitation_Data();
+        String document_id  =  getSnapshots().getSnapshot(position).getReference().getId();
+        mAuth = FirebaseAuth.getInstance();
+        String userId = mAuth.getCurrentUser().getUid();
+        final String[] roomID = new String[1];
 
+        DocumentReference docRef = db.collection("roomRequest").document(document_id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+
+                        roomID[0] = (String) documentSnapshot.get("roomID");
+                        db.collection("rooms").document(roomID[0]).update("members",FieldValue.arrayUnion(userId));
+
+
+                    }
+                }
+            }
+
+        });
 
 
     }

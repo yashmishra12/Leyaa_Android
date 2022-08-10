@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -65,8 +66,10 @@ public class InvitationListActivity extends BaseActivity {
 
 
     private void setUpRecyclerView() {
+       
 
-        Query query = mstore.collection("roomRequest");
+        Query query = mstore.collection("roomRequest").whereArrayContains("roomID",mUid );
+
         Log.d("myTag", String.valueOf(mUid) + "-----------------------------------");
         Log.d("myTag", String.valueOf(query) + "--------------------------");
         FirestoreRecyclerOptions<Invitation_Data> options = new FirestoreRecyclerOptions.Builder<Invitation_Data>()
@@ -85,9 +88,9 @@ public class InvitationListActivity extends BaseActivity {
 
         recyclerView.setAdapter(adapter);
 
-            //ConcatAdapter concatenated = new ConcatAdapter(adapter, adapter2);
-            //recyclerView.setAdapter(concatenated);
-
+//            ConcatAdapter concatenated = new ConcatAdapter(adapter, adapter2);
+//            recyclerView.setAdapter(concatenated);
+//
 //        adapter.setOnItemClickListener(new InvitationAdapter.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
