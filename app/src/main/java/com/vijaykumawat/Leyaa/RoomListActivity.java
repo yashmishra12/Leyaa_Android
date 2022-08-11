@@ -36,6 +36,7 @@ public class RoomListActivity extends BaseActivity {
 
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+    String emailID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
     @Override
     int getContentViewId() {
