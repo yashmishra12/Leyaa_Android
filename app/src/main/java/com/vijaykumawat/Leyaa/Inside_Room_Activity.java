@@ -2,6 +2,7 @@ package com.vijaykumawat.Leyaa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,7 +15,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Inside_Room_Activity extends BaseActivity {
     NavigationView nav;
@@ -68,8 +78,16 @@ public class Inside_Room_Activity extends BaseActivity {
                         break;
 
                     case R.id.edit_room_name_ic:
-                        //Toast.makeText(getApplicationContext(),"Edit Room Name",Toast.LENGTH_LONG).show();
+
+
+
                         startActivity(new Intent(Inside_Room_Activity.this, EditRoomName.class));
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
+                    case R.id.leave_room_ic:
+                        leaveRoom();
+                        startActivity(new Intent(Inside_Room_Activity.this, RoomListActivity.class));
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
 
@@ -95,6 +113,51 @@ public class Inside_Room_Activity extends BaseActivity {
 
                 return true;
             }
+        });
+
+
+
+    }
+
+    private void leaveRoom() {
+
+        String documentid = "";
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            documentid =  extras.getString("document_ID");
+
+        }
+        DocumentReference docRef = db.collection("rooms").document(documentid);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        String finalDocumentid = documentid;
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+
+                        db.collection("rooms").document(finalDocumentid).update("members", FieldValue.arrayRemove(userId));
+
+
+                    }
+
+
+                }
+
+
+
+
+
+
+            }
+
         });
 
 

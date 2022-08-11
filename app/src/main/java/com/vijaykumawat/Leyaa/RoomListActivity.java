@@ -88,7 +88,8 @@ public class RoomListActivity extends BaseActivity {
         adapter.setOnItemClickListener(new RoomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                startActivity(new Intent(RoomListActivity.this, Inside_Room_Activity.class).putExtra("selected room",position ));
+                String document_ID = documentSnapshot.getId();
+                startActivity(new Intent(RoomListActivity.this, Inside_Room_Activity.class).putExtra("document_ID",document_ID ));
 
 
                 //Toast.makeText(RoomListActivity.this, "Position: " + position + " ID: " + String.valueOf(query2), Toast.LENGTH_SHORT).show();
