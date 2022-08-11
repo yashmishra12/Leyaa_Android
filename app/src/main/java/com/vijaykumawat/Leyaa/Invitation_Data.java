@@ -4,21 +4,34 @@ public class Invitation_Data {
 
     private String senderName;
     private String roomName;
-    private String documentId;
+    private String roomID;
+    private String receiverEmail;
+    private int pos;
 
-    private Invitation_Data(){}
+    public Invitation_Data(){}
 
-    private Invitation_Data(String senderName,String roomName){
+    public Invitation_Data(int pos,String roomID){
+        this.pos =pos;
+        this.roomID =roomID;
+
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    private Invitation_Data(String senderName, String roomName,String receiverEmail){
         this.senderName=senderName;
         this.roomName = roomName;
+
     }
 
-    public String getDocumentId() {
-        return documentId;
+    public String getReceiverEmail() {
+        return receiverEmail;
     }
 
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
+    public String getRoomID() {
+        return roomID;
     }
 
     public String getSenderName() {
