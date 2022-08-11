@@ -1,10 +1,13 @@
 package com.vijaykumawat.Leyaa;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +36,7 @@ public class RoomListActivity extends BaseActivity {
 
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+    String emailID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
     @Override
     int getContentViewId() {
@@ -45,10 +49,16 @@ public class RoomListActivity extends BaseActivity {
         return R.id.navigation_room;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Button userNav = findViewById(R.id.userNav);
 
+        userNav.setOnClickListener(view -> {
+            Intent intent = new Intent(RoomListActivity.this, ProfilePage.class);
+            startActivity(intent);
+        });
 
         setUpRecyclerView();
 
@@ -79,10 +89,9 @@ public class RoomListActivity extends BaseActivity {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 startActivity(new Intent(RoomListActivity.this, Inside_Room_Activity.class).putExtra("selected room",position ));
-                String id = documentSnapshot.getId();
 
 
-                //Toast.makeText(RoomListActivity.this, "Room ID  " + id , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(RoomListActivity.this, "Position: " + position + " ID: " + String.valueOf(query2), Toast.LENGTH_SHORT).show();
 
             }
         });

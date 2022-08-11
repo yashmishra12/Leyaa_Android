@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,19 +30,30 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
     private OnItemClickListener listener;
     private OnItemClickListener listener2;
     FirebaseAuth mAuth;
+    String receiverEmail;
+
+
+
+
+
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
 
     public InvitationAdapter(@NonNull FirestoreRecyclerOptions<Invitation_Data> options) {
         super(options);
     }
 
+
+
     @Override
     protected void onBindViewHolder(@NonNull RoomHolder holder, int position, @NonNull Invitation_Data model) {
         holder.senderName.setText(model.getSenderName());
         holder.roomName.setText(model.getRoomName());
+        receiverEmail= model.getReceiverEmail();
+        //Log.d("myTag", String.valueOf(receiverEmail) + "-----------------------------------");
 
 
     }
+
 
     @NonNull
     @Override
@@ -55,14 +68,20 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
     }
 
     public void acceptRequest(int position){
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Invitation_Data data=new Invitation_Data();
+        Invitation_Data data = new Invitation_Data();
         String document_id  =  getSnapshots().getSnapshot(position).getReference().getId();
         mAuth = FirebaseAuth.getInstance();
         String userId = mAuth.getCurrentUser().getUid();
         final String[] roomID = new String[1];
 
+
+
+        Log.d("myTag", String.valueOf(document_id) + "-------------------documen tttt----------------");
+
         DocumentReference docRef = db.collection("roomRequest").document(document_id);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -71,17 +90,35 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
                     if (documentSnapshot.exists()) {
 
                         roomID[0] = (String) documentSnapshot.get("roomID");
+
                         db.collection("rooms").document(roomID[0]).update("members",FieldValue.arrayUnion(userId));
 
 
+                        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("TAG", "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("TAG", "Error deleting document", e);
+                                    }
+                                });
                     }
+
                 }
+
+
             }
 
         });
 
-
     }
+
+
+
 
     class RoomHolder extends RecyclerView.ViewHolder {
         TextView senderName;
@@ -95,42 +132,31 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
             roomName = itemView.findViewById(R.id.room_title_inv);
 
 
-                //cancel
+            //cancel
             itemView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    //deleteRequest(getAbsoluteAdapterPosition());
-                    Toast.makeText(view.getContext(), "Rejected!" , Toast.LENGTH_SHORT ).show();
-
+                    deleteRequest(getAbsoluteAdapterPosition());
+                    Toast.makeText(view.getContext(), "  Rejected", Toast.LENGTH_SHORT ).show();
                 }
             });
 
-//            itemView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View view){
-//                    int position = getAbsoluteAdapterPosition();
-//
-//
-//
-//                    if (position != RecyclerView.NO_POSITION && listener != null) {
-//                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
-//                    }
-//
-//
-//
-//                }
-//            });
 
-
-
-//          accept
             itemView.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    acceptRequest(getAbsoluteAdapterPosition());
-                    Toast.makeText(view.getContext(), "Accepted!" , Toast.LENGTH_SHORT ).show();
+                    int position = getAbsoluteAdapterPosition();
+
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                        Intent ii =new Intent(view.getContext(),InvitationListActivity.class);
+
+                        ii.putExtra("receiverEmailll",receiverEmail);
+                        Toast.makeText(view.getContext(),  "Successfully Added", Toast.LENGTH_SHORT).show();
+                        view.getContext().startActivity(ii);
 
 
+                    }
 
 
 
@@ -139,20 +165,6 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
 
 
 
-
-//            itemView.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View view){
-//                    int position = getAbsoluteAdapterPosition();
-//
-//                    if (position != RecyclerView.NO_POSITION && listener2 != null) {
-//                        listener2.onItemClick(getSnapshots().getSnapshot(position), position);
-//                    }
-//
-//
-//
-//                }
-//            });
 
         }
 
@@ -164,16 +176,12 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
-    public interface OnItemClickListener2 {
-        void onItemClick(DocumentSnapshot documentSnapshot, int position);
-    }
+
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
-    public void setOnItemClickListener2(OnItemClickListener listener2) {
-        this.listener2 = listener2;
-    }
+
 
 
 
