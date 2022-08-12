@@ -47,8 +47,20 @@ public class EditRoomName extends AppCompatActivity {
         String nameVal = "";
         EditText newNameText = (EditText) findViewById(R.id.newroomname);
         Button saveNewName = findViewById(R.id.btn_update_room_name);
-        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DocumentReference documentReference = db.collection("rooms").document(userID);
+        String roomID = "";
+
+
+
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            nameVal =  extras.getString("roomName");
+            roomID = extras.getString("roomID");
+            newNameText.setText(nameVal, TextView.BufferType.EDITABLE);
+
+        }
+
+        DocumentReference documentReference = db.collection("rooms").document(roomID);
 
 
 //        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -74,6 +86,29 @@ public class EditRoomName extends AppCompatActivity {
 
 
 
+      saveNewName.setOnClickListener(view -> {
+              if (!newNameText.getText().toString().isEmpty()) {
+              documentReference
+              .update("title", newNameText.getText().toString())
+              .addOnSuccessListener(new OnSuccessListener<Void>() {
+@Override
+public void onSuccess(Void aVoid) {
+        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+        finish();
+
+        }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+@Override
+public void onFailure(@NonNull Exception e) {
+        Log.w("TAG", "Error updating document", e);
+        }
+        });
+        }
+        });
+
+
 
     }
 }
+

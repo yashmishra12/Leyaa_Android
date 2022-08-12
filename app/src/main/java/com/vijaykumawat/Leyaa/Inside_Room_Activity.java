@@ -31,12 +31,42 @@ public class Inside_Room_Activity extends BaseActivity {
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
     String roomName="";
-
+    String roomID = "";
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            roomID =  extras.getString("document_ID");
+
+            DocumentReference docRef = db.collection("rooms").document(roomID);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if (documentSnapshot.exists()) {
+
+                            roomName = (String) documentSnapshot.get("title");
+
+
+
+                            toolbar.setTitle(roomName);
+                        }
+
+                    }
+
+                }
+
+            });
+
+        }
 
 
 
@@ -44,14 +74,6 @@ public class Inside_Room_Activity extends BaseActivity {
         Window window = getWindow();
         // Show status bar
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
-
-
-
-        toolbar.setTitle(roomName);
-
-
 
         nav=(NavigationView)findViewById(R.id.navmenu);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
@@ -61,68 +83,99 @@ public class Inside_Room_Activity extends BaseActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
-            {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.message_wall:
-                        Toast.makeText(getApplicationContext(),"Message ",Toast.LENGTH_LONG).show();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-
-                    case R.id.bill_split:
-                        Toast.makeText(getApplicationContext(),"Bill Split",Toast.LENGTH_LONG).show();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-
-                    case R.id.edit_room_name_ic:
-
-
-
-                        startActivity(new Intent(Inside_Room_Activity.this, EditRoomName.class));
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-
-                    case R.id.leave_room_ic:
-                        leaveRoom();
-                        startActivity(new Intent(Inside_Room_Activity.this, RoomListActivity.class));
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-
-                    case R.id.doing_laundry:
-                        Toast.makeText(getApplicationContext(),"Doing Laundry",Toast.LENGTH_LONG).show();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-                    case R.id.shopping:
-                        Toast.makeText(getApplicationContext(),"Going for Shopping ",Toast.LENGTH_LONG).show();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-
-                    case R.id.fridge_is_full:
-                        Toast.makeText(getApplicationContext(),"Fridge is Full ",Toast.LENGTH_LONG).show();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-
-                    case R.id.clean_house:
-                        Toast.makeText(getApplicationContext(),"Clean House",Toast.LENGTH_LONG).show();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-                }
-
-                return true;
+        nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {@Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+        {
+            if (menuItem.getItemId()==R.id.message_wall) {
+                Toast.makeText(getApplicationContext(),"Message ",Toast.LENGTH_LONG).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
+
+            else if (menuItem.getItemId()==R.id.bill_split) {
+                Toast.makeText(getApplicationContext(),"Bill Split",Toast.LENGTH_LONG).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
+            else if (menuItem.getItemId()==R.id.edit_room_name_ic) {
+                Intent intent = new Intent(Inside_Room_Activity.this, EditRoomName.class);
+                intent.putExtra("roomName", roomName);
+                intent.putExtra("roomID",roomID);
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
+            else if (menuItem.getItemId()==R.id.doing_laundry){
+                Toast.makeText(getApplicationContext(),"Doing Laundry",Toast.LENGTH_LONG).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
+            else if (menuItem.getItemId()==R.id.leave_room_ic){
+              leaveRoom();
+              startActivity(new Intent(Inside_Room_Activity.this,RoomListActivity.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
+            else if (menuItem.getItemId()==R.id.shopping){
+                Toast.makeText(getApplicationContext(),"Going for Shopping ",Toast.LENGTH_LONG).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
+            else if (menuItem.getItemId()==R.id.fridge_is_full){
+                Toast.makeText(getApplicationContext(),"Fridge is Full ",Toast.LENGTH_LONG).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
+            else if (menuItem.getItemId()==R.id.clean_house){
+                Toast.makeText(getApplicationContext(),"Clean House",Toast.LENGTH_LONG).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
+            return true;
+        }
+
         });
 
 
 
     }
 
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+
+        DocumentReference docRef = db.collection("rooms").document(roomID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+
+                        roomName = (String) documentSnapshot.get("title");
+
+
+
+                        toolbar.setTitle(roomName);
+                    }
+
+                }
+
+            }
+
+        });
+    }
+
+
+
     private void leaveRoom() {
 
         String documentid = "";
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
         Bundle extras = getIntent().getExtras();
 
@@ -145,16 +198,9 @@ public class Inside_Room_Activity extends BaseActivity {
 
                         db.collection("rooms").document(finalDocumentid).update("members", FieldValue.arrayRemove(userId));
 
-
                     }
 
-
                 }
-
-
-
-
-
 
             }
 
