@@ -27,16 +27,16 @@ public class RoomListActivity extends BaseActivity {
 
 
 
-    private FirebaseAuth mAuth;
+//    private FirebaseAuth mAuth;
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     private CollectionReference room_col = mstore.collection("room");
     private RoomAdapter adapter;
     FloatingActionButton floatingButton;
-    String userID;
+//    String userID;
 
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-    String emailID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//    String emailID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
     @Override
     int getContentViewId() {
@@ -73,8 +73,6 @@ public class RoomListActivity extends BaseActivity {
 
 
         Query query = mstore.collection("rooms").whereArrayContains("members",mUid );
-//        Log.d("myTag", String.valueOf(mUid) + "-----------------------------------");
-//        Log.d("myTag", String.valueOf(query) + "--------------------------");
         FirestoreRecyclerOptions<Room_Title> options = new FirestoreRecyclerOptions.Builder<Room_Title>()
                 .setQuery(query, Room_Title.class).build();
 

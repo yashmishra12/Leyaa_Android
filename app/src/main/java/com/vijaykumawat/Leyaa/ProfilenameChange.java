@@ -76,7 +76,6 @@ public class ProfilenameChange extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                                 finish();
-
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

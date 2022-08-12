@@ -8,6 +8,10 @@
         android:icon="@drawable/ic_bill_24"
         android:title="Bill Split"/>
 
+    <item
+        android:id="@+id/memberInfo"
+        android:icon="@drawable/ic_baseline_people_alt_24"
+        android:title="Member Info" />
     <item android:id="@+id/edit_room_name_ic"
         android:icon="@drawable/ic_edit_24"
         android:title="Edit Room Name"/>
@@ -38,7 +42,6 @@
                 android:title="Clean House"/>
         </menu>
     </item>
-
 
 
 </menu>

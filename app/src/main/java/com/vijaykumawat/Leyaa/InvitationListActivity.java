@@ -16,6 +16,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.Objects;
+
 
 // BaseActivity extends AppCompatActivity so do not need to extend here
 // you will automatically get parent properties
@@ -70,7 +72,7 @@ public class InvitationListActivity extends BaseActivity {
 
 
 
-        String userEmailInfo = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String userEmailInfo = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
 
 
 

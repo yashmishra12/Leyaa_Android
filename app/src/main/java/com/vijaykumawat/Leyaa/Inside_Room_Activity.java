@@ -38,7 +38,7 @@ public class Inside_Room_Activity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar= findViewById(R.id.toolbar);
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -75,8 +75,8 @@ public class Inside_Room_Activity extends BaseActivity {
         // Show status bar
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        nav=(NavigationView)findViewById(R.id.navmenu);
-        drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+        nav= findViewById(R.id.navmenu);
+        drawerLayout= findViewById(R.id.drawer);
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
@@ -127,6 +127,13 @@ public class Inside_Room_Activity extends BaseActivity {
 
             else if (menuItem.getItemId()==R.id.clean_house){
                 Toast.makeText(getApplicationContext(),"Clean House",Toast.LENGTH_LONG).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
+            else if(menuItem.getItemId() == R.id.memberInfo) {
+                Intent intent = new Intent(Inside_Room_Activity.this, RoomMemberInfo.class);
+                intent.putExtra("roomID",roomID);
+                startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
 

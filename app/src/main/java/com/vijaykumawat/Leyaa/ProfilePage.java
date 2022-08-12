@@ -102,9 +102,9 @@ public class ProfilePage extends AppCompatActivity {
         final String[] selectedAvatar = {""};
 
 
-        TextView fullName = (TextView) findViewById(R.id.fullName);
-        ImageView profileAvatar = (ImageView) findViewById(R.id.profileAvatar);
-        GridView gridView = (GridView) findViewById(R.id.gridView);
+        TextView fullName =  findViewById(R.id.fullName);
+        ImageView profileAvatar =  findViewById(R.id.profileAvatar);
+        GridView gridView =  findViewById(R.id.gridView);
         gridView.setAdapter(gridAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

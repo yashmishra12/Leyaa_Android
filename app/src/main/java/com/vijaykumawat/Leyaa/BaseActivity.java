@@ -25,8 +25,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
 
         navigationView = findViewById(R.id.navigation);
 
-
-
         navigationView.setOnNavigationItemSelectedListener(this);
     }
 
@@ -52,8 +50,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
 
                 case R.id.navigation_room:{
                     startActivity(new Intent(this, RoomListActivity.class));
-
-
 
                     break;
                 }
