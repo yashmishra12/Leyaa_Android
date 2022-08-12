@@ -12,6 +12,10 @@
         android:icon="@drawable/ic_edit_24"
         android:title="Edit Room Name"/>
 
+    <item android:id="@+id/leave_room_ic"
+        android:icon="@drawable/ic_baseline_logout_24"
+        android:title="Leave Room"/>
+
     <item
         android:id="@+id/notify_friends_ic"
         android:icon="@drawable/ic_baseline_arrow_drop_down_circle_24"
