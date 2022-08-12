@@ -3,29 +3,22 @@ package com.vijaykumawat.Leyaa;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentChange;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class RoomMemberInfo extends AppCompatActivity {
 
@@ -41,6 +34,13 @@ public class RoomMemberInfo extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.room_member_info);
+
+        Toolbar toolbar= findViewById(R.id.toolbar);
+        FloatingActionButton backButtonRMI = findViewById(R.id.FLOATINGbackButtonRMI);
+
+        backButtonRMI.setOnClickListener(view -> {
+            finish();
+        });
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -61,6 +61,7 @@ public class RoomMemberInfo extends AppCompatActivity {
 
         if (extras != null) {
             roomID =  extras.getString("roomID");
+            toolbar.setTitle(extras.getString("roomName"));
             populateMemberID();
         }
 
@@ -98,7 +99,6 @@ public class RoomMemberInfo extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
 
-                        myAdapter.notifyDataSetChanged();
                         DocumentSnapshot documentSnapshot = task.getResult();
 
                         if (documentSnapshot.exists()) {
@@ -106,9 +106,6 @@ public class RoomMemberInfo extends AppCompatActivity {
                             String email = (String) documentSnapshot.get("email");
                             String avatar = (String) documentSnapshot.get("avatar");
 
-                            Log.d("TAG", "FULLNAME ---->: "+fullname);
-                            Log.d("TAG", "email ---->: "+email);
-                            Log.d("TAG", "avatar ---->: "+avatar);
 
                             MemberData md = new MemberData(avatar, fullname, email);
 
@@ -119,7 +116,6 @@ public class RoomMemberInfo extends AppCompatActivity {
                 }
             });
 
-            myAdapter.notifyDataSetChanged();
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }

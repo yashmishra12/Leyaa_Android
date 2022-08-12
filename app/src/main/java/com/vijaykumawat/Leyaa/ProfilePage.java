@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -95,7 +96,7 @@ public class ProfilePage extends AppCompatActivity {
         Button resetButton = (Button) findViewById(R.id.resetAvatar);
         Button saveButton = (Button) findViewById(R.id.saveAvatar);
         Button signoutButton = findViewById(R.id.signout_button_profile);
-        Button backButton = findViewById(R.id.profileBackButton);
+        FloatingActionButton backButton = findViewById(R.id.profileBackButton);
         Button editName = findViewById(R.id.editNameButton);
 
         final String[] avatar = {""};

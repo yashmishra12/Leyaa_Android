@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,6 +41,11 @@ public class Inside_Room_Activity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Toolbar toolbar= findViewById(R.id.toolbar);
         Bundle extras = getIntent().getExtras();
+        FloatingActionButton roomBackButton = findViewById(R.id.roomBackButton);
+
+        roomBackButton.setOnClickListener(view -> {
+            finish();
+        });
 
         if (extras != null) {
             roomID =  extras.getString("document_ID");
@@ -54,8 +60,6 @@ public class Inside_Room_Activity extends BaseActivity {
                         if (documentSnapshot.exists()) {
 
                             roomName = (String) documentSnapshot.get("title");
-
-
 
                             toolbar.setTitle(roomName);
                         }
@@ -133,6 +137,7 @@ public class Inside_Room_Activity extends BaseActivity {
             else if(menuItem.getItemId() == R.id.memberInfo) {
                 Intent intent = new Intent(Inside_Room_Activity.this, RoomMemberInfo.class);
                 intent.putExtra("roomID",roomID);
+                intent.putExtra("roomName", roomName);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
