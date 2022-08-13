@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Inside_Room_Activity extends BaseActivity {
     NavigationView nav;
@@ -344,37 +345,50 @@ public class Inside_Room_Activity extends BaseActivity {
 
     private void leaveRoom() {
 
-        String documentid = "";
+        String roomID = "";
+
 
 
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            documentid =  extras.getString("document_ID");
-
+            roomID =  extras.getString("document_ID");
         }
-        DocumentReference docRef = db.collection("rooms").document(documentid);
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        String finalDocumentid = documentid;
+        DocumentReference docRef = db.collection("rooms").document(roomID);
+        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
+
+        String finalRoomID = roomID;
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if (documentSnapshot.exists()) {
+                        db.collection("rooms").document(finalRoomID).update("members", FieldValue.arrayRemove(userId));
 
-                        db.collection("rooms").document(finalDocumentid).update("members", FieldValue.arrayRemove(userId));
+                        ArrayList<String> memberCount = (ArrayList<String>) documentSnapshot.get("members");
+                        
+
+                        if (memberCount.size()==1) {
+                            db.collection("rooms").document(finalRoomID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d("TAG", "onSuccess: ");
+                                }
+                            });
+
+
+                        }
+
 
                     }
-
                 }
-
             }
-
         });
+
+
 
 
 
