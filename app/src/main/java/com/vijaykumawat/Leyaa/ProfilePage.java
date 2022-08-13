@@ -50,7 +50,30 @@ public class ProfilePage extends AppCompatActivity {
     int[] itemImages = {R.drawable.almond, R.drawable.apple, R.drawable.avocado, R.drawable.bagel, R.drawable.banana,
             R.drawable.bandaid, R.drawable.battery, R.drawable.beer, R.drawable.bellpepper, R.drawable.biscuit, R.drawable.bodylotion,
             R.drawable.bodywash, R.drawable.boot, R.drawable.bottle, R.drawable.bread, R.drawable.broccoli, R.drawable.broom, R.drawable.bucket,
-            R.drawable.bugspray, R.drawable.bulb, R.drawable.butter, R.drawable.cabbage, R.drawable.calculator, R.drawable.candle};
+            R.drawable.bugspray, R.drawable.bulb, R.drawable.butter, R.drawable.cabbage, R.drawable.calculator, R.drawable.candle, R.drawable.canopener,
+    R.drawable.cap, R.drawable.carrot, R.drawable.cashew, R.drawable.cauliflower, R.drawable.cereal, R.drawable.cheese, R.drawable.cherry,
+            R.drawable.chicken, R.drawable.chilli, R.drawable.chip, R.drawable.chocolate, R.drawable.choppingboard, R.drawable.cigarette,
+            R.drawable.cleaner, R.drawable.clock, R.drawable.clove, R.drawable.coffee, R.drawable.cola, R.drawable.conditioner, R.drawable.condom,
+            R.drawable.contactlen, R.drawable.converse, R.drawable.cookie, R.drawable.cookingoil, R.drawable.corn, R.drawable.cornflake, R.drawable.croc,
+            R.drawable.cucumber, R.drawable.deodorant, R.drawable.detergent, R.drawable.dishwasher, R.drawable.donut, R.drawable.egg,
+            R.drawable.eggplant, R.drawable.energydrink, R.drawable.facewash, R.drawable.fish, R.drawable.flour, R.drawable.flower, R.drawable.fork,
+            R.drawable.formalshoe, R.drawable.freshener, R.drawable.garlic, R.drawable.ginger, R.drawable.glove, R.drawable.glue,
+            R.drawable.grape, R.drawable.guava, R.drawable.handwash, R.drawable.hat, R.drawable.highheel, R.drawable.honey, R.drawable.icecream,
+            R.drawable.jalapeno, R.drawable.jam, R.drawable.jelly, R.drawable.juice, R.drawable.ketchup, R.drawable.kitchenroll, R.drawable.knife,
+            R.drawable.lamp, R.drawable.lemon, R.drawable.lentil, R.drawable.lobster, R.drawable.lube, R.drawable.mango, R.drawable.meat,
+            R.drawable.milk, R.drawable.mitten, R.drawable.mop, R.drawable.mouthwash, R.drawable.mug, R.drawable.musclecream, R.drawable.mushroom,
+            R.drawable.nailclipper, R.drawable.nailpolish, R.drawable.napkin, R.drawable.notebook, R.drawable.okra, R.drawable.onion,
+            R.drawable.orange, R.drawable.pad, R.drawable.pea, R.drawable.peanutbutter, R.drawable.pen, R.drawable.pencil, R.drawable.pineapple,
+            R.drawable.plate, R.drawable.pomegranate, R.drawable.popcorn, R.drawable.potato, R.drawable.pulse, R.drawable.pumpkin,
+            R.drawable.radish, R.drawable.rainboot, R.drawable.ramen, R.drawable.rice, R.drawable.rum, R.drawable.runningshoe, R.drawable.salt,
+            R.drawable.sanitizer, R.drawable.sausage, R.drawable.scissor, R.drawable.shampoo, R.drawable.shoe, R.drawable.slipper,
+            R.drawable.smoke, R.drawable.smoothie, R.drawable.snack, R.drawable.soap, R.drawable.soda, R.drawable.spinach,
+            R.drawable.spoon, R.drawable.sportsshoe, R.drawable.squash, R.drawable.stirfry, R.drawable.strawberry, R.drawable.studylamp,
+            R.drawable.sugar, R.drawable.sunglasse, R.drawable.sunscreen, R.drawable.sweetpotato, R.drawable.tampon, R.drawable.tea,
+            R.drawable.thermometer, R.drawable.tissuepaper, R.drawable.toiletbrush, R.drawable.toiletpaper, R.drawable.tomato,
+            R.drawable.toothbrush, R.drawable.toothpaste, R.drawable.tortilla, R.drawable.trashbag, R.drawable.tuna, R.drawable.turkey,
+            R.drawable.turnip, R.drawable.vacuumcleaner, R.drawable.vodka, R.drawable.watch, R.drawable.watermelon, R.drawable.wetwipe,
+            R.drawable.whiskey, R.drawable.wine, R.drawable.yogurt, R.drawable.imagenotfound};
 
     @Override
     public void onResume(){
