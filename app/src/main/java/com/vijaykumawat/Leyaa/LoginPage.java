@@ -31,8 +31,10 @@ public class LoginPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loginpage);
+
 
         user_name=findViewById(R.id.iaminside);
         pass_word=findViewById(R.id.password);
@@ -41,6 +43,7 @@ public class LoginPage extends AppCompatActivity {
 
 
         mAuth=FirebaseAuth.getInstance();
+
         forgotTextLink = findViewById(R.id.forgotPassword);
         btn_login.setOnClickListener(v -> {
 //            String email= user_name.getText().toString().trim();

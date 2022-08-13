@@ -3,10 +3,7 @@ package com.vijaykumawat.Leyaa;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
-import android.util.Log;
 import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,21 +47,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
 
                 case R.id.navigation_room:{
                     startActivity(new Intent(this, RoomListActivity.class));
-
                     break;
                 }
                 case R.id.navigation_reminder:{
                     startActivity(new Intent(this, Reminder_Activity.class));
-
                     break;
                 }
 
               
                 case R.id.navigation_invitation:{
-
                     startActivity(new Intent(this, InvitationListActivity.class));
-
-
                     break;
                 }
             }

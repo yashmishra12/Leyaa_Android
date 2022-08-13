@@ -53,16 +53,8 @@ public class GridAdapter extends BaseAdapter {
 
         ImageView imageView = convertView.findViewById(R.id.grid_image);
 
-//        if (position!=169){
-//
-//        }
         imageView.setImageResource(image[position]);
 
-//       try {
-//           imageView.setImageResource(image[position]);
-//       } catch (Error e) {
-//           System.out.println(e);
-//       }
 
         return convertView;
     }
