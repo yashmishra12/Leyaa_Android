@@ -27,13 +27,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 public class Inside_Room_Activity extends BaseActivity {
     NavigationView nav;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
     String roomName="";
     String roomID = "";
+    String userName = "";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    ArrayList<String> memberList;
 
 
     @Override
@@ -70,12 +74,25 @@ public class Inside_Room_Activity extends BaseActivity {
 
             });
 
+            DocumentReference userRef = db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot ds = task.getResult();
+                        userName = (String) ds.get("fullname");
+                    }
+                }
+            });
+
         }
 
 
 
 
         Window window = getWindow();
+
         // Show status bar
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -110,15 +127,48 @@ public class Inside_Room_Activity extends BaseActivity {
 
             else if (menuItem.getItemId()==R.id.doing_laundry){
 
-                String tokenKK = "fO1yfYWjSeGTdQSKeXfhzW:APA91bFb5S95iYkjAS3t3qcDdHQ8SaX2A-wC6orNjwZZ83VdtOfLRfNQzxxphi75PfibE0Y_TN6moM8aZZseSSHVU8zadV9XSnyyFr4geDdnpP4_ye-rH3MuqjNytIDzPA8eJN37FQJc";
-                String tokenYM = "";
-                String title = "Leyaa";
-                String message = "L Block - Do Laundry";
 
-                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(tokenYM, title, message, getApplicationContext(), Inside_Room_Activity.this );
-                notificationsSender.SendNotifications();
+                DocumentReference docRef =  db.collection("rooms").document(roomID);
 
-                Toast.makeText(getApplicationContext(),"Doing Laundry",Toast.LENGTH_LONG).show();
+
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+
+                           memberList  = (ArrayList<String>) documentSnapshot.get("members");
+
+                            assert memberList != null;
+                            for (String member: memberList) {
+                               DocumentReference userRef = db.collection("users").document(member);
+
+                               userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                   @Override
+                                   public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                       if (task.isSuccessful()) {
+                                           DocumentSnapshot ds = task.getResult();
+                                           String userDeviceToken = (String) ds.get("deviceToken");
+                                           String title = "Room: "+roomName;
+                                           String message = userName+" is going to do laundry";
+                                           FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this );
+                                           notificationsSender.SendNotifications();
+                                       }
+                                   }
+                               });
+                           }
+
+                        }
+                    }
+                });
+
+
+
+
+
+
+                Toast.makeText(getApplicationContext(),"Everyone Notified",Toast.LENGTH_LONG).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
 
@@ -129,19 +179,118 @@ public class Inside_Room_Activity extends BaseActivity {
             }
 
             else if (menuItem.getItemId()==R.id.shopping){
-                Toast.makeText(getApplicationContext(),"Going for Shopping ",Toast.LENGTH_LONG).show();
+                DocumentReference docRef =  db.collection("rooms").document(roomID);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+
+                            memberList  = (ArrayList<String>) documentSnapshot.get("members");
+
+                            assert memberList != null;
+                            for (String member: memberList) {
+                                DocumentReference userRef = db.collection("users").document(member);
+
+                                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot ds = task.getResult();
+                                            String userDeviceToken = (String) ds.get("deviceToken");
+                                            String title = "Room: "+roomName;
+                                            String message = userName+" is going for shopping.";
+                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this );
+                                            notificationsSender.SendNotifications();
+                                        }
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+                });
+
+                Toast.makeText(getApplicationContext(),"Everyone Notified",Toast.LENGTH_LONG).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
 
             else if (menuItem.getItemId()==R.id.fridge_is_full){
-                Toast.makeText(getApplicationContext(),"Fridge is Full ",Toast.LENGTH_LONG).show();
+                DocumentReference docRef =  db.collection("rooms").document(roomID);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+
+                            memberList  = (ArrayList<String>) documentSnapshot.get("members");
+
+                            assert memberList != null;
+                            for (String member: memberList) {
+                                DocumentReference userRef = db.collection("users").document(member);
+
+                                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot ds = task.getResult();
+                                            String userDeviceToken = (String) ds.get("deviceToken");
+                                            String title = "Room: "+roomName;
+                                            String message = "Fridge is full. Please look into it.";
+                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this );
+                                            notificationsSender.SendNotifications();
+                                        }
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+                });
+
+                Toast.makeText(getApplicationContext(),"Everyone Notified",Toast.LENGTH_LONG).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
 
             else if (menuItem.getItemId()==R.id.clean_house){
-                Toast.makeText(getApplicationContext(),"Clean House",Toast.LENGTH_LONG).show();
+                DocumentReference docRef =  db.collection("rooms").document(roomID);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+
+                            memberList  = (ArrayList<String>) documentSnapshot.get("members");
+
+                            assert memberList != null;
+                            for (String member: memberList) {
+                                DocumentReference userRef = db.collection("users").document(member);
+
+                                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot ds = task.getResult();
+                                            String userDeviceToken = (String) ds.get("deviceToken");
+                                            String title = "Room: "+roomName;
+                                            String message = userName+" feels it's time to clean the house.";
+                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this );
+                                            notificationsSender.SendNotifications();
+                                        }
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+                });
+                Toast.makeText(getApplicationContext(),"Everyone Notified",Toast.LENGTH_LONG).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
+
 
             else if(menuItem.getItemId() == R.id.memberInfo) {
                 Intent intent = new Intent(Inside_Room_Activity.this, RoomMemberInfo.class);
