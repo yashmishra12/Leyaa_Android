@@ -15,7 +15,7 @@ public class SanitizeItemName {
     public static String[] assetName = {"almond", "apple", "avocado", "bagel", "banana",
             "bandAid", "battery", "beer", "bellpepper", "biscuit", "bodylotion",
             "bodywash", "boot", "bottle", "bread", "broccoli", "broom", "bucket",
-            "bugspray", "bulb", "butter", "cabbage", };
+            "bugspray", "bulb", "butter", "cabbage" };
 
     public static String[] realAssetName = {"Almond", "Apple", "Avocado", "Bagel", "Banana", "BandAid",
             "Battery", "Beer", "Bell Pepper", "Biscuit", "Body Lotion", "Body Wash", "Boots", "Bottle",

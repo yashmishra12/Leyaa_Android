@@ -109,6 +109,15 @@ public class Inside_Room_Activity extends BaseActivity {
             }
 
             else if (menuItem.getItemId()==R.id.doing_laundry){
+
+                String tokenKK = "fO1yfYWjSeGTdQSKeXfhzW:APA91bFb5S95iYkjAS3t3qcDdHQ8SaX2A-wC6orNjwZZ83VdtOfLRfNQzxxphi75PfibE0Y_TN6moM8aZZseSSHVU8zadV9XSnyyFr4geDdnpP4_ye-rH3MuqjNytIDzPA8eJN37FQJc";
+                String tokenYM = "";
+                String title = "Leyaa";
+                String message = "L Block - Do Laundry";
+
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(tokenYM, title, message, getApplicationContext(), Inside_Room_Activity.this );
+                notificationsSender.SendNotifications();
+
                 Toast.makeText(getApplicationContext(),"Doing Laundry",Toast.LENGTH_LONG).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
