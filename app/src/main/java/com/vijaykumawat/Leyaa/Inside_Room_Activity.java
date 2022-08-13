@@ -301,6 +301,15 @@ public class Inside_Room_Activity extends BaseActivity {
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
 
+            else if (menuItem.getItemId() == R.id.add_member) {
+                Intent intent = new Intent(Inside_Room_Activity.this, MemberAdd.class);
+                intent.putExtra("roomID",roomID);
+                intent.putExtra("roomName", roomName);
+                intent.putExtra("userName",userName);
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+
             return true;
         }
 
@@ -369,7 +378,7 @@ public class Inside_Room_Activity extends BaseActivity {
                         db.collection("rooms").document(finalRoomID).update("members", FieldValue.arrayRemove(userId));
 
                         ArrayList<String> memberCount = (ArrayList<String>) documentSnapshot.get("members");
-                        
+
 
                         if (memberCount.size()==1) {
                             db.collection("rooms").document(finalRoomID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {

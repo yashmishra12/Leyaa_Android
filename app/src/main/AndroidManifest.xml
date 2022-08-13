@@ -34,6 +34,7 @@
         <activity android:name=".ProfilenameChange" />
         <activity android:name=".ProfilePage" />
         <activity android:name=".RoomMemberInfo"/>
+        <activity android:name=".MemberAdd"/>
 
 
 

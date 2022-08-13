@@ -17,6 +17,7 @@
         android:textAlignment="center"
         android:text="Invitation Activity"
         />
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"
