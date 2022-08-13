@@ -16,12 +16,15 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -68,7 +71,7 @@ public class Room_Creation extends AppCompatActivity {
                 String nameRoom = roomName.getText().toString();
 
                 imm.hideSoftInputFromWindow(roomName.getWindowToken(), 0);
-                if (nameRoom.isEmpty() == false) {
+                if (!nameRoom.isEmpty()) {
                     FirebaseUser fuser = mAuth.getCurrentUser();
                     String userID = fuser.getUid();
 
@@ -97,6 +100,22 @@ public class Room_Creation extends AppCompatActivity {
                             });
 
                     startActivity(new Intent(getApplicationContext(), RoomListActivity.class));
+
+
+                    DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            if (!task.isSuccessful()){
+                                Log.d("TAG", "Error Fetching Device Token");
+                                return;
+                            }
+
+                            String token = task.getResult();
+                            docRef.update("deviceToken", token);
+                        }
+                    });
 
                 }
 

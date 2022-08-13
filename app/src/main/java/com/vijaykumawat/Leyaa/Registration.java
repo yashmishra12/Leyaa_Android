@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -94,7 +95,6 @@ public class Registration extends AppCompatActivity {
 
                             fuser = mAuth.getCurrentUser();
 
-                            Toast.makeText(Registration.this, "User Created.", Toast.LENGTH_SHORT).show();
                             userID = mAuth.getCurrentUser().getUid();
 
                             DocumentReference documentReference = mStore.collection("users").document(userID);
@@ -103,12 +103,26 @@ public class Registration extends AppCompatActivity {
                             user.put("email",email);
                             user.put("avatar","coffee");
                             user.put("uid", fuser.getUid());
-                            user.put("deviceToken", "newDeviceToken");
+                            user.put("deviceToken", "");
 
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "onSuccess: user Profile is created for "+ userID);
+                                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<String> task) {
+                                            if (!task.isSuccessful()){
+                                                Log.d(TAG, "Error Fetching Device Token");
+                                                return;
+                                            }
+
+                                            String token = task.getResult();
+                                            documentReference.update("deviceToken", token);
+                                        }
+                                    });
+
+
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

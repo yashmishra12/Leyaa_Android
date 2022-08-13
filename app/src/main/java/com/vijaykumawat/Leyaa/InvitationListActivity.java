@@ -6,15 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
@@ -64,22 +68,12 @@ public class InvitationListActivity extends BaseActivity {
         //DocumentReference docRef = db.collection("roomRequest");
         final String[] emailID = new String[1];
 
-
-
-
-
         DocumentReference docRef = db.collection("users").document(mUid);
-
-
 
         String userEmailInfo = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
 
-
-
         Query query = mstore.collection("roomRequest").whereEqualTo("receiverEmail",userEmailInfo);
 
-        Log.d("myTag", String.valueOf(mUid) + "-----------------------------------");
-        Log.d("myTag", String.valueOf(query) + "--------------------------");
         FirestoreRecyclerOptions<Invitation_Data> options = new FirestoreRecyclerOptions.Builder<Invitation_Data>()
                 .setQuery(query, Invitation_Data.class).build();
 
@@ -113,6 +107,23 @@ public class InvitationListActivity extends BaseActivity {
 
 //                Log.d("myTag", String.valueOf(finalReceiverEmail2) + "-------------------receiverEmail----------------");
 //                Toast.makeText(InvitationListActivity.this,  " Accepted " , Toast.LENGTH_SHORT).show();
+
+
+
+                DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()){
+                            Log.d("TAG", "Error Fetching Device Token");
+                            return;
+                        }
+
+                        String token = task.getResult();
+                        docRef.update("deviceToken", token);
+                    }
+                });
 
             }
         });
