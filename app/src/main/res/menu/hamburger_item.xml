@@ -29,17 +29,20 @@
                 android:icon="@drawable/ic_baseline_shopping_cart_24"
                 android:title="Going Shopping"/>
 
-            <item android:id="@+id/doing_laundry"
-                android:icon="@drawable/ic_bill_24"
-                android:title="Doing Laundry"/>
+            <item
+                android:id="@+id/doing_laundry"
+                android:icon="@drawable/ic_baseline_local_laundry_service_24"
+                android:title="Doing Laundry" />
 
-            <item android:id="@+id/fridge_is_full"
-                android:icon="@drawable/ic_bill_24"
-                android:title="Fridge is Full"/>
+            <item
+                android:id="@+id/fridge_is_full"
+                android:icon="@drawable/ic_baseline_fastfood_24"
+                android:title="Fridge is Full" />
 
-            <item android:id="@+id/clean_house"
-                android:icon="@drawable/ic_bill_24"
-                android:title="Clean House"/>
+            <item
+                android:id="@+id/clean_house"
+                android:icon="@drawable/ic_baseline_cleaning_services_24"
+                android:title="Clean House" />
         </menu>
     </item>
 

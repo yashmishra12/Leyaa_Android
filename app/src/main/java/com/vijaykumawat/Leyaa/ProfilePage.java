@@ -50,7 +50,7 @@ public class ProfilePage extends AppCompatActivity {
     int[] itemImages = {R.drawable.almond, R.drawable.apple, R.drawable.avocado, R.drawable.bagel, R.drawable.banana,
             R.drawable.bandaid, R.drawable.battery, R.drawable.beer, R.drawable.bellpepper, R.drawable.biscuit, R.drawable.bodylotion,
             R.drawable.bodywash, R.drawable.boot, R.drawable.bottle, R.drawable.bread, R.drawable.broccoli, R.drawable.broom, R.drawable.bucket,
-            R.drawable.bugspray, R.drawable.bulb, R.drawable.butter, R.drawable.cabbage};
+            R.drawable.bugspray, R.drawable.bulb, R.drawable.butter, R.drawable.cabbage, R.drawable.calculator, R.drawable.candle};
 
     @Override
     public void onResume(){
