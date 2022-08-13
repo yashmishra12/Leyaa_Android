@@ -23,8 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
-
 public class EditRoomName extends AppCompatActivity {
     FirebaseAuth mAuth;
 
@@ -86,25 +84,25 @@ public class EditRoomName extends AppCompatActivity {
 
 
 
-      saveNewName.setOnClickListener(view -> {
-              if (!newNameText.getText().toString().isEmpty()) {
-              documentReference
-              .update("title", newNameText.getText().toString())
-              .addOnSuccessListener(new OnSuccessListener<Void>() {
-@Override
-public void onSuccess(Void aVoid) {
-        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-        finish();
+        saveNewName.setOnClickListener(view -> {
+            if (!newNameText.getText().toString().isEmpty()) {
+                documentReference
+                        .update("title", newNameText.getText().toString())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                                finish();
 
-        }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-@Override
-public void onFailure(@NonNull Exception e) {
-        Log.w("TAG", "Error updating document", e);
-        }
-        });
-        }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("TAG", "Error updating document", e);
+                            }
+                        });
+            }
         });
 
 

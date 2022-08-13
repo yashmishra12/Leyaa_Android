@@ -3,10 +3,7 @@ package com.vijaykumawat.Leyaa;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,18 +12,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProfilenameChange extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -42,11 +33,11 @@ public class ProfilenameChange extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_name_change);
+        setContentView(R.layout.profile_name_change);
 
         mAuth = FirebaseAuth.getInstance();
         String nameVal = "";
-        EditText newNameText = (EditText) findViewById(R.id.newNameText);
+        EditText newNameText = findViewById(R.id.newNameText);
         Button saveNewName = findViewById(R.id.nameChangeSave);
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DocumentReference documentReference = db.collection("users").document(userID);
@@ -58,7 +49,9 @@ public class ProfilenameChange extends AppCompatActivity {
             newNameText.setText(nameVal, TextView.BufferType.EDITABLE);
         }
 
-        Button backButton = findViewById(R.id.nameChangeBack);
+        newNameText.requestFocus();
+
+        FloatingActionButton backButton = findViewById(R.id.back_button_name_change);
 
         //back button pressed
         backButton.setOnClickListener(view -> {
