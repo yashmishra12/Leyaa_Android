@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -73,7 +74,7 @@ public class EditRoomName extends AppCompatActivity {
 
 
 
-        Button backButton = findViewById(R.id.btn_edit_room_cancel);
+        FloatingActionButton backButton = findViewById(R.id.btn_edit_room_cancel);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
