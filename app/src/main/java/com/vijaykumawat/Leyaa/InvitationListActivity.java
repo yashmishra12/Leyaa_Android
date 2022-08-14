@@ -58,8 +58,65 @@ public class InvitationListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ImageView relaximage = findViewById(R.id.relaximage);
         TextView relaxtext = findViewById(R.id.relaxtext);
+
         RecyclerView rcv = findViewById(R.id.recycler_view_invitation);
+
         setUpRecyclerView();
+
+
+        Objects.requireNonNull(rcv.getAdapter()).registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("roomRequest").whereEqualTo("receiverEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail()).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot qs =   task.getResult();
+                            ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
+                            if (ds.size()>0) {
+                                relaxtext.setVisibility(View.GONE);
+                                relaximage.setVisibility(View.GONE);
+                            } else {
+                                relaxtext.setVisibility(View.VISIBLE);
+                                relaximage.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("roomRequest").whereEqualTo("receiverEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail()).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot qs =   task.getResult();
+                            ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
+                            if (ds.size()>0) {
+                                relaxtext.setVisibility(View.GONE);
+                                relaximage.setVisibility(View.GONE);
+                            }else {
+                                relaxtext.setVisibility(View.VISIBLE);
+                                relaximage.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    }
+                });
+            }
+        });
+
+
+
+
+
 
     }
 
