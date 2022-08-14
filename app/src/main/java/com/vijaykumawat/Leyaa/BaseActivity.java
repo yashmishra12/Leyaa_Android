@@ -1,5 +1,6 @@
 package com.vijaykumawat.Leyaa;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -57,6 +58,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
               
                 case R.id.navigation_invitation:{
                     startActivity(new Intent(this, InvitationListActivity.class));
+                    break;
+                }
+
+                case R.id.navigation_profile: {
+                    startActivity(new Intent(this, ProfilePage.class));
                     break;
                 }
             }

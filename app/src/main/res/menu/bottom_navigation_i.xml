@@ -15,8 +15,12 @@
         android:id="@+id/navigation_invitation"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_invitation" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="Profile" />
 
-<!--    <item-->
+    <!--    <item-->
 <!--        android:id="@+id/navigation_profile"-->
 <!--        android:icon="@drawable/ic_baseline_account_circle_24"-->
 <!--        android:title="@string/title_profile" />-->

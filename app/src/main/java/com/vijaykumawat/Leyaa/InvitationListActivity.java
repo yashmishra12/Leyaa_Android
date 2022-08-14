@@ -50,7 +50,7 @@ public class InvitationListActivity extends BaseActivity {
     // action you want to selected - eg. i want home btn to get selected
     @Override
     int getNavigationMenuItemId() {
-        return R.id.navigation_room;
+        return R.id.navigation_invitation;
     }
 
     @Override

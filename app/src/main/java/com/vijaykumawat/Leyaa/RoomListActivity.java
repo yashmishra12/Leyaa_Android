@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -29,14 +28,11 @@ public class RoomListActivity extends BaseActivity {
 
 //    private FirebaseAuth mAuth;
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
-    private CollectionReference room_col = mstore.collection("room");
     private RoomAdapter adapter;
     FloatingActionButton floatingButton;
-//    String userID;
 
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-//    String emailID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
     @Override
     int getContentViewId() {
@@ -53,12 +49,6 @@ public class RoomListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Button userNav = findViewById(R.id.userNav);
-
-        userNav.setOnClickListener(view -> {
-            Intent intent = new Intent(RoomListActivity.this, ProfilePage.class);
-            startActivity(intent);
-        });
 
         setUpRecyclerView();
 

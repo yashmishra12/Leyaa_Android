@@ -30,18 +30,20 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class ProfilePage extends AppCompatActivity {
+public class ProfilePage extends BaseActivity {
 
 
-//    @Override
-//    int getContentViewId() {
-//        return R.layout.profile_page;
-//    }
 
-//    @Override
-//    int getNavigationMenuItemId() {
-//        return R.id.navigation_user;
-//    }
+    @Override
+    int getContentViewId() {
+        return R.layout.profile_page;
+    }
+
+    // action you want to selected - eg. i want home btn to get selected
+    @Override
+    int getNavigationMenuItemId() {
+        return R.id.navigation_profile;
+    }
 
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -111,15 +113,14 @@ public class ProfilePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_page);
+//        setContentView(R.layout.profile_page);
 
         GridAdapter gridAdapter = new GridAdapter(this, itemName ,itemImages);
 
-        TextView email = (TextView) findViewById(R.id.email);
-        Button resetButton = (Button) findViewById(R.id.resetAvatar);
-        Button saveButton = (Button) findViewById(R.id.saveAvatar);
+        TextView email = findViewById(R.id.email);
+        Button resetButton = findViewById(R.id.resetAvatar);
+        Button saveButton = findViewById(R.id.saveAvatar);
         Button signoutButton = findViewById(R.id.signout_button_profile);
-        FloatingActionButton backButton = findViewById(R.id.profileBackButton);
         Button editName = findViewById(R.id.editNameButton);
 
         final String[] avatar = {""};
@@ -267,10 +268,7 @@ public class ProfilePage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        backButton.setOnClickListener(view -> {
-            Intent intent = new Intent(ProfilePage.this, RoomListActivity.class);
-            startActivity(intent);
-        });
+
 
     }
 
