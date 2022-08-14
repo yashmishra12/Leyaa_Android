@@ -49,9 +49,7 @@ public class RoomListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setUpRecyclerView();
-
     }
 
 
@@ -79,22 +77,20 @@ public class RoomListActivity extends BaseActivity {
                 String document_ID = documentSnapshot.getId();
                 startActivity(new Intent(RoomListActivity.this, Inside_Room_Activity.class).putExtra("document_ID",document_ID ));
 
-
                 //Toast.makeText(RoomListActivity.this, "Position: " + position + " ID: " + String.valueOf(query2), Toast.LENGTH_SHORT).show();
-
             }
         });
 
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         adapter.stopListening();
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         adapter.startListening();
     }
