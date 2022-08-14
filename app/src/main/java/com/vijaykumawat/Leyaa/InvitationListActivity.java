@@ -5,6 +5,9 @@ package com.vijaykumawat.Leyaa;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,28 +21,25 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 // BaseActivity extends AppCompatActivity so do not need to extend here
 // you will automatically get parent properties
 public class InvitationListActivity extends BaseActivity {
 
-
-
-    private FirebaseAuth mAuth;
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
 
     private InvitationAdapter adapter;
 
 
-    private InvitationAdapter accept;
-    FloatingActionButton floatingButton;
-    String userID;
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    //private String users;
 
 
     @Override
@@ -56,7 +56,9 @@ public class InvitationListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ImageView relaximage = findViewById(R.id.relaximage);
+        TextView relaxtext = findViewById(R.id.relaxtext);
+        RecyclerView rcv = findViewById(R.id.recycler_view_invitation);
         setUpRecyclerView();
 
     }
@@ -64,11 +66,6 @@ public class InvitationListActivity extends BaseActivity {
 
     private void setUpRecyclerView() {
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        //DocumentReference docRef = db.collection("roomRequest");
-        final String[] emailID = new String[1];
-
-        DocumentReference docRef = db.collection("users").document(mUid);
 
         String userEmailInfo = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
 
@@ -80,35 +77,41 @@ public class InvitationListActivity extends BaseActivity {
 
         adapter = new InvitationAdapter(options);
 
-
-
+        ImageView relaximage = findViewById(R.id.relaximage);
+        TextView relaxtext = findViewById(R.id.relaxtext);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_invitation);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new CustLinearLayoutManager(this));
-
-
         recyclerView.setAdapter(adapter);
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("roomRequest").whereEqualTo("receiverEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail()).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot qs =   task.getResult();
+                    ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
+                    if (ds.size()>0) {
+                        relaxtext.setVisibility(View.GONE);
+                        relaximage.setVisibility(View.GONE);
+                    }
 
+                }
+            }
+        });
+
+        Log.d("TAG", "INSIDE onCreate: ---------> " + Objects.requireNonNull(recyclerView.getAdapter()).getItemCount());
 
         adapter.setOnItemClickListener(new InvitationAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                //startActivity(new Intent(InvitationListActivity.this, Inside_Room_Activity.class).putExtra("selected room",position ));
-                Intent intent = new Intent(InvitationListActivity.this, InvitationListActivity.class);
-
-
-                String id = documentSnapshot.getId();
-                //intent.putExtra("documentID_room", id);
+//                Intent intent = new Intent(InvitationListActivity.this, InvitationListActivity.class);
+//                String id = documentSnapshot.getId();
+//                //intent.putExtra("documentID_room", id);
 
                 adapter.acceptRequest(position);
-
-//                Log.d("myTag", String.valueOf(finalReceiverEmail2) + "-------------------receiverEmail----------------");
-//                Toast.makeText(InvitationListActivity.this,  " Accepted " , Toast.LENGTH_SHORT).show();
-
-
 
                 DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
@@ -139,16 +142,12 @@ public class InvitationListActivity extends BaseActivity {
     public void onStop(){
         super.onStop();
         adapter.stopListening();
-
-
     }
 
     @Override
     public void onStart(){
         super.onStart();
         adapter.startListening();
-
-
     }
 
 }

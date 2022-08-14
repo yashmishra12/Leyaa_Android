@@ -74,7 +74,6 @@ public class MemberAdd extends AppCompatActivity {
 
 
 
-
             db.collection("users").whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {

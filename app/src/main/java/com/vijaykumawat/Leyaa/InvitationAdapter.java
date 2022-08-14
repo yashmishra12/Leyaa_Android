@@ -25,18 +25,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data, InvitationAdapter.RoomHolder> {
 
     private OnItemClickListener listener;
-    private OnItemClickListener listener2;
     FirebaseAuth mAuth;
     String receiverEmail;
-
-
-
-
-
-    private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
 
     public InvitationAdapter(@NonNull FirestoreRecyclerOptions<Invitation_Data> options) {
         super(options);
@@ -48,10 +43,7 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
     protected void onBindViewHolder(@NonNull RoomHolder holder, int position, @NonNull Invitation_Data model) {
         holder.senderName.setText(model.getSenderName());
         holder.roomName.setText(model.getRoomName());
-        receiverEmail= model.getReceiverEmail();
-        //Log.d("myTag", String.valueOf(receiverEmail) + "-----------------------------------");
-
-
+        receiverEmail = model.getReceiverEmail();
     }
 
 
@@ -59,7 +51,6 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
     @Override
     public RoomHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_invitation,parent,false);
-
         return new RoomHolder(view);
     }
 
@@ -70,15 +61,11 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
     public void acceptRequest(int position){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Invitation_Data data = new Invitation_Data();
         String document_id  =  getSnapshots().getSnapshot(position).getReference().getId();
         mAuth = FirebaseAuth.getInstance();
-        String userId = mAuth.getCurrentUser().getUid();
+        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         final String[] roomID = new String[1];
 
-
-
-        Log.d("myTag", String.valueOf(document_id) + "-------------------documen tttt----------------");
 
         DocumentReference docRef = db.collection("roomRequest").document(document_id);
 
@@ -92,7 +79,6 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
                         roomID[0] = (String) documentSnapshot.get("roomID");
 
                         db.collection("rooms").document(roomID[0]).update("members",FieldValue.arrayUnion(userId));
-
 
                         docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -121,10 +107,9 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
 
 
     class RoomHolder extends RecyclerView.ViewHolder {
+
         TextView senderName;
         TextView roomName;
-
-
 
         public RoomHolder(@NonNull View itemView) {
             super(itemView);
@@ -137,7 +122,7 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
                 @Override
                 public void onClick(View view){
                     deleteRequest(getAbsoluteAdapterPosition());
-                    Toast.makeText(view.getContext(), "  Rejected", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(view.getContext(), "Rejected", Toast.LENGTH_SHORT ).show();
                 }
             });
 
@@ -155,27 +140,16 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
                         Toast.makeText(view.getContext(),  "Successfully Added", Toast.LENGTH_SHORT).show();
                         view.getContext().startActivity(ii);
 
-
                     }
-
-
 
                 }
             });
-
-
-
-
         }
-
-
-
-
     }
+
     public interface OnItemClickListener {
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
-
 
 
     public void setOnItemClickListener(OnItemClickListener listener) {
