@@ -39,9 +39,6 @@ public class InvitationListActivity extends BaseActivity {
     private InvitationAdapter adapter;
 
 
-    String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-
     @Override
     int getContentViewId() {
         return R.layout.invitation_list;
@@ -143,30 +140,10 @@ public class InvitationListActivity extends BaseActivity {
         recyclerView.setLayoutManager(new CustLinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("roomRequest").whereEqualTo("receiverEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail()).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    QuerySnapshot qs =   task.getResult();
-                    ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
-                    if (ds.size()>0) {
-                        relaxtext.setVisibility(View.GONE);
-                        relaximage.setVisibility(View.GONE);
-                    }
-
-                }
-            }
-        });
-
-        Log.d("TAG", "INSIDE onCreate: ---------> " + Objects.requireNonNull(recyclerView.getAdapter()).getItemCount());
 
         adapter.setOnItemClickListener(new InvitationAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-//                Intent intent = new Intent(InvitationListActivity.this, InvitationListActivity.class);
-//                String id = documentSnapshot.getId();
-//                //intent.putExtra("documentID_room", id);
 
                 adapter.acceptRequest(position);
 
