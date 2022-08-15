@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/item_add_flt_btn"
+            android:id="@+id/item_del_flt_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"

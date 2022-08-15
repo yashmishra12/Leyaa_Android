@@ -71,6 +71,8 @@ public class Inside_Room_Activity extends BaseActivity {
                 rcv.setAdapter(itemAdapter);
 
 
+                rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
+
             }
         });
 
@@ -339,6 +341,8 @@ public class Inside_Room_Activity extends BaseActivity {
         }
 
         });
+
+
 
 
 

@@ -12,6 +12,9 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,6 +49,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
         holder.item_image.setImageResource(resID);
 
+//        String itemID = data_models.get(position).get("id");
+//
+//        holder.item_del_flt_btn.setOnClickListener(view -> {
+//            FirebaseFirestore db = FirebaseFirestore.getInstance();
+//            db.collection("rooms").document()
+//        });
+
+
+
     }
 
     @Override
@@ -59,6 +71,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
         TextView item_qty;
         TextView item_desc;
         ImageView item_image;
+        FloatingActionButton item_del_flt_btn;
+        FloatingActionButton item_edit_flt_btn;
+
 
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +81,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
             item_qty = itemView.findViewById(R.id.item_qty);
             item_desc = itemView.findViewById(R.id.item_desc);
             item_image = itemView.findViewById(R.id.item_image);
+            item_del_flt_btn = itemView.findViewById(R.id.item_del_flt_btn);
+            item_edit_flt_btn = itemView.findViewById(R.id.item_edit_flt_btn);
+
         }
     }
 }
