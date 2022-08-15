@@ -16,6 +16,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -63,15 +64,18 @@ public class Inside_Room_Activity extends BaseActivity {
             public void onEvent (@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 ArrayList<HashMap<String, String>> item_data_models = (ArrayList<HashMap<String, String>>) value.get("newItems");
                 RecyclerView rcv = findViewById(R.id.item_rv);
-                layoutManager = new CustLinearLayoutManager(Inside_Room_Activity.this);
+
+                layoutManager = new GridLayoutManager(Inside_Room_Activity.this, 2);
                 rcv.setHasFixedSize(true);
                 rcv.setLayoutManager(layoutManager);
-                itemAdapter = new ItemAdapter(item_data_models);
+                itemAdapter = new ItemAdapter(item_data_models, roomID);
 
                 rcv.setAdapter(itemAdapter);
 
 
-                rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
+                if (itemAdapter.getItemCount()  > 0 ) {
+                    rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
+                }
 
             }
         });

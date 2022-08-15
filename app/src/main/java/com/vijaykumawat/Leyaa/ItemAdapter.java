@@ -7,12 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -21,10 +25,12 @@ import java.util.HashMap;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
     ArrayList <HashMap<String, String>> data_models;
+    String roomID;
     private Context context;
 
-    public ItemAdapter(ArrayList<HashMap<String, String>> data_models) {
+    public ItemAdapter(ArrayList<HashMap<String, String>> data_models, String roomID) {
         this.data_models = data_models;
+        this.roomID = roomID;
     }
 
 
@@ -49,12 +55,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
         holder.item_image.setImageResource(resID);
 
-//        String itemID = data_models.get(position).get("id");
-//
-//        holder.item_del_flt_btn.setOnClickListener(view -> {
-//            FirebaseFirestore db = FirebaseFirestore.getInstance();
-//            db.collection("rooms").document()
-//        });
+        String itemID = data_models.get(position).get("id");
+
+        HashMap<String, String> itemToDel = new HashMap<>();
+
+        itemToDel.put("id", itemID);
+        itemToDel.put("desc", data_models.get(position).get("desc"));
+        itemToDel.put("name", data_models.get(position).get("name"));
+        itemToDel.put("qty", data_models.get(position).get("qty"));
+
+
+        holder.item_del_flt_btn.setOnClickListener(view -> {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("rooms").document(roomID).update("newItems", FieldValue.arrayRemove(itemToDel)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(context, "Item Deleted", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
 
 
 

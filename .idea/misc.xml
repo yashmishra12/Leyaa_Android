@@ -21,7 +21,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22373657226562504" />
         <entry key="app/src/main/res/layout/activity_name_change.xml" value="0.2545867919921875" />
         <entry key="app/src/main/res/layout/activity_view.xml" value="0.20212765957446807" />
-        <entry key="app/src/main/res/layout/edit_room_name.xml" value="0.4608136403034011" />
+        <entry key="app/src/main/res/layout/edit_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/edit_room_name.xml" value="0.1" />
         <entry key="app/src/main/res/layout/element_bottom_navigation.xml" value="0.1644021739130435" />
         <entry key="app/src/main/res/layout/fragment_invitation.xml" value="0.23162393162393163" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.3099761962890626" />
@@ -33,7 +34,7 @@
         <entry key="app/src/main/res/layout/inside_room_activity.xml" value="0.23108825683593748" />
         <entry key="app/src/main/res/layout/invitation_activity.xml" value="0.23248138427734377" />
         <entry key="app/src/main/res/layout/invitation_list.xml" value="0.2546875" />
-        <entry key="app/src/main/res/layout/item_card_view.xml" value="0.6045974731445313" />
+        <entry key="app/src/main/res/layout/item_card_view.xml" value="0.46397188049209137" />
         <entry key="app/src/main/res/layout/item_data.xml" value="0.28493150684931506" />
         <entry key="app/src/main/res/layout/item_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/loginpage.xml" value="0.23150787353515626" />
