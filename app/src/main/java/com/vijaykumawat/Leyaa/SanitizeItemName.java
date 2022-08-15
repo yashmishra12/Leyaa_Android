@@ -67,25 +67,46 @@ public class SanitizeItemName {
         if (str.endsWith("s")) {
             str = str.substring(0, str.length()-1);
         }
+
         List<String> alphanumeric = Arrays.asList("q", "w", "e", "r", "t", "y", "u", "i",
                                                     "o", "p", "l", "k", "j", "h", "g", "f",
                                                     "d", "s", "a", "z", "x", "c", "v", "b",
                                                     "n", "m", "1", "2", "3", "4", "5", "6",
                                                     "7", "8", "9", "0");
 
-        String[] strChar = str.split("");
-
-        for(String s: strChar) {
-            if (!alphanumeric.contains(s)) {
-                String firstLetter = strChar[0];
-                if (alphanumeric.contains(firstLetter)) {
-                    return firstLetter;
-                }else {
-                    return "imagenotfound";
-                }
+        if (Arrays.asList(assetName).contains(str)) {
+            return str;
+        }
+        else if (alphanumeric.contains(str.substring(0,1))) {
+            String letter = str.substring(0,1);
+            switch (letter) {
+                case "0":
+                    return "zero";
+                case "1":
+                    return "one";
+                case "2":
+                    return "two";
+                case "3":
+                    return "three";
+                case "4":
+                    return "four";
+                case "5":
+                    return "five";
+                case "6":
+                    return "six";
+                case "7":
+                    return "seven";
+                case "8":
+                    return "eight";
+                case "9":
+                    return "nine";
+                default:
+                    return letter;
             }
+        } else {
+            return "imagenotfound";
         }
 
-        return str;
+
     }
 }

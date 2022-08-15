@@ -39,7 +39,6 @@ public class MemberDataAdapter extends RecyclerView.Adapter<MemberDataAdapter.My
         holder.email.setText(user.email);
 
         int resID = context.getResources().getIdentifier(user.avatar , "drawable", context.getPackageName());
-//
         holder.avatar.setImageResource(resID);
 
     }

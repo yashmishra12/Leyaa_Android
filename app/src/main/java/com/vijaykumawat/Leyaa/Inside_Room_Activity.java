@@ -1,5 +1,6 @@
 package com.vijaykumawat.Leyaa;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,11 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,24 +26,55 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Inside_Room_Activity extends BaseActivity {
     NavigationView nav;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
-    String roomName="";
+    String roomName = "";
     String roomID = "";
     String userName = "";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference itemRef;
+    RecyclerView.LayoutManager layoutManager;
+    private ItemAdapter itemAdapter;
+
     ArrayList<String> memberList;
 
+    private void setUpRecyclerView(){
+        itemRef = db.collection("rooms");
+
+        itemRef.document(roomID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent (@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                ArrayList<HashMap<String, String>> item_data_models = (ArrayList<HashMap<String, String>>) value.get("newItems");
+                RecyclerView rcv = findViewById(R.id.item_rv);
+                layoutManager = new CustLinearLayoutManager(Inside_Room_Activity.this);
+                rcv.setHasFixedSize(true);
+                rcv.setLayoutManager(layoutManager);
+                itemAdapter = new ItemAdapter(item_data_models);
+
+                rcv.setAdapter(itemAdapter);
+
+
+            }
+        });
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +83,11 @@ public class Inside_Room_Activity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         FloatingActionButton roomBackButton = findViewById(R.id.roomBackButton);
 
-        roomBackButton.setOnClickListener(view -> {
-            finish();
-        });
+        roomBackButton.setOnClickListener(view -> finish());
 
         if (extras != null) {
             roomID =  extras.getString("document_ID");
+            setUpRecyclerView();
 
             DocumentReference docRef = db.collection("rooms").document(roomID);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -65,14 +99,10 @@ public class Inside_Room_Activity extends BaseActivity {
                         if (documentSnapshot.exists()) {
 
                             roomName = (String) documentSnapshot.get("title");
-
                             toolbar.setTitle(roomName);
                         }
-
                     }
-
                 }
-
             });
 
             DocumentReference userRef = db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -88,11 +118,6 @@ public class Inside_Room_Activity extends BaseActivity {
             });
 
         }
-
-
-
-
-        Window window = getWindow();
 
         // Show status bar
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -139,7 +164,7 @@ public class Inside_Room_Activity extends BaseActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task.getResult();
 
-                           memberList  = (ArrayList<String>) documentSnapshot.get("members");
+                           memberList = (ArrayList<String>) documentSnapshot.get("members");
 
                             assert memberList != null;
                             for (String member: memberList) {
@@ -351,12 +376,9 @@ public class Inside_Room_Activity extends BaseActivity {
     }
 
 
-
     private void leaveRoom() {
 
         String roomID = "";
-
-
 
         Bundle extras = getIntent().getExtras();
 
@@ -380,7 +402,7 @@ public class Inside_Room_Activity extends BaseActivity {
                         ArrayList<String> memberCount = (ArrayList<String>) documentSnapshot.get("members");
 
 
-                        if (memberCount.size()==1) {
+                        if (memberCount != null && memberCount.size()==1) {
                             db.collection("rooms").document(finalRoomID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
