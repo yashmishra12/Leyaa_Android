@@ -13,6 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_margin="5dp"
+            android:layout_marginVertical="60dp"
+            android:backgroundTint="#0B5387"
+            android:clickable="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_add_home_work_24"
+            app:maxImageSize="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toolbar" />
+
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"
@@ -54,18 +70,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginVertical="60dp"
-        android:layout_marginStart="@dimen/dialogplus_default_center_margin"
-        android:layout_marginTop="@dimen/dialogplus_default_center_margin"
-        android:layout_marginEnd="@dimen/dialogplus_default_center_margin"
-        android:layout_marginBottom="@dimen/dialogplus_default_center_margin"
-        android:backgroundTint="#0B5387"
-        android:clickable="true"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_add" />
 </FrameLayout>

@@ -1,6 +1,7 @@
 package com.vijaykumawat.Leyaa;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
                 }
             });
         });
+
+
+        holder.item_edit_flt_btn.setOnClickListener(view -> {
+            Intent intent = new Intent(context, Edit_Item.class);
+
+            intent.putExtra("roomID", roomID);
+            intent.putExtra("itemID", itemID);
+            intent.putExtra("item_name", data_models.get(position).get("name"));
+            intent.putExtra("item_qty", data_models.get(position).get("qty"));
+            intent.putExtra("item_desc", data_models.get(position).get("desc"));
+
+            context.startActivity(intent);
+        });
+
 
 
 

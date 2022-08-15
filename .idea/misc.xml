@@ -21,7 +21,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22373657226562504" />
         <entry key="app/src/main/res/layout/activity_name_change.xml" value="0.2545867919921875" />
         <entry key="app/src/main/res/layout/activity_view.xml" value="0.20212765957446807" />
-        <entry key="app/src/main/res/layout/edit_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/add_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/edit_item.xml" value="0.310211181640625" />
         <entry key="app/src/main/res/layout/edit_room_name.xml" value="0.1" />
         <entry key="app/src/main/res/layout/element_bottom_navigation.xml" value="0.1644021739130435" />
         <entry key="app/src/main/res/layout/fragment_invitation.xml" value="0.23162393162393163" />
@@ -31,7 +32,7 @@
         <entry key="app/src/main/res/layout/grid_item.xml" value="0.23076923076923078" />
         <entry key="app/src/main/res/layout/inside_page.xml" value="0.20212765957446807" />
         <entry key="app/src/main/res/layout/inside_room.xml" value="0.28229166666666666" />
-        <entry key="app/src/main/res/layout/inside_room_activity.xml" value="0.23108825683593748" />
+        <entry key="app/src/main/res/layout/inside_room_activity.xml" value="0.40737762451171877" />
         <entry key="app/src/main/res/layout/invitation_activity.xml" value="0.23248138427734377" />
         <entry key="app/src/main/res/layout/invitation_list.xml" value="0.2546875" />
         <entry key="app/src/main/res/layout/item_card_view.xml" value="0.46397188049209137" />
@@ -49,7 +50,7 @@
         <entry key="app/src/main/res/layout/room_create_manager.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_creation.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_invitation.xml" value="0.396278176378848" />
-        <entry key="app/src/main/res/layout/room_list.xml" value="0.3932106120704001" />
+        <entry key="app/src/main/res/layout/room_list.xml" value="0.3383247478125876" />
         <entry key="app/src/main/res/layout/room_list_manager.xml" value="0.11319966583124477" />
         <entry key="app/src/main/res/layout/room_member_info.xml" value="0.27137145996093764" />
         <entry key="app/src/main/res/layout/room_request.xml" value="0.2546875" />

@@ -2,9 +2,12 @@ package com.vijaykumawat.Leyaa;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -88,6 +92,8 @@ public class Inside_Room_Activity extends BaseActivity {
         Toolbar toolbar= findViewById(R.id.toolbar);
         Bundle extras = getIntent().getExtras();
         FloatingActionButton roomBackButton = findViewById(R.id.roomBackButton);
+        FloatingActionButton addItem = findViewById(R.id.add_item_flt_btn);
+
 
         roomBackButton.setOnClickListener(view -> finish());
 

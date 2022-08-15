@@ -29,19 +29,22 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="5dp"
         android:clickable="true"
         android:contentDescription="@string/app_name"
+
+        android:foregroundGravity="clip_horizontal|center"
+
         app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:id="@+id/drawer"
-        tools:openDrawer="start"
+        android:fitsSystemWindows="false"
         android:layoutDirection="ltr"
-        android:fitsSystemWindows="false">
+        tools:openDrawer="start">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -57,16 +60,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/add_item_flt_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                app:layout_constraintBottom_toTopOf="@+id/navigation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/ic_add" />
-
             <include
                 android:id="@+id/navigation"
                 layout="@layout/element_bottom_navigation"
@@ -79,17 +72,36 @@
 
 
         <com.google.android.material.navigation.NavigationView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-
             android:id="@+id/navmenu"
-            app:menu="@menu/hamburger_item"
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
             android:fitsSystemWindows="true"
 
-            android:layout_gravity="start"/>
-
+            app:menu="@menu/hamburger_item" />
 
 
     </androidx.drawerlayout.widget.DrawerLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_item_flt_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toStartOf="@+id/roomBackButton"
+        android:clickable="true"
+        android:focusable="true"
+        app:fabCustomSize="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/drawer"
+        app:layout_constraintEnd_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="30dp"
+        app:srcCompat="@drawable/ic_baseline_add_shopping_cart_24"
+        app:useCompatPadding="false" />
 
 </RelativeLayout>

@@ -34,6 +34,8 @@
         <activity android:name=".ProfilePage" />
         <activity android:name=".RoomMemberInfo"/>
         <activity android:name=".MemberAdd"/>
+        <activity android:name=".Edit_Item"/>
+        <activity android:name=".Add_Item" />
 
 
 
