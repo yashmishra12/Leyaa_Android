@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -42,12 +40,14 @@ final Handler handler = new Handler();
     private RoomAdapter adapter;
     FloatingActionButton floatingButton;
     ImageView relaximage;
+    int globalCounter = 99999;
 
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
     @Override
     int getContentViewId() {
+
         return R.layout.room_list;
     }
 
@@ -61,13 +61,13 @@ final Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        relaximage = findViewById(R.id.relaximage);
-
+        findViewById(R.id.no_room_image).setVisibility(View.GONE);
+        relaximage = findViewById(R.id.no_room_image);
+        relaximage.setVisibility(View.GONE);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         setUpRecyclerView();
 
-
-
+        // listen for changes to show image
         Objects.requireNonNull(recyclerView.getAdapter()).registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
             @Override
@@ -82,21 +82,20 @@ final Handler handler = new Handler();
                         if (task.isSuccessful()) {
                             QuerySnapshot qs =   task.getResult();
                             ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
-
-
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (ds.size()>0) {
-
-                                        relaximage.setVisibility(View.GONE);
-                                    } else {
-
-                                        relaximage.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            }, 10);
-
+                            showImage();
+//
+//                            handler.postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    if (ds.size()>0) {
+//
+//                                        relaximage.setVisibility(View.GONE);
+//                                    } else {
+//
+//                                    }
+//                                }
+//                            }, 10);
+//
 
 
 
@@ -115,30 +114,25 @@ final Handler handler = new Handler();
                         if (task.isSuccessful()) {
                             QuerySnapshot qs =   task.getResult();
                             ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
-
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (ds.size()>0) {
-
-                                        relaximage.setVisibility(View.GONE);
-                                    } else {
-
-                                        relaximage.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            }, 10);
+                            showImage();
+//                            handler.postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    if (ds.size()>0) {
+//
+//                                        relaximage.setVisibility(View.GONE);
+//                                    } else {
+//
+//                                        showImage();
+//                                    }
+//                                }
+//                            }, 10);
 
                         }
                     }
                 });
             }
         });
-
-
-
-
-
 
     }
 
@@ -169,17 +163,41 @@ final Handler handler = new Handler();
             }
         });
 
-        if(adapter.getItemCount()==0){
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    relaximage.setVisibility(View.VISIBLE);
-                }
-            }, 10);
-
-        }
+        showImage();
 
     }
+
+    public void showImage() {
+        int i;
+        boolean flag = false;
+        for(i=globalCounter; i>0; i--) {
+            if(adapter.getItemCount()==0) {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (adapter.getItemCount()==0) {
+                            relaximage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                            relaximage.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            relaximage.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }, 500);
+
+                flag = true;
+                break;
+            }
+        }
+
+       if (!flag) {
+           relaximage.setVisibility(View.GONE);
+           relaximage.getLayoutParams().width = 0;
+           relaximage.getLayoutParams().height = 0;
+       }
+
+    }
+
 
     @Override
     public void onStop() {

@@ -244,8 +244,8 @@ public class ProfilePage extends BaseActivity {
             public void onClick(View view) {
 
                 new AlertDialog.Builder(view.getContext(),R.style.AlertDialog)
-                        .setTitle("Are you sure?")
-                        .setMessage("Sad to see you leave")
+                        .setTitle("Sad to see you leave")
+                        .setMessage("Are you sure?")
                         .setPositiveButton("Yes", (dialog, which) -> {
 
                             DocumentReference docRef = db.collection("users").document(userID);
