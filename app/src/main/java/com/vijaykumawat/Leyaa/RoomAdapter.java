@@ -66,6 +66,7 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room_Title, RoomAdapte
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }

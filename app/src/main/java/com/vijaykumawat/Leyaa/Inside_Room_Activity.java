@@ -2,10 +2,13 @@ package com.vijaykumawat.Leyaa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,9 +55,12 @@ public class Inside_Room_Activity extends BaseActivity {
     ListenerRegistration eventListener;
     FloatingActionButton add_item_btn;
     ArrayList<String> memberList;
+    ImageView no_item_image;
+    int globalCounter = 10;
 
     private void setUpRecyclerView(){
         itemRef = db.collection("rooms");
+        no_item_image.setVisibility(View.GONE);
 
         eventListener =  itemRef.document(roomID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -66,6 +72,7 @@ public class Inside_Room_Activity extends BaseActivity {
                 rcv.setHasFixedSize(true);
                 rcv.setLayoutManager(layoutManager);
                 itemAdapter = new ItemAdapter(item_data_models, roomID);
+                showImage();
 
                 rcv.setAdapter(itemAdapter);
 
@@ -77,11 +84,52 @@ public class Inside_Room_Activity extends BaseActivity {
             }
         });
 
+
+
+
+
     }
+
+    public void showImage() {
+        int i;
+        boolean flag = false;
+        for(i=globalCounter; i>0; i--) {
+            if(itemAdapter.getItemCount()==0) {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (itemAdapter.getItemCount()==0) {
+                            no_item_image.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                            no_item_image.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            no_item_image.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }, 500);
+
+                flag = true;
+                break;
+            }
+        }
+
+        if (!flag) {
+            no_item_image.setVisibility(View.GONE);
+            no_item_image.getLayoutParams().width = 0;
+            no_item_image.getLayoutParams().height = 0;
+        }
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        findViewById(R.id.no_item_image).setVisibility(View.GONE);
+        no_item_image = findViewById(R.id.no_item_image);
+        no_item_image.setVisibility(View.GONE);
+
         Toolbar toolbar= findViewById(R.id.toolbar);
         Bundle extras = getIntent().getExtras();
         FloatingActionButton roomBackButton = findViewById(R.id.roomBackButton);

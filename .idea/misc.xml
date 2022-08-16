@@ -32,7 +32,7 @@
         <entry key="app/src/main/res/layout/grid_item.xml" value="0.23076923076923078" />
         <entry key="app/src/main/res/layout/inside_page.xml" value="0.20212765957446807" />
         <entry key="app/src/main/res/layout/inside_room.xml" value="0.28229166666666666" />
-        <entry key="app/src/main/res/layout/inside_room_activity.xml" value="0.40737762451171877" />
+        <entry key="app/src/main/res/layout/inside_room_activity.xml" value="0.1" />
         <entry key="app/src/main/res/layout/invitation_activity.xml" value="0.23248138427734377" />
         <entry key="app/src/main/res/layout/invitation_list.xml" value="0.2546875" />
         <entry key="app/src/main/res/layout/item_card_view.xml" value="0.41507814269912263" />

@@ -40,9 +40,9 @@ final Handler handler = new Handler();
     private RoomAdapter adapter;
     FloatingActionButton floatingButton;
     ImageView relaximage;
-    int globalCounter = 99999;
+    int globalCounter = 10;
 
-    String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    String mUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
 
     @Override
