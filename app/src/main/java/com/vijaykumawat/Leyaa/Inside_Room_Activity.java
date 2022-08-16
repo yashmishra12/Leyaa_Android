@@ -1,21 +1,15 @@
 package com.vijaykumawat.Leyaa;
 
-import android.content.ClipData;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -23,9 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,10 +30,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.ListenerRegistration;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -53,17 +43,19 @@ public class Inside_Room_Activity extends BaseActivity {
     String roomName = "";
     String roomID = "";
     String userName = "";
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference itemRef;
     RecyclerView.LayoutManager layoutManager;
     private ItemAdapter itemAdapter;
-
+    ListenerRegistration eventListener;
+    FloatingActionButton add_item_btn;
     ArrayList<String> memberList;
 
     private void setUpRecyclerView(){
         itemRef = db.collection("rooms");
 
-        itemRef.document(roomID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        eventListener =  itemRef.document(roomID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent (@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 ArrayList<HashMap<String, String>> item_data_models = (ArrayList<HashMap<String, String>>) value.get("newItems");
@@ -92,8 +84,14 @@ public class Inside_Room_Activity extends BaseActivity {
         Toolbar toolbar= findViewById(R.id.toolbar);
         Bundle extras = getIntent().getExtras();
         FloatingActionButton roomBackButton = findViewById(R.id.roomBackButton);
-        FloatingActionButton addItem = findViewById(R.id.add_item_flt_btn);
+        add_item_btn = findViewById(R.id.add_item_btn);
 
+
+        add_item_btn.setOnClickListener(view -> {
+            Intent intent = new Intent(Inside_Room_Activity.this, Add_Item.class);
+            intent.putExtra("roomID",roomID);
+            startActivity(intent);
+        });
 
         roomBackButton.setOnClickListener(view -> finish());
 
@@ -363,6 +361,7 @@ public class Inside_Room_Activity extends BaseActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        setUpRecyclerView();
 
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
 
@@ -387,6 +386,24 @@ public class Inside_Room_Activity extends BaseActivity {
             }
 
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        eventListener.remove();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        eventListener.remove();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        eventListener.remove();
     }
 
 

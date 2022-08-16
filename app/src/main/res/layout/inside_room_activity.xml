@@ -85,7 +85,7 @@
     </androidx.drawerlayout.widget.DrawerLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_item_flt_btn"
+        android:id="@+id/add_item_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
@@ -95,6 +95,7 @@
         android:layout_marginBottom="5dp"
         android:layout_toStartOf="@+id/roomBackButton"
         android:clickable="true"
+        android:contentDescription="@string/app_name"
         android:focusable="true"
         app:fabCustomSize="50dp"
         app:layout_constraintBottom_toTopOf="@+id/drawer"
@@ -102,6 +103,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:maxImageSize="30dp"
         app:srcCompat="@drawable/ic_baseline_add_shopping_cart_24"
-        app:useCompatPadding="false" />
+        app:useCompatPadding="false"
+        tools:ignore="ImageContrastCheck" />
 
 </RelativeLayout>
