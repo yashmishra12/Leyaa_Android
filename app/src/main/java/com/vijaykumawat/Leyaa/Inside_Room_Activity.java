@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -209,9 +210,17 @@ public class Inside_Room_Activity extends BaseActivity {
             }
 
             else if (menuItem.getItemId()==R.id.leave_room_ic){
-              leaveRoom();
-              startActivity(new Intent(Inside_Room_Activity.this,RoomListActivity.class));
-                drawerLayout.closeDrawer(GravityCompat.START);
+                new AlertDialog.Builder(Inside_Room_Activity.this,R.style.AlertDialog)
+                        .setTitle("Are you sure?")
+                        .setMessage("One of the group members will have to add you back.")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            leaveRoom();
+                            startActivity(new Intent(Inside_Room_Activity.this,RoomListActivity.class));
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                        .show();
             }
 
             else if (menuItem.getItemId()==R.id.shopping){

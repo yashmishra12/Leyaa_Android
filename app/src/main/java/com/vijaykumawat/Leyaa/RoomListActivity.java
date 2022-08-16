@@ -4,20 +4,29 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 
 // BaseActivity extends AppCompatActivity so do not need to extend here
@@ -30,6 +39,7 @@ public class RoomListActivity extends BaseActivity {
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     private RoomAdapter adapter;
     FloatingActionButton floatingButton;
+
 
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -49,7 +59,68 @@ public class RoomListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ImageView relaximage = findViewById(R.id.relaximage);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         setUpRecyclerView();
+
+
+
+        Objects.requireNonNull(recyclerView.getAdapter()).registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                //db.collection("rooms").whereArrayContains("members", FirebaseAuth.getInstance().getCurrentUser()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                  db.collection("rooms").whereArrayContains("members",FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot qs =   task.getResult();
+                            ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
+                            if (ds.size()>0) {
+
+                                relaximage.setVisibility(View.GONE);
+                            } else {
+
+                                relaximage.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("rooms").whereArrayContains("members", FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot qs =   task.getResult();
+                            ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
+                            if (ds.size()>0) {
+
+                                relaximage.setVisibility(View.GONE);
+                            }else {
+
+                                relaximage.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    }
+                });
+            }
+        });
+
+
+
+
+
+
     }
 
 

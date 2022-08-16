@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -242,18 +243,31 @@ public class ProfilePage extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                DocumentReference docRef = db.collection("users").document(userID);
+                new AlertDialog.Builder(view.getContext(),R.style.AlertDialog)
+                        .setTitle("Are you sure?")
+                        .setMessage("Sad to see you leave")
+                        .setPositiveButton("Yes", (dialog, which) -> {
 
-                docRef.update("deviceToken", "").addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        FirebaseAuth.getInstance().signOut();
-                        Intent intent = new Intent(ProfilePage.this, LoginPage.class);
+                            DocumentReference docRef = db.collection("users").document(userID);
 
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//make sure user cant go back
-                        startActivity(intent);
-                    }
-                });
+                            docRef.update("deviceToken", "").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    FirebaseAuth.getInstance().signOut();
+                                    Intent intent = new Intent(ProfilePage.this, LoginPage.class);
+
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//make sure user cant go back
+                                    startActivity(intent);
+                                }
+                            });
+
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                        .show();
+
+
+
 
 
 

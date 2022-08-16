@@ -48,8 +48,6 @@ public class EditRoomName extends AppCompatActivity {
         Button saveNewName = findViewById(R.id.btn_update_room_name);
         String roomID = "";
 
-
-
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {

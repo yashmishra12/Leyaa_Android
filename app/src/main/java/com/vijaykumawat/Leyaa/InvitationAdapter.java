@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -121,8 +122,16 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
             itemView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    deleteRequest(getAbsoluteAdapterPosition());
-                    Toast.makeText(view.getContext(), "Rejected", Toast.LENGTH_SHORT ).show();
+                    new AlertDialog.Builder(view.getContext(),R.style.AlertDialog)
+                            .setTitle("Are you sure?")
+                            .setMessage("One of the group members will have to add you back.")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                deleteRequest(getAbsoluteAdapterPosition());
+                                Toast.makeText(view.getContext(), "Rejected", Toast.LENGTH_SHORT ).show();
+                                dialog.dismiss();
+                            })
+                            .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                            .show();
                 }
             });
 

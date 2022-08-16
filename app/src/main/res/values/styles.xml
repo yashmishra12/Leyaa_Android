@@ -25,6 +25,9 @@
         <item name="android:textSize">10sp</item>
     </style>
 
-
-
+     <style name="AlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:textColor">#FFFFFF</item>
+<!--        <item name="android:textColorPrimary">#0B5387</item>-->
+        <item name="android:colorAccent">#0B5387</item>
+    </style>
 </resources>

@@ -145,6 +145,7 @@ public class InvitationListActivity extends BaseActivity {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
 
+
                 adapter.acceptRequest(position);
 
                 DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
