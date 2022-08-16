@@ -96,7 +96,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
     @Override
     public int getItemCount() {
-        return data_models.size();
+        if(data_models!=null){
+            return data_models.size();
+        }
+        else{
+            return 0;
+        }
+
     }
 
     class ItemHolder extends RecyclerView.ViewHolder {

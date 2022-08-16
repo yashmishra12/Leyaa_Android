@@ -3,6 +3,7 @@ package com.vijaykumawat.Leyaa;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,10 +37,11 @@ public class RoomListActivity extends BaseActivity {
 
 
 //    private FirebaseAuth mAuth;
+final Handler handler = new Handler();
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     private RoomAdapter adapter;
     FloatingActionButton floatingButton;
-
+    ImageView relaximage;
 
     String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -59,7 +61,8 @@ public class RoomListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImageView relaximage = findViewById(R.id.relaximage);
+        relaximage = findViewById(R.id.relaximage);
+
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         setUpRecyclerView();
 
@@ -79,13 +82,23 @@ public class RoomListActivity extends BaseActivity {
                         if (task.isSuccessful()) {
                             QuerySnapshot qs =   task.getResult();
                             ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
-                            if (ds.size()>0) {
 
-                                relaximage.setVisibility(View.GONE);
-                            } else {
 
-                                relaximage.setVisibility(View.VISIBLE);
-                            }
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (ds.size()>0) {
+
+                                        relaximage.setVisibility(View.GONE);
+                                    } else {
+
+                                        relaximage.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }, 10);
+
+
+
 
                         }
                     }
@@ -102,13 +115,19 @@ public class RoomListActivity extends BaseActivity {
                         if (task.isSuccessful()) {
                             QuerySnapshot qs =   task.getResult();
                             ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
-                            if (ds.size()>0) {
 
-                                relaximage.setVisibility(View.GONE);
-                            }else {
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (ds.size()>0) {
 
-                                relaximage.setVisibility(View.VISIBLE);
-                            }
+                                        relaximage.setVisibility(View.GONE);
+                                    } else {
+
+                                        relaximage.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }, 10);
 
                         }
                     }
@@ -126,7 +145,7 @@ public class RoomListActivity extends BaseActivity {
 
     private void setUpRecyclerView() {
 
-
+        relaximage.setVisibility(View.GONE);
         floatingButton =  findViewById(R.id.floatingActionButton);
         floatingButton.setOnClickListener( v -> startActivity(new Intent(this, Room_Creation.class)));
 
@@ -149,6 +168,16 @@ public class RoomListActivity extends BaseActivity {
                 startActivity(new Intent(RoomListActivity.this, Inside_Room_Activity.class).putExtra("document_ID",document_ID ));
             }
         });
+
+        if(adapter.getItemCount()==0){
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    relaximage.setVisibility(View.VISIBLE);
+                }
+            }, 10);
+
+        }
 
     }
 
