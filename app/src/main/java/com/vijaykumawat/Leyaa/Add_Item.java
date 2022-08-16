@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class Add_Item extends AppCompatActivity {
     EditText itemQty;
     EditText itemDesc;
     Button add_btn;
+    ImageView add_item_imgview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class Add_Item extends AppCompatActivity {
         itemName = findViewById(R.id.new_item_name);
         itemQty = findViewById(R.id.new_item_qty);
         itemDesc = findViewById(R.id.new_item_desc);
-
+        add_item_imgview = findViewById(R.id.shopping_cart_image);
         itemName.requestFocus();
 
         add_item_flt_btn_back = findViewById(R.id.add_item_flt_btn_back);
@@ -70,6 +72,7 @@ public class Add_Item extends AppCompatActivity {
                             db.collection("rooms").document(roomID).update("lastItemID", uniqueID).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
+
                                     itemName.setText("");
                                     itemQty.setText("");
                                     itemDesc.setText("");

@@ -29,8 +29,9 @@
     <ImageView
         android:id="@+id/shopping_cart_image"
         android:layout_width="220dp"
-        android:layout_height="227dp"
+        android:layout_height="220dp"
         android:layout_marginTop="5dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"

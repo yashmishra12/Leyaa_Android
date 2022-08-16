@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
-    app:cardBackgroundColor="#8084C1F1">
+    android:layout_marginEnd="8dp"
+    app:cardBackgroundColor="#2C6D97">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/room_title"
-            android:layout_width="367dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -23,10 +23,11 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:ellipsize="end"
+            android:foregroundGravity="center"
+            android:gravity="center"
             android:maxLines="1"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
 
 
     </RelativeLayout>
