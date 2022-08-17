@@ -18,10 +18,12 @@
         <entry key="app/src/main/res/drawable/ic_music_note_black_24dp.xml" value="0.104" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.104" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.1225" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22373657226562504" />
+        <entry key="app/src/main/res/layout/activity_add_reminder.xml" value="0.34156378600823045" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_name_change.xml" value="0.2545867919921875" />
         <entry key="app/src/main/res/layout/activity_view.xml" value="0.20212765957446807" />
         <entry key="app/src/main/res/layout/add_item.xml" value="0.22652282714843747" />
+        <entry key="app/src/main/res/layout/alarm_items.xml" value="0.3070652173913043" />
         <entry key="app/src/main/res/layout/edit_item.xml" value="0.310211181640625" />
         <entry key="app/src/main/res/layout/edit_room_name.xml" value="0.1" />
         <entry key="app/src/main/res/layout/element_bottom_navigation.xml" value="0.1644021739130435" />
@@ -39,6 +41,7 @@
         <entry key="app/src/main/res/layout/item_data.xml" value="0.28493150684931506" />
         <entry key="app/src/main/res/layout/item_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/loginpage.xml" value="0.23150787353515626" />
+        <entry key="app/src/main/res/layout/mainactivity.xml" value="0.24479166666666666" />
         <entry key="app/src/main/res/layout/member_add.xml" value="0.2992172241210938" />
         <entry key="app/src/main/res/layout/member_item.xml" value="0.3677341627038043" />
         <entry key="app/src/main/res/layout/nav_drawer.xml" value="0.17552083333333332" />
@@ -50,11 +53,11 @@
         <entry key="app/src/main/res/layout/room_create_manager.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_creation.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_invitation.xml" value="0.396278176378848" />
-        <entry key="app/src/main/res/layout/room_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/room_list.xml" value="0.4031143188476562" />
         <entry key="app/src/main/res/layout/room_list_manager.xml" value="0.11319966583124477" />
         <entry key="app/src/main/res/layout/room_member_info.xml" value="0.27137145996093764" />
         <entry key="app/src/main/res/layout/room_request.xml" value="0.2546875" />
-        <entry key="app/src/main/res/layout/room_title.xml" value="0.31935526529947916" />
+        <entry key="app/src/main/res/layout/room_title.xml" value="0.28700906344410876" />
         <entry key="app/src/main/res/layout/single_view.xml" value="0.23162393162393163" />
         <entry key="app/src/main/res/layout/splash_screen.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.23076923076923078" />
@@ -63,6 +66,7 @@
         <entry key="app/src/main/res/menu/bottom_navigation_i.xml" value="0.26737670898437504" />
         <entry key="app/src/main/res/menu/hamburger_item.xml" value="0.2692062377929687" />
         <entry key="app/src/main/res/menu/main.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/menu/menu_add_reminder.xml" value="0.24479166666666666" />
         <entry key="app/src/main/res/menu/navigation.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/menu/new_room_title.xml" value="0.28541666666666665" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.108" />
