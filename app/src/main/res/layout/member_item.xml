@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp">
+    android:background="#2C6D97"
+    android:backgroundTint="#2C6D97"
+    android:layout_marginTop="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,11 +27,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
+            android:foregroundTint="#FFFFFF"
             android:minHeight="48dp"
             android:text="Full Name"
             android:textAlignment="center"
             android:textIsSelectable="true"
             android:textSize="20sp"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/memberDP"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,8 +43,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:foregroundTint="#E8E8E8"
             android:minHeight="48dp"
             android:text="TextView"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textIsSelectable="true"
             android:textSize="10sp"

@@ -6,6 +6,8 @@
         <item name="colorPrimary">#0B5387</item>
         <item name="colorPrimaryDark">#0B5387</item>
         <item name="colorAccent">#0B5387</item>
+        <item name="android:statusBarColor">#004674</item>
+
     </style>
 
     <style name="BottomNavigationView" parent="Theme.AppCompat.Light">
@@ -27,7 +29,6 @@
 
      <style name="AlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:textColor">#FFFFFF</item>
-<!--        <item name="android:textColorPrimary">#0B5387</item>-->
         <item name="android:colorAccent">#0B5387</item>
     </style>
 </resources>
