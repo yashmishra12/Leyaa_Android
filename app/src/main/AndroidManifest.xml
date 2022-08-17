@@ -36,6 +36,7 @@
         <activity android:name=".MemberAdd"/>
         <activity android:name=".Edit_Item"/>
         <activity android:name=".Add_Item" />
+        <activity android:name=".ChatRoom"/>
 
         <service
             android:name=".MyFirebaseMessagingService"

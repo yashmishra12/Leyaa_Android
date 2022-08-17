@@ -193,7 +193,10 @@ public class Inside_Room_Activity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
         {
             if (menuItem.getItemId()==R.id.message_wall) {
-                Toast.makeText(getApplicationContext(),"Message ",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Inside_Room_Activity.this, ChatRoom.class);
+                intent.putExtra("roomID",roomID);
+                intent.putExtra("roomName",roomName);
+                startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
 
