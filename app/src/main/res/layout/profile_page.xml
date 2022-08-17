@@ -124,7 +124,7 @@
                     android:textAlignment="center"
                     android:textColor="#757575"
                     android:textSize="10sp"
-                    app:backgroundTint="#000870C3"
+                    app:backgroundTint="#00FFFFFF"
                     app:fabSize="auto"
                     app:icon="@drawable/ic_baseline_edit_24"
                     app:iconPadding="0dp"
