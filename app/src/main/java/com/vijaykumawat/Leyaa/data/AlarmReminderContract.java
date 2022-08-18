@@ -1,5 +1,6 @@
 package com.vijaykumawat.Leyaa.data;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -33,7 +34,7 @@ public class AlarmReminderContract {
         public static final String KEY_DATE = "date";
         public static final String KEY_TIME = "time";
 
-
+        public static final String KEY_ACTIVE = "active";
 
     }
 
@@ -41,3 +42,4 @@ public class AlarmReminderContract {
         return cursor.getString( cursor.getColumnIndex(columnName) );
     }
 }
+
