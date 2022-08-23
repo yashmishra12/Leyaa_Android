@@ -2,10 +2,8 @@
 package com.vijaykumawat.Leyaa;
 
         import android.app.ProgressDialog;
-        import android.content.Intent;
         import android.os.Build;
         import android.os.Bundle;
-        import android.widget.TextView;
 
         import androidx.annotation.NonNull;
         import androidx.annotation.RequiresApi;
@@ -24,7 +22,7 @@ package com.vijaykumawat.Leyaa;
 
         import java.util.ArrayList;
 
-public class SplitBill_MemberInfo extends AppCompatActivity {
+public class SplitBill_Member_Info extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<String> memberIDs;
@@ -34,6 +32,8 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
     String roomID = "";
     ProgressDialog progressDialog;
     RecyclerView.LayoutManager layoutManager;
+
+//    TextView memberID_SBI;
 
 
     @Override
@@ -45,7 +45,8 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
 
 
         Toolbar toolbar= findViewById(R.id.toolbar);
-        FloatingActionButton backButtonRMI = findViewById(R.id.FLOATINGbackButtonRMI);
+        FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
+
 
         backButtonRMI.setOnClickListener(view -> {
             finish();
@@ -60,7 +61,7 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view_bill_member);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new GridLayoutManager(SplitBill_MemberInfo.this, 2);
+        layoutManager = new GridLayoutManager(SplitBill_Member_Info.this, 2);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setLayoutManager(new CustLinearLayoutManager(this));
@@ -68,8 +69,7 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        userArrayList = new ArrayList<>();
-        myAdapter = new SplitMemberDataAdapter(SplitBill_MemberInfo.this, userArrayList);
+
 
         Bundle extras = getIntent().getExtras();
 
@@ -79,19 +79,8 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
             populateMemberID();
         }
 
-        myAdapter.setOnItemClickListener(new SplitMemberDataAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(SplitMemberData splitMemberData) {
-
-                Intent intent = new Intent(SplitBill_MemberInfo.this, SplitBill_Individual_Activity.class);
-                intent.putExtra("memberID", ((TextView)findViewById(R.id.memberID_SBI)).getText().toString() );
-                intent.putExtra("roomID", roomID );
-                startActivity(intent);
-
-            }
-        });
-
-
+        userArrayList = new ArrayList<>();
+        myAdapter = new SplitMemberDataAdapter(SplitBill_Member_Info.this, userArrayList, roomID);
 
     }
 
@@ -113,6 +102,7 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void EventChangeListener() {

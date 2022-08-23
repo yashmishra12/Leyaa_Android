@@ -41,7 +41,7 @@
         <activity android:name=".Edit_Item"/>
         <activity android:name=".Add_Item" />
 
-        <activity android:name=".SplitBill_MemberInfo"/>
+        <activity android:name=".SplitBill_Member_Info"/>
         <activity android:name=".SplitBill_Individual_Activity"/>
 
 

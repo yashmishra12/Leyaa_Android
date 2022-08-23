@@ -3,7 +3,6 @@ package com.vijaykumawat.Leyaa;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -36,7 +35,7 @@ public class RoomMemberInfo extends AppCompatActivity {
         setContentView(R.layout.room_member_info);
 
         Toolbar toolbar= findViewById(R.id.toolbar);
-        FloatingActionButton backButtonRMI = findViewById(R.id.FLOATINGbackButtonRMI);
+        FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
 
         backButtonRMI.setOnClickListener(view -> {
             finish();
