@@ -26,14 +26,12 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room_Title, RoomAdapte
     @Override
     protected void onBindViewHolder(@NonNull RoomHolder holder, int position, @NonNull Room_Title model) {
         holder.room_title.setText(model.getTitle());
-
     }
 
     @NonNull
     @Override
     public RoomHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_title,parent,false);
-
         return new RoomHolder(view);
     }
 
@@ -52,7 +50,6 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room_Title, RoomAdapte
                     int position = getAbsoluteAdapterPosition();
 
 
-
                     if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
@@ -68,6 +65,7 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room_Title, RoomAdapte
     public interface OnItemClickListener {
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
+
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;

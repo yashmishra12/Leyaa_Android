@@ -51,7 +51,7 @@
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/relaximage"
+            android:id="@+id/no_room_image"
             android:layout_width="0dp"
             android:layout_height="348dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/recycler_view_invitation"
-            app:layout_constraintTop_toBottomOf="@+id/relaximage" />
+            app:layout_constraintTop_toBottomOf="@+id/no_room_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,11 +2,17 @@ package com.vijaykumawat.Leyaa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+
 import android.widget.TextView;
+
+import android.widget.ImageView;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -54,11 +60,14 @@ public class Inside_Room_Activity extends BaseActivity {
     ListenerRegistration eventListener;
     FloatingActionButton add_item_btn;
     ArrayList<String> memberList;
-    TextView itemcount;
-    int count=0;
+
+    ImageView no_item_image;
+    int globalCounter = 10;
+
 
     private void setUpRecyclerView(){
         itemRef = db.collection("rooms");
+        no_item_image.setVisibility(View.GONE);
 
         eventListener =  itemRef.document(roomID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -70,11 +79,12 @@ public class Inside_Room_Activity extends BaseActivity {
                 rcv.setHasFixedSize(true);
                 rcv.setLayoutManager(layoutManager);
                 itemAdapter = new ItemAdapter(item_data_models, roomID);
+                showImage();
 
                 rcv.setAdapter(itemAdapter);
 
-
                 if (itemAdapter.getItemCount()  > 0 ) {
+
                     rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
                 }
                 //Toast.makeText(getApplicationContext(),"Message "+itemAdapter.getItemCount() ,Toast.LENGTH_LONG).show();
@@ -83,11 +93,52 @@ public class Inside_Room_Activity extends BaseActivity {
             }
         });
 
+
+
+
+
     }
+
+    public void showImage() {
+        int i;
+        boolean flag = false;
+        for(i=globalCounter; i>0; i--) {
+            if(itemAdapter.getItemCount()==0) {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (itemAdapter.getItemCount()==0) {
+                            no_item_image.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                            no_item_image.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            no_item_image.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }, 500);
+
+                flag = true;
+                break;
+            }
+        }
+
+        if (!flag) {
+            no_item_image.setVisibility(View.GONE);
+            no_item_image.getLayoutParams().width = 0;
+            no_item_image.getLayoutParams().height = 0;
+        }
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        findViewById(R.id.no_item_image).setVisibility(View.GONE);
+        no_item_image = findViewById(R.id.no_item_image);
+        no_item_image.setVisibility(View.GONE);
+
         Toolbar toolbar= findViewById(R.id.toolbar);
         Bundle extras = getIntent().getExtras();
         FloatingActionButton roomBackButton = findViewById(R.id.roomBackButton);
@@ -152,7 +203,10 @@ public class Inside_Room_Activity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
         {
             if (menuItem.getItemId()==R.id.message_wall) {
-                Toast.makeText(getApplicationContext(),"Message ",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Inside_Room_Activity.this, ChatRoom.class);
+                intent.putExtra("roomID",roomID);
+                intent.putExtra("roomName",roomName);
+                startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
 
@@ -188,24 +242,26 @@ public class Inside_Room_Activity extends BaseActivity {
                             DocumentSnapshot documentSnapshot = task.getResult();
 
                            memberList = (ArrayList<String>) documentSnapshot.get("members");
-
                             assert memberList != null;
-                            for (String member: memberList) {
-                               DocumentReference userRef = db.collection("users").document(member);
 
-                               userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                   @Override
-                                   public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                       if (task.isSuccessful()) {
-                                           DocumentSnapshot ds = task.getResult();
-                                           String userDeviceToken = (String) ds.get("deviceToken");
-                                           String title = "Room: "+roomName;
-                                           String message = userName+" is going to do laundry";
-                                           FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this );
-                                           notificationsSender.SendNotifications();
-                                       }
-                                   }
-                               });
+                            for (String member: memberList) {
+                             if (!Objects.equals(member, FirebaseAuth.getInstance().getUid())) {
+                                 DocumentReference userRef = db.collection("users").document(member);
+
+                                 userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                     @Override
+                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                         if (task.isSuccessful()) {
+                                             DocumentSnapshot ds = task.getResult();
+                                             String userDeviceToken = (String) ds.get("deviceToken");
+                                             String title = "Room: "+roomName;
+                                             String message = userName+" is going to do laundry";
+                                             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this );
+                                             notificationsSender.SendNotifications();
+                                         }
+                                     }
+                                 });
+                             }
                            }
 
                         }
@@ -248,6 +304,7 @@ public class Inside_Room_Activity extends BaseActivity {
 
                             assert memberList != null;
                             for (String member: memberList) {
+                                if (!Objects.equals(member, FirebaseAuth.getInstance().getUid())) {
                                 DocumentReference userRef = db.collection("users").document(member);
 
                                 userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -256,13 +313,14 @@ public class Inside_Room_Activity extends BaseActivity {
                                         if (task.isSuccessful()) {
                                             DocumentSnapshot ds = task.getResult();
                                             String userDeviceToken = (String) ds.get("deviceToken");
-                                            String title = "Room: "+roomName;
-                                            String message = userName+" is going for shopping.";
-                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this );
+                                            String title = "Room: " + roomName;
+                                            String message = userName + " is going for shopping.";
+                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this);
                                             notificationsSender.SendNotifications();
                                         }
                                     }
                                 });
+                            }
                             }
 
                         }
@@ -286,21 +344,23 @@ public class Inside_Room_Activity extends BaseActivity {
 
                             assert memberList != null;
                             for (String member: memberList) {
-                                DocumentReference userRef = db.collection("users").document(member);
+                                if (!Objects.equals(member, FirebaseAuth.getInstance().getUid())) {
+                                    DocumentReference userRef = db.collection("users").document(member);
 
-                                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot ds = task.getResult();
-                                            String userDeviceToken = (String) ds.get("deviceToken");
-                                            String title = "Room: "+roomName;
-                                            String message = "Fridge is full. Please look into it.";
-                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this );
-                                            notificationsSender.SendNotifications();
+                                    userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot ds = task.getResult();
+                                                String userDeviceToken = (String) ds.get("deviceToken");
+                                                String title = "Room: " + roomName;
+                                                String message = "Fridge is full. Please look into it.";
+                                                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this);
+                                                notificationsSender.SendNotifications();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             }
 
                         }
@@ -324,21 +384,23 @@ public class Inside_Room_Activity extends BaseActivity {
 
                             assert memberList != null;
                             for (String member: memberList) {
-                                DocumentReference userRef = db.collection("users").document(member);
+                                if (!Objects.equals(member, FirebaseAuth.getInstance().getUid())) {
+                                    DocumentReference userRef = db.collection("users").document(member);
 
-                                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot ds = task.getResult();
-                                            String userDeviceToken = (String) ds.get("deviceToken");
-                                            String title = "Room: "+roomName;
-                                            String message = userName+" feels it's time to clean the house.";
-                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this );
-                                            notificationsSender.SendNotifications();
+                                    userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot ds = task.getResult();
+                                                String userDeviceToken = (String) ds.get("deviceToken");
+                                                String title = "Room: " + roomName;
+                                                String message = userName + " feels it's time to clean the house.";
+                                                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), Inside_Room_Activity.this);
+                                                notificationsSender.SendNotifications();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             }
 
                         }

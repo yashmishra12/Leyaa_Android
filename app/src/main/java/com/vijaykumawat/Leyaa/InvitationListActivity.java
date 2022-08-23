@@ -2,7 +2,6 @@ package com.vijaykumawat.Leyaa;
 
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,8 +24,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 // BaseActivity extends AppCompatActivity so do not need to extend here
@@ -53,7 +49,7 @@ public class InvitationListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImageView relaximage = findViewById(R.id.relaximage);
+        ImageView relaximage = findViewById(R.id.no_room_image);
         TextView relaxtext = findViewById(R.id.relaxtext);
 
         RecyclerView rcv = findViewById(R.id.recycler_view_invitation);
@@ -131,7 +127,7 @@ public class InvitationListActivity extends BaseActivity {
 
         adapter = new InvitationAdapter(options);
 
-        ImageView relaximage = findViewById(R.id.relaximage);
+        ImageView relaximage = findViewById(R.id.no_room_image);
         TextView relaxtext = findViewById(R.id.relaxtext);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_invitation);

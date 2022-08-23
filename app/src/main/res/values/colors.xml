@@ -8,9 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#E91E63</color>
-    <color name="bordercolor">#E91E63</color>
-    <color name="toolbarcolor">#0B5387</color>
+    <color name="colorPrimaryDark">#004674</color>
+    <color name="colorAccent">#4285f4</color>
+    <color name="bordercolor">#4285f4</color>
+    <color name="toolbarcolor">#004674</color>
     <color name="fab_pressed">#546e7a</color>
+    <color name="others_msg">#46b088</color>
+    <color name="my_msg">#6592fc</color>
 </resources>
