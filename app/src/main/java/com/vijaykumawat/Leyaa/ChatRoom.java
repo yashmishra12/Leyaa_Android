@@ -1,5 +1,6 @@
 package com.vijaykumawat.Leyaa;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -50,7 +52,7 @@ public class ChatRoom extends AppCompatActivity {
     RecyclerView rv;
     ArrayList<String> memberList;
     String message = "1. Long press on your avatar to delete message.\n\n" +
-            "2. Hit the 'Wave' button if you want to send notifications to everyone. 'Wall Messages' is meant for important posts and not conversation";
+            "2. Hit the 'Wave' button if you want to send notifications to everyone. 'Wall Messages' is meant for important posts and not conversation.";
 
     private MsgAdapter adapter;
 
@@ -168,7 +170,15 @@ public class ChatRoom extends AppCompatActivity {
 
 
         question_mark_flt_btn.setOnClickListener(view -> {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            new AlertDialog.Builder(view.getContext(),R.style.AlertDialog)
+                    .setTitle("Wall Post")
+                    .setMessage(message)
+                    .setPositiveButton("Okay", (dialog, which) -> {
+
+                        dialog.dismiss();
+                    })
+                    .show();
         });
 
 
@@ -190,7 +200,16 @@ public class ChatRoom extends AppCompatActivity {
         });
 
 
+        rv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
 
+            public void onLayoutChange(View v, int left, int top, int right,int bottom, int oldLeft, int oldTop,int oldRight, int oldBottom)
+            {
+
+                smoothMsgScroll();
+
+            }
+        });
     }
 
     private void setUpRecyclerView(){

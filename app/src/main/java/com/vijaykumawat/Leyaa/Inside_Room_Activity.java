@@ -88,7 +88,7 @@ public class Inside_Room_Activity extends BaseActivity {
                     rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
                 }
                 //Toast.makeText(getApplicationContext(),"Message "+itemAdapter.getItemCount() ,Toast.LENGTH_LONG).show();
-                count = itemAdapter.getItemCount();
+
 
             }
         });
