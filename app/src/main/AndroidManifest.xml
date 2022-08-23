@@ -3,6 +3,10 @@
     package="com.vijaykumawat.Leyaa">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_leyaa_logo_notification"
@@ -36,7 +40,41 @@
         <activity android:name=".MemberAdd"/>
         <activity android:name=".Edit_Item"/>
         <activity android:name=".Add_Item" />
+
+        <activity android:name=".SplitBill_MemberInfo"/>
+        <activity android:name=".SplitBill_Individual_Activity"/>
+
+
+
+        <activity android:name="Alarm_MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="AddReminderActivity"
+            android:label="@string/title_activity_add_reminder"
+            android:parentActivityName="Alarm_MainActivity"
+            android:theme="@style/AppTheme">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="Alarm_MainActivity"
+                />
+        </activity>
+        <provider
+            android:name="com.vijaykumawat.Leyaa.data.AlarmReminderProvider"
+            android:authorities="com.vijaykumawat.Leyaa"
+            android:exported="false" />
+
+        <service
+            android:name="com.vijaykumawat.Leyaa.reminder.ReminderAlarmService"
+            android:exported="false" />
+
+
         <activity android:name=".ChatRoom"/>
+
 
         <service
             android:name=".MyFirebaseMessagingService"

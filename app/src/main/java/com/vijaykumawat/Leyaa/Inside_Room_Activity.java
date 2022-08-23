@@ -8,7 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+
+import android.widget.TextView;
+
 import android.widget.ImageView;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +52,7 @@ public class Inside_Room_Activity extends BaseActivity {
     String roomID = "";
     String userName = "";
 
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference itemRef;
     RecyclerView.LayoutManager layoutManager;
@@ -55,8 +60,10 @@ public class Inside_Room_Activity extends BaseActivity {
     ListenerRegistration eventListener;
     FloatingActionButton add_item_btn;
     ArrayList<String> memberList;
+
     ImageView no_item_image;
     int globalCounter = 10;
+
 
     private void setUpRecyclerView(){
         itemRef = db.collection("rooms");
@@ -80,6 +87,8 @@ public class Inside_Room_Activity extends BaseActivity {
 
                     rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
                 }
+                //Toast.makeText(getApplicationContext(),"Message "+itemAdapter.getItemCount() ,Toast.LENGTH_LONG).show();
+                count = itemAdapter.getItemCount();
 
             }
         });
@@ -134,6 +143,7 @@ public class Inside_Room_Activity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         FloatingActionButton roomBackButton = findViewById(R.id.roomBackButton);
         add_item_btn = findViewById(R.id.add_item_btn);
+
 
 
         add_item_btn.setOnClickListener(view -> {
@@ -202,7 +212,12 @@ public class Inside_Room_Activity extends BaseActivity {
 
             else if (menuItem.getItemId()==R.id.bill_split) {
                 Toast.makeText(getApplicationContext(),"Bill Split",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Inside_Room_Activity.this, SplitBill_MemberInfo.class);
+                intent.putExtra("roomID",roomID);
+                intent.putExtra("roomName", roomName);
+                startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
+
             }
 
             else if (menuItem.getItemId()==R.id.edit_room_name_ic) {

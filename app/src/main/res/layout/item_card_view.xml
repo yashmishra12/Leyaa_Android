@@ -80,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:text="TextView"
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

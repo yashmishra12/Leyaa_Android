@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.1111111111111111" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/circle.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.191" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_drop_down_circle_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.1865" />
@@ -19,11 +20,19 @@
         <entry key="app/src/main/res/drawable/ic_music_note_black_24dp.xml" value="0.104" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.104" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.1225" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22373657226562504" />
+        <entry key="app/src/main/res/layout/activity_add_reminder.xml" value="0.34156378600823045" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.40630340576171875" />
         <entry key="app/src/main/res/layout/activity_name_change.xml" value="0.2545867919921875" />
         <entry key="app/src/main/res/layout/activity_view.xml" value="0.20212765957446807" />
+
+        <entry key="app/src/main/res/layout/add_item.xml" value="0.30923767089843746" />
+        <entry key="app/src/main/res/layout/alarm_items.xml" value="0.42912332286005433" />
+        <entry key="app/src/main/res/layout/bill_split_member_info.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/bill_split_members.xml" value="0.3725062152139502" />
+
         <entry key="app/src/main/res/layout/add_item.xml" value="0.5378448486328126" />
         <entry key="app/src/main/res/layout/chat_room.xml" value="0.3656509399414063" />
+
         <entry key="app/src/main/res/layout/edit_item.xml" value="0.310211181640625" />
         <entry key="app/src/main/res/layout/edit_room_name.xml" value="0.1" />
         <entry key="app/src/main/res/layout/element_bottom_navigation.xml" value="0.1644021739130435" />
@@ -34,13 +43,16 @@
         <entry key="app/src/main/res/layout/grid_item.xml" value="0.23076923076923078" />
         <entry key="app/src/main/res/layout/inside_page.xml" value="0.20212765957446807" />
         <entry key="app/src/main/res/layout/inside_room.xml" value="0.28229166666666666" />
+
         <entry key="app/src/main/res/layout/inside_room_activity.xml" value="0.4666666666666667" />
+
         <entry key="app/src/main/res/layout/invitation_activity.xml" value="0.23248138427734377" />
         <entry key="app/src/main/res/layout/invitation_list.xml" value="0.2546875" />
         <entry key="app/src/main/res/layout/item_card_view.xml" value="0.41507814269912263" />
         <entry key="app/src/main/res/layout/item_data.xml" value="0.28493150684931506" />
         <entry key="app/src/main/res/layout/item_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/loginpage.xml" value="0.23150787353515626" />
+        <entry key="app/src/main/res/layout/mainactivity.xml" value="0.24479166666666666" />
         <entry key="app/src/main/res/layout/member_add.xml" value="0.2992172241210938" />
         <entry key="app/src/main/res/layout/member_item.xml" value="0.3677341627038043" />
         <entry key="app/src/main/res/layout/msg_card.xml" value="0.3120322394933794" />
@@ -53,19 +65,23 @@
         <entry key="app/src/main/res/layout/room_create_manager.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_creation.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_invitation.xml" value="0.396278176378848" />
+
         <entry key="app/src/main/res/layout/room_list.xml" value="0.280401611328125" />
+
         <entry key="app/src/main/res/layout/room_list_manager.xml" value="0.11319966583124477" />
         <entry key="app/src/main/res/layout/room_member_info.xml" value="0.27137145996093764" />
         <entry key="app/src/main/res/layout/room_request.xml" value="0.2546875" />
-        <entry key="app/src/main/res/layout/room_title.xml" value="0.31935526529947916" />
+        <entry key="app/src/main/res/layout/room_title.xml" value="0.28700906344410876" />
         <entry key="app/src/main/res/layout/single_view.xml" value="0.23162393162393163" />
         <entry key="app/src/main/res/layout/splash_screen.xml" value="0.28125" />
+        <entry key="app/src/main/res/layout/splitbill_individual.xml" value="0.790203348795573" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.23076923076923078" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.28125" />
         <entry key="app/src/main/res/menu/bottom_navigation_i.xml" value="0.26737670898437504" />
         <entry key="app/src/main/res/menu/hamburger_item.xml" value="0.2692062377929687" />
         <entry key="app/src/main/res/menu/main.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/menu/menu_add_reminder.xml" value="0.24479166666666666" />
         <entry key="app/src/main/res/menu/navigation.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/menu/new_room_title.xml" value="0.28541666666666665" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.108" />
