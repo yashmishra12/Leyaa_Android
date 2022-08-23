@@ -24,9 +24,16 @@
         <entry key="app/src/main/res/layout/activity_name_change.xml" value="0.2545867919921875" />
         <entry key="app/src/main/res/layout/activity_view.xml" value="0.20212765957446807" />
         <entry key="app/src/main/res/layout/add_item.xml" value="0.5378448486328126" />
+
+        <entry key="app/src/main/res/layout/alarm_items.xml" value="0.42912332286005433" />
+      
+        <entry key="app/src/main/res/layout/bill_split_member_card.xml" value="0.18704710144927536" />
+   
+  
         <entry key="app/src/main/res/layout/bill_split_individual.xml" value="0.4356563426830151" />
         <entry key="app/src/main/res/layout/bill_split_member_info.xml" value="0.5485332347728589" />
         <entry key="app/src/main/res/layout/bill_split_members.xml" value="0.5137889720775464" />
+
         <entry key="app/src/main/res/layout/chat_room.xml" value="0.3656509399414063" />
         <entry key="app/src/main/res/layout/edit_item.xml" value="0.310211181640625" />
         <entry key="app/src/main/res/layout/edit_room_name.xml" value="0.1" />
@@ -54,6 +61,7 @@
         <entry key="app/src/main/res/layout/profile_page.xml" value="0.44202511969700126" />
         <entry key="app/src/main/res/layout/registration.xml" value="0.2921844482421876" />
         <entry key="app/src/main/res/layout/reminder_activity.xml" value="0.3692098092643052" />
+        <entry key="app/src/main/res/layout/reminder_activity_main.xml" value="0.327445652173913" />
         <entry key="app/src/main/res/layout/room_create_manager.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_creation.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_invitation.xml" value="0.396278176378848" />
@@ -64,7 +72,15 @@
         <entry key="app/src/main/res/layout/room_title.xml" value="0.31935526529947916" />
         <entry key="app/src/main/res/layout/single_view.xml" value="0.23162393162393163" />
         <entry key="app/src/main/res/layout/splash_screen.xml" value="0.28125" />
+
+        <entry key="app/src/main/res/layout/split_add_bill.xml" value="0.19655797101449277" />
+        <entry key="app/src/main/res/layout/split_add_bill_mainactivity.xml" value="0.18704710144927536" />
+        <entry key="app/src/main/res/layout/split_add_bill_member_card.xml" value="0.327445652173913" />
+        <entry key="app/src/main/res/layout/split_bill_add.xml" value="0.327445652173913" />
+        <entry key="app/src/main/res/layout/splitbill_individual.xml" value="0.1" />
+
         <entry key="app/src/main/res/layout/splitbill_individual.xml" value="0.2571681835033276" />
+
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.23076923076923078" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.28125" />

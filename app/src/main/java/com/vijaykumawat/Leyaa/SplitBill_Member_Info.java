@@ -1,7 +1,12 @@
 
 package com.vijaykumawat.Leyaa;
 
+
+
+        import android.content.Intent;
+
         import android.app.ProgressDialog;
+
         import android.os.Build;
         import android.os.Bundle;
 
@@ -51,6 +56,17 @@ public class SplitBill_Member_Info extends AppCompatActivity {
         backButtonRMI.setOnClickListener(view -> {
             finish();
         });
+
+
+
+        FloatingActionButton split_add_bill = findViewById(R.id.add_bill);
+        split_add_bill.setOnClickListener(view -> {
+            Intent intent = new Intent(SplitBill_Member_Info.this, Split_Add_Bill.class);
+
+            startActivity(intent);
+        });
+
+
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);

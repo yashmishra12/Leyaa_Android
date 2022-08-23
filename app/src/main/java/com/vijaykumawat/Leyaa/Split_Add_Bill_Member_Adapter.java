@@ -14,12 +14,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class MemberDataAdapter extends RecyclerView.Adapter<MemberDataAdapter.MyViewHolder> {
+public class Split_Add_Bill_Member_Adapter extends RecyclerView.Adapter<Split_Add_Bill_Member_Adapter.MyViewHolder> {
 
     Context context;
-    ArrayList<MemberData> userArrayList;
+    ArrayList<SplitBill_Add_Bill_MemberData> userArrayList;
 
-    public MemberDataAdapter(Context context, ArrayList<MemberData> userArrayList) {
+    public Split_Add_Bill_Member_Adapter(Context context, ArrayList<SplitBill_Add_Bill_MemberData> userArrayList) {
 
         this.context = context;
         this.userArrayList = userArrayList;
@@ -27,17 +27,17 @@ public class MemberDataAdapter extends RecyclerView.Adapter<MemberDataAdapter.My
 
     @NonNull
     @Override
-    public MemberDataAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.member_item, parent, false);
+    public Split_Add_Bill_Member_Adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context).inflate(R.layout.split_add_bill_member_card, parent, false);
         return new MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MemberDataAdapter.MyViewHolder holder, int position) {
-        MemberData user = userArrayList.get(position);
+    public void onBindViewHolder(@NonNull Split_Add_Bill_Member_Adapter.MyViewHolder holder, int position) {
+        SplitBill_Add_Bill_MemberData user = userArrayList.get(position);
 
         holder.fullname.setText(user.fullname);
-        holder.email.setText(user.email);
+
 
         int resID = context.getResources().getIdentifier(user.avatar , "drawable", context.getPackageName());
         holder.avatar.setImageResource(resID);
@@ -58,7 +58,7 @@ public class MemberDataAdapter extends RecyclerView.Adapter<MemberDataAdapter.My
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             fullname = itemView.findViewById(R.id.memberName);
-            email = itemView.findViewById(R.id.memberEmail);
+
             avatar = itemView.findViewById(R.id.memberDP);
         }
     }
