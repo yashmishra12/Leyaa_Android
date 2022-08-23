@@ -15,4 +15,5 @@
     <color name="fab_pressed">#546e7a</color>
     <color name="others_msg">#46b088</color>
     <color name="my_msg">#6592fc</color>
+    <color name="card_color">#2C6D97</color>
 </resources>

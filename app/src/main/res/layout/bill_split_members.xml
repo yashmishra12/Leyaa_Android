@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
-    android:layout_marginTop="6dp">
+    android:background="@color/card_color"
+    android:backgroundTint="@color/card_color">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,11 +28,12 @@
         <TextView
             android:id="@+id/memberName"
             android:layout_width="199dp"
-            android:layout_height="33dp"
+            android:layout_height="48dp"
             android:layout_marginTop="96dp"
             android:minHeight="48dp"
             android:text="Full Name"
             android:textAlignment="center"
+            android:textColor="#FFFFFF"
             android:textIsSelectable="true"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
             android:text="Pay:"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/memberName"
             app:layout_constraintTop_toTopOf="parent"
@@ -56,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
             android:text="Net:"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/memberName"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
@@ -68,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
             android:text="Get:"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/memberName"
             app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -79,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$30"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.238"
@@ -92,6 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$10"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.231"
@@ -105,12 +113,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$20"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.245"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/memberID_SBI"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="jai ho"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/memberDP"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/memberDP" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

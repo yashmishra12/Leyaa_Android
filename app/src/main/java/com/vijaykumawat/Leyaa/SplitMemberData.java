@@ -3,14 +3,19 @@ package com.vijaykumawat.Leyaa;
 
 
 public class SplitMemberData {
-    String avatar, fullname;
+    String avatar, fullname, uid;
     private String firebaseId;
 
 
-    public SplitMemberData(String avatar, String fullname) {
+    public SplitMemberData(String avatar, String fullname, String uid) {
         this.avatar = avatar;
         this.fullname = fullname;
+        this.uid = uid;
 
+    }
+
+    public String getUid() {
+        return uid;
     }
 
     public SplitMemberData(){}

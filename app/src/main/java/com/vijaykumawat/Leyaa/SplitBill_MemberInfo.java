@@ -5,8 +5,7 @@ package com.vijaykumawat.Leyaa;
         import android.content.Intent;
         import android.os.Build;
         import android.os.Bundle;
-        import android.widget.Button;
-        import android.widget.Toast;
+        import android.widget.TextView;
 
         import androidx.annotation.NonNull;
         import androidx.annotation.RequiresApi;
@@ -35,11 +34,15 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
     String roomID = "";
     ProgressDialog progressDialog;
     RecyclerView.LayoutManager layoutManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bill_split_member_info);
+
+
 
         Toolbar toolbar= findViewById(R.id.toolbar);
         FloatingActionButton backButtonRMI = findViewById(R.id.FLOATINGbackButtonRMI);
@@ -68,16 +71,6 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
         userArrayList = new ArrayList<>();
         myAdapter = new SplitMemberDataAdapter(SplitBill_MemberInfo.this, userArrayList);
 
-        myAdapter.setOnItemClickListener(new SplitMemberDataAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(SplitMemberData splitMemberData) {
-
-
-                //startActivity(new Intent(SplitBill_MemberInfo.this, Inside_Room_Activity.class).putExtra("document_ID",document_ID ));
-                Toast.makeText(SplitBill_MemberInfo.this, "Selected profile id    "+ memberIDs.get(0), Toast.LENGTH_SHORT ).show();
-            }
-        });
-
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -85,6 +78,20 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
             toolbar.setTitle(extras.getString("roomName"));
             populateMemberID();
         }
+
+        myAdapter.setOnItemClickListener(new SplitMemberDataAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(SplitMemberData splitMemberData) {
+
+                Intent intent = new Intent(SplitBill_MemberInfo.this, SplitBill_Individual_Activity.class);
+                intent.putExtra("memberID", ((TextView)findViewById(R.id.memberID_SBI)).getText().toString() );
+                intent.putExtra("roomID", roomID );
+                startActivity(intent);
+
+            }
+        });
+
+
 
     }
 
@@ -98,8 +105,9 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot doc = task.getResult();
                 memberIDs = (ArrayList<String>) doc.get("members");
-//                Log.d("TAG", "MEMEBRS: "+ memberIDs.stream()
-//                        .collect(Collectors.joining(" --> ")));
+
+                String selfID = FirebaseAuth.getInstance().getUid();
+                memberIDs.remove(selfID);
                 recyclerView.setAdapter(myAdapter);
                 EventChangeListener();
 
@@ -124,9 +132,10 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
                         if (documentSnapshot.exists() && (!memberID.equals(mUid))) {
                             String fullname = (String) documentSnapshot.get("fullname");
                             String avatar = (String) documentSnapshot.get("avatar");
+                            String userID = (String) documentSnapshot.get("uid");
 
 
-                            SplitMemberData smd = new SplitMemberData(avatar,fullname);
+                            SplitMemberData smd = new SplitMemberData(avatar, fullname, userID);
 
                             userArrayList.add(smd);
                             myAdapter.notifyDataSetChanged();

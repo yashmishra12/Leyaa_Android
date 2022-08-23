@@ -211,7 +211,6 @@ public class Inside_Room_Activity extends BaseActivity {
             }
 
             else if (menuItem.getItemId()==R.id.bill_split) {
-                Toast.makeText(getApplicationContext(),"Bill Split",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Inside_Room_Activity.this, SplitBill_MemberInfo.class);
                 intent.putExtra("roomID",roomID);
                 intent.putExtra("roomName", roomName);
