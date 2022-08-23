@@ -13,4 +13,6 @@
     <color name="bordercolor">#4285f4</color>
     <color name="toolbarcolor">#004674</color>
     <color name="fab_pressed">#546e7a</color>
+    <color name="others_msg">#46b088</color>
+    <color name="my_msg">#6592fc</color>
 </resources>

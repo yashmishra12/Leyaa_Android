@@ -80,24 +80,7 @@ final Handler handler = new Handler();
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            QuerySnapshot qs =   task.getResult();
-                            ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
                             showImage();
-//
-//                            handler.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    if (ds.size()>0) {
-//
-//                                        relaximage.setVisibility(View.GONE);
-//                                    } else {
-//
-//                                    }
-//                                }
-//                            }, 10);
-//
-
-
 
                         }
                     }
@@ -112,21 +95,8 @@ final Handler handler = new Handler();
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            QuerySnapshot qs =   task.getResult();
-                            ArrayList<DocumentSnapshot> ds = (ArrayList<DocumentSnapshot>) qs.getDocuments();
                             showImage();
-//                            handler.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    if (ds.size()>0) {
-//
-//                                        relaximage.setVisibility(View.GONE);
-//                                    } else {
-//
-//                                        showImage();
-//                                    }
-//                                }
-//                            }, 10);
+
 
                         }
                     }
