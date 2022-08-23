@@ -35,7 +35,6 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
         this.context = context;
         this.userArrayList = userArrayList;
         this.roomID = roomID;
-        Log.d("TAG", "SplitMemberDataAdapter: ----------> "+this.roomID);
     }
 
     @NonNull

@@ -5,8 +5,6 @@ package com.vijaykumawat.Leyaa;
 
         import android.content.Intent;
 
-        import android.app.ProgressDialog;
-
         import android.os.Build;
         import android.os.Bundle;
 
@@ -35,10 +33,9 @@ public class SplitBill_Member_Info extends AppCompatActivity {
     SplitMemberDataAdapter myAdapter;
     FirebaseFirestore db;
     String roomID = "";
-    ProgressDialog progressDialog;
+
     RecyclerView.LayoutManager layoutManager;
 
-//    TextView memberID_SBI;
 
 
     @Override
@@ -62,16 +59,10 @@ public class SplitBill_Member_Info extends AppCompatActivity {
         FloatingActionButton split_add_bill = findViewById(R.id.add_bill);
         split_add_bill.setOnClickListener(view -> {
             Intent intent = new Intent(SplitBill_Member_Info.this, Split_Add_Bill.class);
-
+            intent.putExtra("roomID",roomID);
             startActivity(intent);
         });
 
-
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Fetching Data...");
-        progressDialog.show();
 
 
         recyclerView = findViewById(R.id.recycler_view_bill_member);
@@ -111,6 +102,7 @@ public class SplitBill_Member_Info extends AppCompatActivity {
                 DocumentSnapshot doc = task.getResult();
                 memberIDs = (ArrayList<String>) doc.get("members");
 
+
                 String selfID = FirebaseAuth.getInstance().getUid();
                 memberIDs.remove(selfID);
                 recyclerView.setAdapter(myAdapter);
@@ -126,12 +118,14 @@ public class SplitBill_Member_Info extends AppCompatActivity {
         for (String memberID: memberIDs) {
             DocumentReference documentReference = db.collection("users").document(memberID);
 
+
             documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                     if (task.isSuccessful()) {
+
 
                         DocumentSnapshot documentSnapshot = task.getResult();
 
@@ -150,9 +144,6 @@ public class SplitBill_Member_Info extends AppCompatActivity {
                 }
             });
 
-            if (progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
 
 
         }
