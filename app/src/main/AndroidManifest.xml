@@ -29,7 +29,7 @@
         <activity android:name=".LoginPage"/>
         <activity android:name=".RoomListActivity"/>
         <activity android:name=".Registration"/>
-        <activity android:name=".Reminder_Activity"/>
+
         <activity android:name=".InvitationListActivity"/>
         <activity android:name=".Room_Creation" />
         <activity android:name=".Inside_Room_Activity" />
@@ -41,8 +41,9 @@
         <activity android:name=".Edit_Item"/>
         <activity android:name=".Add_Item" />
 
-        <activity android:name=".SplitBill_MemberInfo"/>
+        <activity android:name=".SplitBill_Member_Info"/>
         <activity android:name=".SplitBill_Individual_Activity"/>
+        <activity android:name=".Split_Add_Bill"/>
 
 
 

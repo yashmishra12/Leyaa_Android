@@ -1,12 +1,10 @@
 
 package com.vijaykumawat.Leyaa;
 
-        import android.app.ProgressDialog;
+import android.app.ProgressDialog;
         import android.content.Intent;
         import android.os.Build;
         import android.os.Bundle;
-        import android.widget.Button;
-        import android.widget.Toast;
 
         import androidx.annotation.NonNull;
         import androidx.annotation.RequiresApi;
@@ -25,7 +23,7 @@ package com.vijaykumawat.Leyaa;
 
         import java.util.ArrayList;
 
-public class SplitBill_MemberInfo extends AppCompatActivity {
+public class SplitBill_Member_Info extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<String> memberIDs;
@@ -35,18 +33,35 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
     String roomID = "";
     ProgressDialog progressDialog;
     RecyclerView.LayoutManager layoutManager;
+
+//    TextView memberID_SBI;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bill_split_member_info);
 
+
+
         Toolbar toolbar= findViewById(R.id.toolbar);
-        FloatingActionButton backButtonRMI = findViewById(R.id.FLOATINGbackButtonRMI);
+        FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
+
 
         backButtonRMI.setOnClickListener(view -> {
             finish();
         });
+
+
+        FloatingActionButton split_add_bill = findViewById(R.id.add_bill);
+        split_add_bill.setOnClickListener(view -> {
+            Intent intent = new Intent(SplitBill_Member_Info.this, Split_Add_Bill.class);
+
+            startActivity(intent);
+        });
+
+
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -57,7 +72,7 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view_bill_member);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new GridLayoutManager(SplitBill_MemberInfo.this, 2);
+        layoutManager = new GridLayoutManager(SplitBill_Member_Info.this, 2);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setLayoutManager(new CustLinearLayoutManager(this));
@@ -65,18 +80,7 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        userArrayList = new ArrayList<>();
-        myAdapter = new SplitMemberDataAdapter(SplitBill_MemberInfo.this, userArrayList);
 
-        myAdapter.setOnItemClickListener(new SplitMemberDataAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(SplitMemberData splitMemberData) {
-
-
-                //startActivity(new Intent(SplitBill_MemberInfo.this, Inside_Room_Activity.class).putExtra("document_ID",document_ID ));
-                Toast.makeText(SplitBill_MemberInfo.this, "Selected profile id    "+ memberIDs.get(0), Toast.LENGTH_SHORT ).show();
-            }
-        });
 
         Bundle extras = getIntent().getExtras();
 
@@ -85,6 +89,9 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
             toolbar.setTitle(extras.getString("roomName"));
             populateMemberID();
         }
+
+        userArrayList = new ArrayList<>();
+        myAdapter = new SplitMemberDataAdapter(SplitBill_Member_Info.this, userArrayList, roomID);
 
     }
 
@@ -98,13 +105,15 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot doc = task.getResult();
                 memberIDs = (ArrayList<String>) doc.get("members");
-//                Log.d("TAG", "MEMEBRS: "+ memberIDs.stream()
-//                        .collect(Collectors.joining(" --> ")));
+
+                String selfID = FirebaseAuth.getInstance().getUid();
+                memberIDs.remove(selfID);
                 recyclerView.setAdapter(myAdapter);
                 EventChangeListener();
 
             }
         });
+
     }
 
     private void EventChangeListener() {
@@ -124,9 +133,10 @@ public class SplitBill_MemberInfo extends AppCompatActivity {
                         if (documentSnapshot.exists() && (!memberID.equals(mUid))) {
                             String fullname = (String) documentSnapshot.get("fullname");
                             String avatar = (String) documentSnapshot.get("avatar");
+                            String userID = (String) documentSnapshot.get("uid");
 
 
-                            SplitMemberData smd = new SplitMemberData(avatar,fullname);
+                            SplitMemberData smd = new SplitMemberData(avatar, fullname, userID);
 
                             userArrayList.add(smd);
                             myAdapter.notifyDataSetChanged();

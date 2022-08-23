@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import android.widget.TextView;
-
 import android.widget.ImageView;
 
 import android.widget.Toast;
@@ -87,7 +85,7 @@ public class Inside_Room_Activity extends BaseActivity {
 
                     rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
                 }
-                //Toast.makeText(getApplicationContext(),"Message "+itemAdapter.getItemCount() ,Toast.LENGTH_LONG).show();
+
 
 
             }
@@ -211,8 +209,7 @@ public class Inside_Room_Activity extends BaseActivity {
             }
 
             else if (menuItem.getItemId()==R.id.bill_split) {
-                Toast.makeText(getApplicationContext(),"Bill Split",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Inside_Room_Activity.this, SplitBill_MemberInfo.class);
+                Intent intent = new Intent(Inside_Room_Activity.this, SplitBill_Member_Info.class);
                 intent.putExtra("roomID",roomID);
                 intent.putExtra("roomName", roomName);
                 startActivity(intent);

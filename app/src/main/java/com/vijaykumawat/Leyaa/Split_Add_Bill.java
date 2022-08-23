@@ -3,6 +3,7 @@ package com.vijaykumawat.Leyaa;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -19,12 +20,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class RoomMemberInfo extends AppCompatActivity {
+public class Split_Add_Bill extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<String> memberIDs;
-    ArrayList<MemberData> userArrayList;
-    MemberDataAdapter myAdapter;
+    ArrayList<SplitBill_Add_Bill_MemberData> userArrayList;
+    Split_Add_Bill_Member_Adapter myAdapter;
     FirebaseFirestore db;
     String roomID = "";
     ProgressDialog progressDialog;
@@ -32,35 +33,32 @@ public class RoomMemberInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.room_member_info);
+        setContentView(R.layout.split_add_bill_mainactivity);
 
         Toolbar toolbar= findViewById(R.id.toolbar);
-        FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
+        FloatingActionButton backButtonRMI = findViewById(R.id.back_button_split_add_bill);
 
         backButtonRMI.setOnClickListener(view -> {
             finish();
         });
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Fetching Data...");
-        progressDialog.show();
 
 
-        recyclerView = findViewById(R.id.memberRV);
+        recyclerView = findViewById(R.id.recyclerView_add_bill);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new CustLinearLayoutManager(this));
 
         db = FirebaseFirestore.getInstance();
 
         userArrayList = new ArrayList<>();
-        myAdapter = new MemberDataAdapter(RoomMemberInfo.this, userArrayList);
+        myAdapter = new Split_Add_Bill_Member_Adapter(Split_Add_Bill.this, userArrayList);
 
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            roomID =  extras.getString("roomID");
-            toolbar.setTitle(extras.getString("roomName"));
+            //roomID = "tbHm3PkJa9ZLzFEoGNRi";
+            Log.d("RoomID",roomID+"--------------------------------------");
+            //toolbar.setTitle(extras.getString("roomName"));
             populateMemberID();
         }
 
@@ -69,7 +67,7 @@ public class RoomMemberInfo extends AppCompatActivity {
 
     private void populateMemberID() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("rooms").document(roomID);
+        DocumentReference documentReference = db.collection("rooms").document("tbHm3PkJa9ZLzFEoGNRi");
 
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -102,11 +100,11 @@ public class RoomMemberInfo extends AppCompatActivity {
 
                         if (documentSnapshot.exists()) {
                             String fullname = (String) documentSnapshot.get("fullname");
-                            String email = (String) documentSnapshot.get("email");
+                            //String email = (String) documentSnapshot.get("email");
                             String avatar = (String) documentSnapshot.get("avatar");
 
 
-                            MemberData md = new MemberData(avatar, fullname, email);
+                            SplitBill_Add_Bill_MemberData md = new SplitBill_Add_Bill_MemberData(avatar, fullname);
 
                             userArrayList.add(md);
                             myAdapter.notifyDataSetChanged();
@@ -115,9 +113,6 @@ public class RoomMemberInfo extends AppCompatActivity {
                 }
             });
 
-            if (progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
 
 
         }

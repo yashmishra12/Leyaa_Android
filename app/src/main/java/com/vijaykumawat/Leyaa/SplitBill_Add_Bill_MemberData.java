@@ -1,24 +1,21 @@
 package com.vijaykumawat.Leyaa;
 
 
-
-public class SplitMemberData {
-    String avatar, fullname, uid;
+public class SplitBill_Add_Bill_MemberData {
+    String avatar, fullname;
     private String firebaseId;
 
 
-    public SplitMemberData(String avatar, String fullname, String uid) {
+    public SplitBill_Add_Bill_MemberData(String avatar, String fullname) {
         this.avatar = avatar;
         this.fullname = fullname;
-        this.uid = uid;
+
 
     }
 
-    public String getUid() {
-        return uid;
-    }
 
-    public SplitMemberData(){}
+
+    public SplitBill_Add_Bill_MemberData(){}
 
     public String getAvatar() {
         return avatar;
@@ -36,11 +33,5 @@ public class SplitMemberData {
         this.fullname = fullname;
     }
 
-    public String getFirebaseId() {
-        return firebaseId;
-    }
-
-    public void setFirebaseId(String firebaseId) {
-        this.firebaseId = firebaseId;
-    }
 }
+

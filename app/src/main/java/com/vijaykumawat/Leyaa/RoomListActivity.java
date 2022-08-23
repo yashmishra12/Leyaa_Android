@@ -128,7 +128,6 @@ final Handler handler = new Handler();
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 String document_ID = documentSnapshot.getId();
-                //Toast.makeText(getApplicationContext(),"Message "+adapter.getItemCount() ,Toast.LENGTH_LONG).show();
                 startActivity(new Intent(RoomListActivity.this, Inside_Room_Activity.class).putExtra("document_ID",document_ID ));
             }
         });

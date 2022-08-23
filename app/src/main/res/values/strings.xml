@@ -12,7 +12,7 @@
     <string name="title_user">User</string>
 
 
-    <string name="no_cardetails">Click on the button below to begin creating your reminder!</string>
+    <string name="no_cardetails">Click on the button above to create your product expiry reminder.</string>
     <string name="title_activity_add_reminder">Add Reminder</string>
     <string name="title_activity_edit_reminder">Edit Reminder</string>
 
@@ -36,9 +36,9 @@
     <string name="keep_editing">Keep Editing</string>
     <string name="delete_dialog_msg">Delete this Reminder?</string>
 
-    <string name="delete">Delete</string>
+    <string name="delete">Yes</string>
 
-    <string name="cancel">Cancel</string>
+    <string name="cancel">No</string>
     <string name="editor_delete_reminder_successful">Reminder Deleted</string>
 
     <string name="editor_delete_reminder_failed">Error with deleting reminder</string>
