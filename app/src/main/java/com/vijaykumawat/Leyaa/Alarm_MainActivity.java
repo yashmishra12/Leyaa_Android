@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -163,7 +162,7 @@ public void onClick(DialogInterface dialog, int which) {
         if (newUri == null) {
         Toast.makeText(getApplicationContext(), "Setting Reminder Title failed", Toast.LENGTH_SHORT).show();
         } else {
-        Toast.makeText(getApplicationContext(), "Title set successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Pending: Set Reminder Date", Toast.LENGTH_SHORT).show();
         }
 
         }
@@ -184,7 +183,7 @@ public void restartLoader(){
 
         @Override
         int getContentViewId() {
-                return R.layout.activity_main;
+                return R.layout.reminder_activity_main;
         }
 
         @Override
