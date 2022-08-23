@@ -68,6 +68,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -105,5 +106,7 @@
         app:srcCompat="@drawable/ic_baseline_add_shopping_cart_24"
         app:useCompatPadding="false"
         tools:ignore="ImageContrastCheck" />
+
+
 
 </RelativeLayout>

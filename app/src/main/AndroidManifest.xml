@@ -40,14 +40,14 @@
         <activity android:name=".MemberAdd"/>
         <activity android:name=".Edit_Item"/>
         <activity android:name=".Add_Item" />
+        <activity android:name=".SplitBill_MemberInfo"/>
+        <activity android:name=".SplitBill_Individual_Activity"/>
 
 
 
         <activity android:name="Alarm_MainActivity"
             android:exported="true">
             <intent-filter>
-
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
