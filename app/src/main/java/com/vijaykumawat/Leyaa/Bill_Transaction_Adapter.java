@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -51,6 +55,10 @@ public class Bill_Transaction_Adapter extends FirestoreRecyclerAdapter<Bill_Tran
         return new RoomHolder(view);
     }
 
+
+    public void deleteRequest(int position){
+        getSnapshots().getSnapshot(position).getReference().delete();
+    }
     class RoomHolder extends RecyclerView.ViewHolder {
         TextView item_name;
         TextView item_price;
@@ -63,7 +71,17 @@ public class Bill_Transaction_Adapter extends FirestoreRecyclerAdapter<Bill_Tran
             item_name = itemView.findViewById(R.id.bill_item_name);
             item_price = itemView.findViewById(R.id.amount);
             timestamp = itemView.findViewById(R.id.date_time);
+
+            itemView.findViewById(R.id.bill_del_flt_btn).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    deleteRequest(getAbsoluteAdapterPosition());
+                    Toast.makeText(view.getContext(), "Bill Deleted", Toast.LENGTH_SHORT ).show();
+                }
+            });
+
             bill_del_flt_btn = itemView.findViewById(R.id.bill_del_flt_btn);
+
 
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
