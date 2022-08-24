@@ -1,6 +1,7 @@
 package com.vijaykumawat.Leyaa;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,6 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
     private OnItemClickListener listener;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String roomID = "ROOM ID";
-    final Double[] getItemPrice = {0.0};
-    final Double[] payItemPrice = {0.0};
 
 
     public SplitMemberDataAdapter(Context context, ArrayList<SplitMemberData> userArrayList, String roomID) {
@@ -64,11 +63,12 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        getItemPrice[0]=0.0;
+                        final Double[] getItemPrice = {0.0};
                         List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
 
                         for(DocumentSnapshot ds: documentSnapshotList) {
-                            getItemPrice[0] =+ (Double) ds.get("itemPrice");
+                            getItemPrice[0] = (Double) ds.get("itemPrice") + getItemPrice[0];
+                            Log.d("TAG", "onSuccess: -----> "+(Double) ds.get("itemPrice"));
                         }
 
                         holder.get.setText(String.valueOf("$"+getItemPrice[0]));
@@ -84,7 +84,7 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        payItemPrice[0]=0.0;
+                        final Double[] payItemPrice = {0.0};
                         List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
 
                         for(DocumentSnapshot ds: documentSnapshotList) {
