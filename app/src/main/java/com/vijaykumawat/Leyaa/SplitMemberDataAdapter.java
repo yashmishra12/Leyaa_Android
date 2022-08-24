@@ -88,7 +88,7 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
                         List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
 
                         for(DocumentSnapshot ds: documentSnapshotList) {
-                            payItemPrice[0] =+ (Double) ds.get("itemPrice");
+                            payItemPrice[0] = (Double) ds.get("itemPrice") + payItemPrice[0];
                         }
 
                         holder.pay.setText(String.valueOf("$"+payItemPrice[0]));
