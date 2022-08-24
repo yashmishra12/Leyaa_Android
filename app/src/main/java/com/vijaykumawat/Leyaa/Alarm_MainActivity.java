@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -135,7 +136,7 @@ public void onLoaderReset(Loader<Cursor> loader) {
 
 public void addReminderTitle(){
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialog));
         builder.setTitle("Set Reminder Title");
 
 final EditText input = new EditText(this);

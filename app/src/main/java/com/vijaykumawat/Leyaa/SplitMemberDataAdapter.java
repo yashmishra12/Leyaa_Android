@@ -100,7 +100,7 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
 
         holder.cardView.setOnClickListener(view -> {
 
-            Intent intent = new Intent(context, SplitBill_Individual_Activity.class);
+            Intent intent = new Intent(context, Bill_Transaction.class);
             intent.putExtra("memberID", user.getUid() );
             intent.putExtra("roomID", roomID );
             context.startActivity(intent);
