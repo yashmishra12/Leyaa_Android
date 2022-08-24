@@ -9,9 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_leyaa_logo_notification"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_leyaa_logo_notification"
+        android:icon="@mipmap/ic_launcher_foreground"
+        android:roundIcon="@mipmap/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
