@@ -212,6 +212,7 @@ public class Inside_Room_Activity extends BaseActivity {
                 Intent intent = new Intent(Inside_Room_Activity.this, SplitBill_Member_Info.class);
                 intent.putExtra("roomID",roomID);
                 intent.putExtra("roomName", roomName);
+                intent.putExtra("userName", userName);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
 

@@ -7,11 +7,13 @@ package com.vijaykumawat.Leyaa;
 
         import android.os.Build;
         import android.os.Bundle;
+        import android.widget.Toast;
 
         import androidx.annotation.NonNull;
         import androidx.annotation.RequiresApi;
         import androidx.appcompat.app.AppCompatActivity;
         import androidx.appcompat.widget.Toolbar;
+        import androidx.core.view.GravityCompat;
         import androidx.recyclerview.widget.GridLayoutManager;
         import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +26,7 @@ package com.vijaykumawat.Leyaa;
         import com.google.firebase.firestore.FirebaseFirestore;
 
         import java.util.ArrayList;
+        import java.util.Objects;
 
 public class SplitBill_Member_Info extends AppCompatActivity {
 
@@ -33,6 +36,9 @@ public class SplitBill_Member_Info extends AppCompatActivity {
     SplitMemberDataAdapter myAdapter;
     FirebaseFirestore db;
     String roomID = "";
+    String roomName;
+    String userName;
+    FloatingActionButton bill_reminder_flt_btn;
 
     RecyclerView.LayoutManager layoutManager;
 
@@ -49,10 +55,13 @@ public class SplitBill_Member_Info extends AppCompatActivity {
         Toolbar toolbar= findViewById(R.id.toolbar);
         FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
 
+        bill_reminder_flt_btn = findViewById(R.id.bill_reminder_flt_btn);
 
         backButtonRMI.setOnClickListener(view -> {
             finish();
         });
+
+
 
 
 
@@ -82,12 +91,63 @@ public class SplitBill_Member_Info extends AppCompatActivity {
 
         if (extras != null) {
             roomID =  extras.getString("roomID");
-            toolbar.setTitle(extras.getString("roomName"));
+            roomName = extras.getString("roomName");
+            userName = extras.getString("userName");
+            toolbar.setTitle(roomName);
             populateMemberID();
         }
 
         userArrayList = new ArrayList<>();
         myAdapter = new SplitMemberDataAdapter(SplitBill_Member_Info.this, userArrayList, roomID);
+
+
+        bill_reminder_flt_btn.setOnClickListener(view -> {
+
+
+
+            DocumentReference docRef =  db.collection("rooms").document(roomID);
+
+
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+
+                        assert memberIDs != null;
+
+                        for (String member: memberIDs) {
+                            if (!Objects.equals(member, FirebaseAuth.getInstance().getUid())) {
+                                DocumentReference userRef = db.collection("users").document(member);
+
+                                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot ds = task.getResult();
+                                            String userDeviceToken = (String) ds.get("deviceToken");
+                                            String title = "Room: "+roomName;
+                                            String message = userName+" posted a new bill.";
+                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), SplitBill_Member_Info.this );
+                                            notificationsSender.SendNotifications();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+
+                    }
+                }
+            });
+
+
+
+
+
+
+            Toast.makeText(getApplicationContext(),"Everyone Notified of new bill",Toast.LENGTH_LONG).show();
+        });
 
     }
 
