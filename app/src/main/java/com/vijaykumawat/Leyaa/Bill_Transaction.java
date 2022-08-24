@@ -22,6 +22,7 @@ public class Bill_Transaction extends AppCompatActivity {
     String memberID;
 
     FloatingActionButton bill_split_member_back_flt_btn;
+
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     private Bill_Transaction_Adapter adapter;
     Bill_Transaction_Adapter adapter2;
@@ -36,8 +37,7 @@ public class Bill_Transaction extends AppCompatActivity {
 
 
         bill_split_member_back_flt_btn = findViewById(R.id.bill_split_member_back_flt_btn);
-
-
+      
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -51,6 +51,7 @@ public class Bill_Transaction extends AppCompatActivity {
             //Toast.makeText(this, roomID, Toast.LENGTH_LONG).show();
             finish();
         });
+
 
 
         setUpRecyclerViewGet();
