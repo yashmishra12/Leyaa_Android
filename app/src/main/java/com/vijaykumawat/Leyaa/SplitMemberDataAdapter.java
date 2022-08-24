@@ -1,7 +1,6 @@
 package com.vijaykumawat.Leyaa;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberDataAdapter.MyViewHolder> {
 
@@ -26,8 +29,8 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
     private OnItemClickListener listener;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String roomID = "ROOM ID";
-
-
+    final Double[] getItemPrice = {0.0};
+    final Double[] payItemPrice = {0.0};
 
 
     public SplitMemberDataAdapter(Context context, ArrayList<SplitMemberData> userArrayList, String roomID) {
@@ -53,6 +56,47 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
 
         int resID = context.getResources().getIdentifier(user.avatar , "drawable", context.getPackageName());
         holder.avatar.setImageResource(resID);
+
+       db.collection(roomID+"_BILLS")
+                .whereEqualTo("contributor", user.getUid() )
+                .whereEqualTo("payer", FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        getItemPrice[0]=0.0;
+                        List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
+
+                        for(DocumentSnapshot ds: documentSnapshotList) {
+                            getItemPrice[0] =+ (Double) ds.get("itemPrice");
+                        }
+
+                        holder.get.setText(String.valueOf("$"+getItemPrice[0]));
+
+                    }
+                });
+
+
+        db.collection(roomID+"_BILLS")
+                .whereEqualTo("payer", user.getUid() )
+                .whereEqualTo("contributor", FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        payItemPrice[0]=0.0;
+                        List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
+
+                        for(DocumentSnapshot ds: documentSnapshotList) {
+                            payItemPrice[0] =+ (Double) ds.get("itemPrice");
+                        }
+
+                        holder.pay.setText(String.valueOf("$"+payItemPrice[0]));
+
+                    }
+                });
+
+
 
         holder.cardView.setOnClickListener(view -> {
 
@@ -81,6 +125,7 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
         ImageView avatar;
         TextView memberID;
         CardView cardView;
+        TextView pay, get, net;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,6 +133,9 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
             avatar = itemView.findViewById(R.id.memberDP);
             memberID = itemView.findViewById(R.id.memberID_SBI);
             cardView = itemView.findViewById(R.id.bill_split_member_card);
+            pay = itemView.findViewById(R.id.pay);
+            get = itemView.findViewById(R.id.get);
+
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
