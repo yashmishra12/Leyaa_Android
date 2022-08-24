@@ -43,7 +43,6 @@ public class Bill_Transaction extends AppCompatActivity {
         if (extras != null) {
             roomID =  extras.getString("roomID");
             memberID = extras.getString("memberID");
-
         }
 
 
@@ -63,20 +62,18 @@ public class Bill_Transaction extends AppCompatActivity {
 
         Query query = mstore.collection(roomID+"_BILLS")
                 .whereEqualTo("contributor",memberID)
-                .whereEqualTo("payer",mUid);
+                .whereEqualTo("payer", mUid);
 
         FirestoreRecyclerOptions<Bill_Transaction_Data> options = new FirestoreRecyclerOptions.Builder<Bill_Transaction_Data>()
                 .setQuery(query, Bill_Transaction_Data.class).build();
 
-        adapter = new Bill_Transaction_Adapter(options);
+        adapter = new Bill_Transaction_Adapter(options, roomID+"_BILLS");
         RecyclerView recyclerView = findViewById(R.id.recycler_view_get);
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new GridLayoutManager(Bill_Transaction.this, 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-
 
     }
     private void setUpRecyclerViewPay() {
@@ -89,7 +86,7 @@ public class Bill_Transaction extends AppCompatActivity {
         FirestoreRecyclerOptions<Bill_Transaction_Data> options2 = new FirestoreRecyclerOptions.Builder<Bill_Transaction_Data>()
                 .setQuery(query2, Bill_Transaction_Data.class).build();
 
-        adapter2 = new Bill_Transaction_Adapter(options2);
+        adapter2 = new Bill_Transaction_Adapter(options2, roomID+"_BILLS");
         RecyclerView recyclerView = findViewById(R.id.recyclerView_pay);
         recyclerView.setHasFixedSize(true);
 

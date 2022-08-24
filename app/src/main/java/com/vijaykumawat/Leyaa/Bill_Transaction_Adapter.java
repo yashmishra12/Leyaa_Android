@@ -1,37 +1,36 @@
 package com.vijaykumawat.Leyaa;
 
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class Bill_Transaction_Adapter extends FirestoreRecyclerAdapter<Bill_Transaction_Data, Bill_Transaction_Adapter.RoomHolder> {
 
     private OnItemClickListener listener;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String roomID;
 
 
-    public Bill_Transaction_Adapter(@NonNull FirestoreRecyclerOptions<Bill_Transaction_Data> options) {
+    public Bill_Transaction_Adapter(@NonNull FirestoreRecyclerOptions<Bill_Transaction_Data> options, String roomID) {
         super(options);
+        this.roomID = roomID;
     }
 
     @Override
@@ -46,7 +45,6 @@ public class Bill_Transaction_Adapter extends FirestoreRecyclerAdapter<Bill_Tran
         String dateToShow = simpleDateFormat.format(date);
 
         holder.timestamp.setText(dateToShow);
-
 
     }
 
@@ -65,6 +63,7 @@ public class Bill_Transaction_Adapter extends FirestoreRecyclerAdapter<Bill_Tran
         TextView item_name;
         TextView item_price;
         TextView timestamp;
+        FloatingActionButton bill_del_flt_btn;
 
 
         public RoomHolder(@NonNull View itemView) {
@@ -73,7 +72,6 @@ public class Bill_Transaction_Adapter extends FirestoreRecyclerAdapter<Bill_Tran
             item_price = itemView.findViewById(R.id.amount);
             timestamp = itemView.findViewById(R.id.date_time);
 
-
             itemView.findViewById(R.id.bill_del_flt_btn).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
@@ -81,11 +79,14 @@ public class Bill_Transaction_Adapter extends FirestoreRecyclerAdapter<Bill_Tran
                     Toast.makeText(view.getContext(), "Bill Deleted", Toast.LENGTH_SHORT ).show();
                 }
             });
+
+            bill_del_flt_btn = itemView.findViewById(R.id.bill_del_flt_btn);
+
+
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
                     int position = getAbsoluteAdapterPosition();
-
 
                     if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(getSnapshots().getSnapshot(position), position);
