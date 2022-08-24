@@ -51,11 +51,11 @@ public class ProfilePage extends BaseActivity {
 
     String[] itemName = SanitizeItemName.realAssetName;
     int[] itemImages = {R.drawable.almond, R.drawable.apple, R.drawable.avocado, R.drawable.bagel, R.drawable.banana,
-            R.drawable.bandaid, R.drawable.battery, R.drawable.beer, R.drawable.bellpepper, R.drawable.biscuit, R.drawable.bodylotion,
+            R.drawable.bandaid, R.drawable.battery, R.drawable.bean ,R.drawable.beer, R.drawable.bellpepper, R.drawable.biscuit, R.drawable.bodylotion,
             R.drawable.bodywash, R.drawable.boot, R.drawable.bottle, R.drawable.bread, R.drawable.broccoli, R.drawable.broom, R.drawable.bucket,
             R.drawable.bugspray, R.drawable.bulb, R.drawable.butter, R.drawable.cabbage, R.drawable.calculator, R.drawable.candle, R.drawable.canopener,
     R.drawable.cap, R.drawable.carrot, R.drawable.cashew, R.drawable.cauliflower, R.drawable.cereal, R.drawable.cheese, R.drawable.cherry,
-            R.drawable.chicken, R.drawable.chilli, R.drawable.chip, R.drawable.chocolate, R.drawable.choppingboard, R.drawable.cigarette,
+            R.drawable.chicken, R.drawable.chilli, R.drawable.chip, R.drawable.chocolate, R.drawable.choppingboard, R.drawable.cigarette, R.drawable.cilantro,
             R.drawable.cleaner, R.drawable.clock, R.drawable.clove, R.drawable.coffee, R.drawable.cola, R.drawable.conditioner, R.drawable.condom,
             R.drawable.contactlen, R.drawable.converse, R.drawable.cookie, R.drawable.cookingoil, R.drawable.corn, R.drawable.cornflake, R.drawable.croc,
             R.drawable.cucumber, R.drawable.deodorant, R.drawable.detergent, R.drawable.dishwasher, R.drawable.donut, R.drawable.egg,
