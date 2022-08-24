@@ -13,7 +13,6 @@ package com.vijaykumawat.Leyaa;
         import androidx.annotation.RequiresApi;
         import androidx.appcompat.app.AppCompatActivity;
         import androidx.appcompat.widget.Toolbar;
-        import androidx.core.view.GravityCompat;
         import androidx.recyclerview.widget.GridLayoutManager;
         import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,7 +51,7 @@ public class SplitBill_Member_Info extends AppCompatActivity {
 
 
 
-        Toolbar toolbar= findViewById(R.id.toolbar);
+        Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
         FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
 
         bill_reminder_flt_btn = findViewById(R.id.bill_reminder_flt_btn);

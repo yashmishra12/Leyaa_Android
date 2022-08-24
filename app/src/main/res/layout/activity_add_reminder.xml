@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_bill_split_trans"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
@@ -22,7 +22,7 @@
         android:id="@+id/add_reminder_layout_top"
         android:layout_width="match_parent"
         android:layout_height="59dp"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/toolbar_bill_split_trans"
         android:background="@color/cardview_dark_background"
         android:orientation="vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

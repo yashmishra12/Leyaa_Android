@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,12 +16,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Bill_Transaction extends AppCompatActivity {
@@ -29,7 +28,9 @@ public class Bill_Transaction extends AppCompatActivity {
     String memberID;
     TextView payNotification, getNotification;
     String userName;
+    String memberName;
     String roomName;
+    Toolbar toolbar_bill_split_trans;
 
     FloatingActionButton bill_split_member_back_flt_btn;
 
@@ -49,6 +50,7 @@ public class Bill_Transaction extends AppCompatActivity {
 
         payNotification = findViewById(R.id.payNotification);
         getNotification = findViewById(R.id.getNotification);
+        toolbar_bill_split_trans = findViewById(R.id.toolbar_bill_split_trans);
 
         bill_split_member_back_flt_btn = findViewById(R.id.bill_split_member_back_flt_btn);
       
@@ -61,7 +63,6 @@ public class Bill_Transaction extends AppCompatActivity {
 
 
         bill_split_member_back_flt_btn.setOnClickListener(view -> {
-            //Toast.makeText(this, roomID, Toast.LENGTH_LONG).show();
             finish();
         });
 
@@ -89,6 +90,17 @@ public class Bill_Transaction extends AppCompatActivity {
                 if (task.isSuccessful()){
                     DocumentSnapshot documentSnapshot = task.getResult();
                     userName = (String) documentSnapshot.get("fullname");
+                }
+            }
+        });
+
+        db.collection("users").document(memberID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    memberName = (String) documentSnapshot.get("fullname");
+                    toolbar_bill_split_trans.setTitle(memberName);
                 }
             }
         });

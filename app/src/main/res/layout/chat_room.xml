@@ -15,7 +15,7 @@
         android:minWidth="48dp"
         android:minHeight="48dp"
         app:fabCustomSize="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_bill_split_trans"
         app:layout_constraintEnd_toStartOf="@+id/wave_hand_flt_btn"
         app:layout_constraintTop_toTopOf="parent"
         app:maxImageSize="20dp"
@@ -30,14 +30,14 @@
         android:layout_marginEnd="25dp"
         android:clickable="true"
         android:contentDescription="@string/app_name"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_bill_split_trans"
         app:layout_constraintEnd_toStartOf="@+id/char_room_back_flt_btn"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_baseline_waving_hand_24" />
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_bill_split_trans"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,9 +52,9 @@
         android:layout_margin="5dp"
         android:clickable="true"
         android:contentDescription="@string/app_name"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_bill_split_trans"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar_bill_split_trans"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_bill_split_trans"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     <EditText
@@ -101,6 +101,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:windowSoftInputMode="adjustResize"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

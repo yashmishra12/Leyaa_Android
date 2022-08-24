@@ -48,7 +48,7 @@ protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
         setSupportActionBar(mToolbar);
         mToolbar.setTitle(R.string.app_name);
 

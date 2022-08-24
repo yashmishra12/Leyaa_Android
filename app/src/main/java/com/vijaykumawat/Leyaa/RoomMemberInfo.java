@@ -34,7 +34,7 @@ public class RoomMemberInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.room_member_info);
 
-        Toolbar toolbar= findViewById(R.id.toolbar);
+        Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
         FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
 
         backButtonRMI.setOnClickListener(view -> {

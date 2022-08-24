@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_bill_split_trans"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,13 +27,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bill_split_member_back_flt_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignBottom="@+id/toolbar_bill_split_trans"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:clickable="true"
@@ -67,7 +67,7 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerView_pay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans"
         app:layout_constraintVertical_bias="0.47" />
 
     <TextView

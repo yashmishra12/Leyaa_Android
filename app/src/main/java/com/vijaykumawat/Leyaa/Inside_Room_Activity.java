@@ -137,7 +137,7 @@ public class Inside_Room_Activity extends BaseActivity {
         no_item_image = findViewById(R.id.no_item_image);
         no_item_image.setVisibility(View.GONE);
 
-        Toolbar toolbar= findViewById(R.id.toolbar);
+        Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
         Bundle extras = getIntent().getExtras();
         FloatingActionButton roomBackButton = findViewById(R.id.roomBackButton);
         add_item_btn = findViewById(R.id.add_item_btn);
@@ -444,7 +444,7 @@ public class Inside_Room_Activity extends BaseActivity {
         super.onResume();
         setUpRecyclerView();
 
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_bill_split_trans);
 
         DocumentReference docRef = db.collection("rooms").document(roomID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
