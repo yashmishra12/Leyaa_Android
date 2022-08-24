@@ -146,7 +146,7 @@ public class SplitBill_Member_Info extends AppCompatActivity {
 
 
 
-            Toast.makeText(getApplicationContext(),"Everyone Notified of new bill",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Everyone notified of new bill",Toast.LENGTH_LONG).show();
         });
 
     }
