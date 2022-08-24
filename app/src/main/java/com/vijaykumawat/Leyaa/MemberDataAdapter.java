@@ -11,6 +11,9 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 
 
@@ -42,6 +45,7 @@ public class MemberDataAdapter extends RecyclerView.Adapter<MemberDataAdapter.My
         int resID = context.getResources().getIdentifier(user.avatar , "drawable", context.getPackageName());
         holder.avatar.setImageResource(resID);
 
+
     }
 
 
@@ -60,6 +64,7 @@ public class MemberDataAdapter extends RecyclerView.Adapter<MemberDataAdapter.My
             fullname = itemView.findViewById(R.id.memberName);
             email = itemView.findViewById(R.id.memberEmail);
             avatar = itemView.findViewById(R.id.memberDP);
+
         }
     }
 

@@ -1,6 +1,18 @@
 package com.vijaykumawat.Leyaa;
 
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class SplitMemberData {
     String avatar, fullname, uid;
@@ -17,6 +29,7 @@ public class SplitMemberData {
     public String getUid() {
         return uid;
     }
+
 
     public SplitMemberData(){}
 

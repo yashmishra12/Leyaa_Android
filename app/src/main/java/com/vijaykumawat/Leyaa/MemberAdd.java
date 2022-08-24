@@ -1,7 +1,10 @@
 package com.vijaykumawat.Leyaa;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,12 +25,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MemberAdd extends AppCompatActivity {
     String roomID;
     String roomName;
     String  userName;
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,16 @@ public class MemberAdd extends AppCompatActivity {
         Button send_invite = findViewById(R.id.send_invite_btn);
         Button share_app = findViewById(R.id.share_app_btn);
 
+        share_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+
         share_email.requestFocus();
 
         // Share App Pressed
@@ -62,7 +81,7 @@ public class MemberAdd extends AppCompatActivity {
 
         // Send Invite Pressed
         send_invite.setOnClickListener(view -> {
-            String email = share_email.getText().toString();
+            String email = share_email.getText().toString().toLowerCase(Locale.ROOT);
             String message = share_message.getText().toString();
 
             if (email.isEmpty()) {

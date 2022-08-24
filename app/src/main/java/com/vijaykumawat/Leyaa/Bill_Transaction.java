@@ -5,6 +5,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -15,26 +16,25 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Objects;
 
-public class SplitBill_Individual_Activity extends AppCompatActivity {
+public class Bill_Transaction extends AppCompatActivity {
 
     String roomID;
     String memberID;
-    TextView userID_tv;
-    TextView roomID_tv;
+
     FloatingActionButton bill_split_member_back_flt_btn;
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     private Bill_Transaction_Adapter adapter;
+    Bill_Transaction_Adapter adapter2;
+    RecyclerView.LayoutManager layoutManager;
     String mUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bill_split_individual);
+        setContentView(R.layout.bill_split_transactions);
 
 
-        userID_tv = findViewById(R.id.userID_SBI);
-        roomID_tv = findViewById(R.id.roomID_SBI);
         bill_split_member_back_flt_btn = findViewById(R.id.bill_split_member_back_flt_btn);
 
 
@@ -44,8 +44,6 @@ public class SplitBill_Individual_Activity extends AppCompatActivity {
             roomID =  extras.getString("roomID");
             memberID = extras.getString("memberID");
 
-            roomID_tv.setText(roomID);
-            userID_tv.setText(memberID);
         }
 
 
@@ -54,10 +52,12 @@ public class SplitBill_Individual_Activity extends AppCompatActivity {
             finish();
         });
 
-        setUpRecyclerView();
+
+        setUpRecyclerViewGet();
+        setUpRecyclerViewPay();
     }
 
-    private void setUpRecyclerView() {
+    private void setUpRecyclerViewGet() {
 
 
         Query query = mstore.collection(roomID+"_BILLS")
@@ -68,10 +68,33 @@ public class SplitBill_Individual_Activity extends AppCompatActivity {
                 .setQuery(query, Bill_Transaction_Data.class).build();
 
         adapter = new Bill_Transaction_Adapter(options);
-//        RecyclerView recyclerView = findViewById(R.id.recycler_view_indi);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new CustLinearLayoutManager(this));
-//        recyclerView.setAdapter(adapter);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_get);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new GridLayoutManager(Bill_Transaction.this, 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+
+
+    }
+    private void setUpRecyclerViewPay() {
+
+
+        Query query2 = mstore.collection(roomID+"_BILLS")
+                .whereEqualTo("contributor",mUid)
+                .whereEqualTo("payer",memberID);
+
+        FirestoreRecyclerOptions<Bill_Transaction_Data> options2 = new FirestoreRecyclerOptions.Builder<Bill_Transaction_Data>()
+                .setQuery(query2, Bill_Transaction_Data.class).build();
+
+        adapter2 = new Bill_Transaction_Adapter(options2);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView_pay);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new GridLayoutManager(Bill_Transaction.this, 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter2);
 
 
 
@@ -84,12 +107,14 @@ public class SplitBill_Individual_Activity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+        adapter2.stopListening();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         adapter.startListening();
+        adapter2.startListening();
     }
 }
 

@@ -44,6 +44,7 @@
         <activity android:name=".SplitBill_Member_Info"/>
         <activity android:name=".SplitBill_Individual_Activity"/>
         <activity android:name=".Split_Add_Bill"/>
+        <activity android:name=".Bill_Transaction"/>
 
 
 

@@ -1,15 +1,19 @@
 
 package com.vijaykumawat.Leyaa;
 
-import android.app.ProgressDialog;
+
+
         import android.content.Intent;
+
         import android.os.Build;
         import android.os.Bundle;
+        import android.widget.Toast;
 
         import androidx.annotation.NonNull;
         import androidx.annotation.RequiresApi;
         import androidx.appcompat.app.AppCompatActivity;
         import androidx.appcompat.widget.Toolbar;
+        import androidx.core.view.GravityCompat;
         import androidx.recyclerview.widget.GridLayoutManager;
         import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +26,7 @@ import android.app.ProgressDialog;
         import com.google.firebase.firestore.FirebaseFirestore;
 
         import java.util.ArrayList;
+        import java.util.Objects;
 
 public class SplitBill_Member_Info extends AppCompatActivity {
 
@@ -31,10 +36,12 @@ public class SplitBill_Member_Info extends AppCompatActivity {
     SplitMemberDataAdapter myAdapter;
     FirebaseFirestore db;
     String roomID = "";
-    ProgressDialog progressDialog;
+    String roomName;
+    String userName;
+    FloatingActionButton bill_reminder_flt_btn;
+
     RecyclerView.LayoutManager layoutManager;
 
-//    TextView memberID_SBI;
 
 
     @Override
@@ -48,25 +55,23 @@ public class SplitBill_Member_Info extends AppCompatActivity {
         Toolbar toolbar= findViewById(R.id.toolbar);
         FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
 
+        bill_reminder_flt_btn = findViewById(R.id.bill_reminder_flt_btn);
 
         backButtonRMI.setOnClickListener(view -> {
             finish();
         });
 
 
+
+
+
         FloatingActionButton split_add_bill = findViewById(R.id.add_bill);
         split_add_bill.setOnClickListener(view -> {
             Intent intent = new Intent(SplitBill_Member_Info.this, Split_Add_Bill.class);
-
+            intent.putExtra("roomID",roomID);
             startActivity(intent);
         });
 
-
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Fetching Data...");
-        progressDialog.show();
 
 
         recyclerView = findViewById(R.id.recycler_view_bill_member);
@@ -86,12 +91,63 @@ public class SplitBill_Member_Info extends AppCompatActivity {
 
         if (extras != null) {
             roomID =  extras.getString("roomID");
-            toolbar.setTitle(extras.getString("roomName"));
+            roomName = extras.getString("roomName");
+            userName = extras.getString("userName");
+            toolbar.setTitle(roomName);
             populateMemberID();
         }
 
         userArrayList = new ArrayList<>();
         myAdapter = new SplitMemberDataAdapter(SplitBill_Member_Info.this, userArrayList, roomID);
+
+
+        bill_reminder_flt_btn.setOnClickListener(view -> {
+
+
+
+            DocumentReference docRef =  db.collection("rooms").document(roomID);
+
+
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+
+                        assert memberIDs != null;
+
+                        for (String member: memberIDs) {
+                            if (!Objects.equals(member, FirebaseAuth.getInstance().getUid())) {
+                                DocumentReference userRef = db.collection("users").document(member);
+
+                                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot ds = task.getResult();
+                                            String userDeviceToken = (String) ds.get("deviceToken");
+                                            String title = "Room: "+roomName;
+                                            String message = userName+" posted a new bill.";
+                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), SplitBill_Member_Info.this );
+                                            notificationsSender.SendNotifications();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+
+                    }
+                }
+            });
+
+
+
+
+
+
+            Toast.makeText(getApplicationContext(),"Everyone Notified of new bill",Toast.LENGTH_LONG).show();
+        });
 
     }
 
@@ -105,6 +161,7 @@ public class SplitBill_Member_Info extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot doc = task.getResult();
                 memberIDs = (ArrayList<String>) doc.get("members");
+
 
                 String selfID = FirebaseAuth.getInstance().getUid();
                 memberIDs.remove(selfID);
@@ -121,12 +178,14 @@ public class SplitBill_Member_Info extends AppCompatActivity {
         for (String memberID: memberIDs) {
             DocumentReference documentReference = db.collection("users").document(memberID);
 
+
             documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                     if (task.isSuccessful()) {
+
 
                         DocumentSnapshot documentSnapshot = task.getResult();
 
@@ -145,9 +204,6 @@ public class SplitBill_Member_Info extends AppCompatActivity {
                 }
             });
 
-            if (progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
 
 
         }
