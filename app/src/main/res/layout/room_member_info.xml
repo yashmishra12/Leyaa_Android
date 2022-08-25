@@ -84,7 +84,7 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
 
-            app:menu="@menu/hamburger_item" />
+            app:menu="@menu/hamburger_item"/>
 
 
     </androidx.drawerlayout.widget.DrawerLayout>

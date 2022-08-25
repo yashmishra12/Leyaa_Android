@@ -31,10 +31,10 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.663" />
+        app:layout_constraintVertical_bias="0.514" />
 
     <Button
         android:id="@+id/btn_update_room_name"
@@ -47,17 +47,18 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newroomname"
-        app:layout_constraintVertical_bias="0.511" />
+        app:layout_constraintVertical_bias="0.018" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="414dp"
-        android:layout_height="348dp"
+        android:layout_width="409dp"
+        android:layout_height="273dp"
         app:layout_constraintBottom_toTopOf="@+id/newroomname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans"
+        app:layout_constraintVertical_bias="0.26"
         app:srcCompat="@drawable/edititem" />
 
     <requestFocus
