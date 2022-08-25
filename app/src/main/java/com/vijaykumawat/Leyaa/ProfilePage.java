@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,7 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class ProfilePage extends BaseActivity {
-
+Toolbar mToolbar;
 
 
     @Override
@@ -126,6 +127,9 @@ public class ProfilePage extends BaseActivity {
 
         final String[] avatar = {""};
         final String[] selectedAvatar = {""};
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
+        mToolbar.setTitle("Profile");
 
 
         TextView fullName =  findViewById(R.id.fullName);
@@ -255,7 +259,6 @@ public class ProfilePage extends BaseActivity {
                                     startActivity(intent);
                                 }
                             });
-
                             dialog.dismiss();
                         })
                         .setNegativeButton("No", (dialog, which) -> dialog.dismiss())

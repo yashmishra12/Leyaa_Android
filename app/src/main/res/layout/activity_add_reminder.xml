@@ -6,16 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
+
+    <include
         android:id="@+id/toolbar_bill_split_trans"
-        android:layout_height="wrap_content"
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="16dp"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:background="?attr/colorPrimary" />
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
     <LinearLayout

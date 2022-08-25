@@ -56,7 +56,7 @@ public class MemberAdd extends AppCompatActivity {
         EditText share_email = findViewById(R.id.share_email);
         EditText share_message = findViewById(R.id.share_message);
         Button send_invite = findViewById(R.id.send_invite_btn);
-        Button share_app = findViewById(R.id.share_app_btn);
+        FloatingActionButton share_app = findViewById(R.id.share_app_btn);
 
         share_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

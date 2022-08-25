@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class RoomMemberInfo extends AppCompatActivity {
+public class RoomMemberInfo extends BaseActivity {
 
     RecyclerView recyclerView;
     ArrayList<String> memberIDs;
@@ -28,11 +28,14 @@ public class RoomMemberInfo extends AppCompatActivity {
     FirebaseFirestore db;
     String roomID = "";
     ProgressDialog progressDialog;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.room_member_info);
+
 
         Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
         FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
@@ -124,6 +127,17 @@ public class RoomMemberInfo extends AppCompatActivity {
 
 
     }
+    @Override
+    int getContentViewId() {
+        return R.layout.room_member_info;
+    }
+
+    // action you want to selected - eg. i want home btn to get selected
+    @Override
+    int getNavigationMenuItemId() {
+        return R.id.navigation_room;
+    }
+
 
 
 }

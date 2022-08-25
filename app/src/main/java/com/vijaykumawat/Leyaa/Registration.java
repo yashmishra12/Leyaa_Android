@@ -148,9 +148,9 @@ public class Registration extends AppCompatActivity {
                     }
                 });
 
-                Intent intent = new Intent(Registration.this, LoginPage.class);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent(Registration.this, LoginPage.class);
+//                startActivity(intent);
+//                finish();
 
             }
         });
