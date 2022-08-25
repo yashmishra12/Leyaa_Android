@@ -50,11 +50,8 @@ public class SplitBill_Member_Info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        if (firstLoad ) {
-            firstLoad = false;
-        } else {
-            mainFunction();
-        }
+        if (firstLoad ) { firstLoad = false; }
+        else { mainFunction(); }
 
     }
 
@@ -187,8 +184,7 @@ public class SplitBill_Member_Info extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void EventChangeListener() {
-        String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        ArrayList<String> memberID2 = (ArrayList<String>) memberIDs.stream().distinct().collect(Collectors.toList());
+        String mUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
         for (String memberID: memberIDs) {
             DocumentReference documentReference = db.collection("users").document(memberID);

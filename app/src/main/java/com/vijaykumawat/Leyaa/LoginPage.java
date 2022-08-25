@@ -46,10 +46,10 @@ public class LoginPage extends AppCompatActivity {
 
         forgotTextLink = findViewById(R.id.forgotPassword);
         btn_login.setOnClickListener(v -> {
-//            String email= user_name.getText().toString().trim();
-//            String password=pass_word.getText().toString().trim();
-            String email = "king@kong.com";
-            String password = "kingkong";
+            String email= user_name.getText().toString().trim();
+            String password=pass_word.getText().toString().trim();
+//            String email = "king@kong.com";
+//            String password = "kingkong";
 
             if(email.isEmpty())
             {

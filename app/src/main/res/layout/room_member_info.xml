@@ -12,7 +12,6 @@
         android:layout_marginEnd="5dp"
         android:clickable="true"
         android:contentDescription="@string/app_name"
-        app:layout_constraintBottom_toTopOf="@+id/memberRV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
@@ -35,6 +34,10 @@
         android:layout_below="@id/toolbar_bill_split_trans"
         android:fitsSystemWindows="false"
         android:layoutDirection="ltr"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:openDrawer="start">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,6 +62,17 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/memberRV"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="65dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/item_rv"
+                app:layout_constraintEnd_toEndOf="@+id/item_rv"
+                app:layout_constraintStart_toStartOf="@+id/item_rv"
+                app:layout_constraintTop_toTopOf="@+id/item_rv" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -75,17 +89,6 @@
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/memberRV"
-        android:layout_width="387dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

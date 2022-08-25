@@ -124,7 +124,6 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
                 public void onClick(View view){
                     new AlertDialog.Builder(view.getContext(),R.style.AlertDialog)
                             .setTitle("Are you sure?")
-                            .setMessage("One of the group members will have to add you back.")
                             .setPositiveButton("Yes", (dialog, which) -> {
                                 deleteRequest(getAbsoluteAdapterPosition());
                                 Toast.makeText(view.getContext(), "Rejected", Toast.LENGTH_SHORT ).show();
