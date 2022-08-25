@@ -116,12 +116,12 @@ public class Registration extends AppCompatActivity {
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "onSuccess: user Profile is created for "+ userID);
+
                                     FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
                                         @Override
                                         public void onComplete(@NonNull Task<String> task) {
                                             if (!task.isSuccessful()){
-                                                Log.d(TAG, "Error Fetching Device Token");
+
                                                 return;
                                             }
 
@@ -135,7 +135,7 @@ public class Registration extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onFailure: " + e.toString());
+
                                 }
                             });
 

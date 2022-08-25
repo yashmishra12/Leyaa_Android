@@ -150,7 +150,7 @@ public class InvitationListActivity extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()){
-                            Log.d("TAG", "Error Fetching Device Token");
+
                             return;
                         }
 

@@ -93,13 +93,13 @@ public class Room_Creation extends AppCompatActivity {
                         documentReference.set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "onSuccess: Room ID "+ userID);
+
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Log.d(TAG, "onFailure: " + e.toString());
+
                                     }
                                 });
 
@@ -112,7 +112,7 @@ public class Room_Creation extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<String> task) {
                                 if (!task.isSuccessful()){
-                                    Log.d("TAG", "Error Fetching Device Token");
+
                                     return;
                                 }
 

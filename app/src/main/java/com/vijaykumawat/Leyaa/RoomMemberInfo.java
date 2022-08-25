@@ -77,8 +77,7 @@ public class RoomMemberInfo extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot doc = task.getResult();
                 memberIDs = (ArrayList<String>) doc.get("members");
-//                Log.d("TAG", "MEMEBRS: "+ memberIDs.stream()
-//                        .collect(Collectors.joining(" --> ")));
+
                 recyclerView.setAdapter(myAdapter);
                 EventChangeListener();
 

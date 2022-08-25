@@ -18,13 +18,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -97,11 +97,11 @@ public class ProfilePage extends BaseActivity {
                         fullname.setText(userName);
 
                     } else {
-                        Log.d("TAG", "DocumentSnapshot No such document");
+
                     }
                 }
                 else {
-                    Log.d("TAG", "DocumentSnapshot get failed with ", task.getException());
+
                 }
             }
         });
@@ -156,7 +156,7 @@ public class ProfilePage extends BaseActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
-                        Log.d("TAG", "DocumentSnapshot data: " + doc.get("email"));
+
                         String userEmail  = (String) doc.get("email");
                         email.setText(userEmail);
 
@@ -170,12 +170,7 @@ public class ProfilePage extends BaseActivity {
 
                         profileAvatar.setImageResource(resID);
 
-                    } else {
-                        Log.d("TAG", "DocumentSnapshot No such document");
                     }
-                }
-                else {
-                    Log.d("TAG", "DocumentSnapshot get failed with ", task.getException());
                 }
             }
         });

@@ -518,7 +518,7 @@ public class Inside_Room_Activity extends BaseActivity {
                             db.collection("rooms").document(finalRoomID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    Log.d("TAG", "onSuccess: ");
+
                                 }
                             });
 
