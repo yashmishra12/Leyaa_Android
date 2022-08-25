@@ -259,7 +259,6 @@ Toolbar mToolbar;
                                     startActivity(intent);
                                 }
                             });
-
                             dialog.dismiss();
                         })
                         .setNegativeButton("No", (dialog, which) -> dialog.dismiss())

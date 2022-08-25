@@ -67,33 +67,32 @@ public class Inside_Room_Activity extends BaseActivity {
         itemRef = db.collection("rooms");
         no_item_image.setVisibility(View.GONE);
 
-        eventListener =  itemRef.document(roomID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent (@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                ArrayList<HashMap<String, String>> item_data_models = (ArrayList<HashMap<String, String>>) value.get("newItems");
-                RecyclerView rcv = findViewById(R.id.item_rv);
+            eventListener =  itemRef.document(roomID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent (@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                layoutManager = new GridLayoutManager(Inside_Room_Activity.this, 2);
-                rcv.setHasFixedSize(true);
-                rcv.setLayoutManager(layoutManager);
-                itemAdapter = new ItemAdapter(item_data_models, roomID);
-                showImage();
+                    if (value != null) {
+                        ArrayList<HashMap<String, String>> item_data_models = (ArrayList<HashMap<String, String>>) value.get("newItems");
+                        RecyclerView rcv = findViewById(R.id.item_rv);
 
-                rcv.setAdapter(itemAdapter);
+                        layoutManager = new GridLayoutManager(Inside_Room_Activity.this, 2);
+                        rcv.setHasFixedSize(true);
+                        rcv.setLayoutManager(layoutManager);
+                        itemAdapter = new ItemAdapter(item_data_models, roomID);
+                        showImage();
 
-                if (itemAdapter.getItemCount()  > 0 ) {
+                        rcv.setAdapter(itemAdapter);
 
-                    rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
+                        if (itemAdapter.getItemCount()  > 0 ) {
+
+                            rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
+                        }
+
+
+                    }
+
                 }
-
-
-
-            }
-        });
-
-
-
-
+            });
 
     }
 
