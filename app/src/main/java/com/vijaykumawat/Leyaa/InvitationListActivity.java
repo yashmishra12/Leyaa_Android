@@ -130,9 +130,6 @@ public class InvitationListActivity extends BaseActivity {
 
         adapter = new InvitationAdapter(options);
 
-        ImageView relaximage = findViewById(R.id.no_room_image);
-        TextView relaxtext = findViewById(R.id.relaxtext);
-
         RecyclerView recyclerView = findViewById(R.id.recycler_view_invitation);
 
         recyclerView.setHasFixedSize(true);

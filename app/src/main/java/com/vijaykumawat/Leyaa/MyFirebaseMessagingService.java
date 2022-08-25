@@ -1,19 +1,14 @@
 package com.vijaykumawat.Leyaa;
 
-import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.IBinder;
 import android.os.Vibrator;
 
 
@@ -31,13 +26,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Objects;
+
 
 public class MyFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
     private static final String TAG = "TAG";
 
      public void onNewToken() {
-         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
 
          FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
              @Override
