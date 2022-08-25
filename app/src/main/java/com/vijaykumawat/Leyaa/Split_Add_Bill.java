@@ -1,11 +1,8 @@
 package com.vijaykumawat.Leyaa;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -22,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class Split_Add_Bill extends AppCompatActivity {
 
@@ -52,7 +47,7 @@ public class Split_Add_Bill extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.split_add_bill_mainactivity);
 
-        Toolbar toolbar= findViewById(R.id.toolbar);
+        Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
         save_bill = findViewById(R.id.save_bill);
         bill_item_name = findViewById(R.id.bill_item_name);
 

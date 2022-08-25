@@ -15,12 +15,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
-import android.util.Log;
-import android.widget.Toast;
+
+
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,8 +31,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Objects;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class MyFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
@@ -45,7 +43,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
              @Override
              public void onComplete(@NonNull Task<String> task) {
                  if (!task.isSuccessful()){
-                     Log.d("TAG", "Error Fetching Device Token");
+
                      return;
                  }
 
@@ -56,9 +54,9 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
      }
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.d("msg", "onMessageReceived: " + remoteMessage.getData().get("message"));
+
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
@@ -75,12 +73,12 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
+
 
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM

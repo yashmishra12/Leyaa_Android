@@ -28,6 +28,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 
 public class Registration extends AppCompatActivity {
     Button btn2_signup;
@@ -95,25 +97,31 @@ public class Registration extends AppCompatActivity {
 
                             fuser = mAuth.getCurrentUser();
 
-                            userID = mAuth.getCurrentUser().getUid();
+                            userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+                            int rnd = new Random().nextInt(SanitizeItemName.assetName.length);
+                            String newAvatar = "coffee";
+                            try {
+                                newAvatar = SanitizeItemName.assetName[rnd];
+                            } catch (Error ignored) {
 
+                            }
                             DocumentReference documentReference = mStore.collection("users").document(userID);
                             Map<String,Object> user = new HashMap<>();
                             user.put("fullname",fullName);
                             user.put("email",email);
-                            user.put("avatar","coffee");
+                            user.put("avatar", newAvatar);
                             user.put("uid", fuser.getUid());
                             user.put("deviceToken", "");
 
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "onSuccess: user Profile is created for "+ userID);
+
                                     FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
                                         @Override
                                         public void onComplete(@NonNull Task<String> task) {
                                             if (!task.isSuccessful()){
-                                                Log.d(TAG, "Error Fetching Device Token");
+
                                                 return;
                                             }
 
@@ -127,7 +135,7 @@ public class Registration extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onFailure: " + e.toString());
+
                                 }
                             });
 

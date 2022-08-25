@@ -25,7 +25,7 @@
         app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_bill_split_trans"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:layout_height="402dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans"
         app:srcCompat="@drawable/change_name" />
 
     <EditText

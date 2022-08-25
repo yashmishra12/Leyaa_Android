@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_bill_split_trans"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
         android:id="@+id/createRoomBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignBottom="@+id/toolbar_bill_split_trans"
         android:layout_alignParentTop="true"
 
         android:layout_alignParentEnd="true"
@@ -79,7 +79,7 @@
         android:contentDescription="@string/app_name"
 
         android:foregroundGravity="clip_horizontal|center"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar_bill_split_trans"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24"
         tools:ignore="MissingConstraints" />

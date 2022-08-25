@@ -6,23 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_height="wrap_content"
+
+    <include
+        android:id="@+id/toolbar_bill_split_trans"
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="16dp"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:background="?attr/colorPrimary" />
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
     <LinearLayout
         android:id="@+id/add_reminder_layout_top"
         android:layout_width="match_parent"
         android:layout_height="59dp"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/toolbar_bill_split_trans"
         android:background="@color/cardview_dark_background"
         android:orientation="vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

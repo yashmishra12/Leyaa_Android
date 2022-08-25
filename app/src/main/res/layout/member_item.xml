@@ -14,43 +14,45 @@
 
         <ImageView
             android:id="@+id/memberDP"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="130dp"
+            android:layout_height="123dp"
             android:layout_margin="5dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/memberName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_width="259dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="28dp"
             android:foregroundTint="#FFFFFF"
             android:minHeight="48dp"
             android:text="Full Name"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="20sp"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/memberDP"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/memberEmail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_width="259dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="12dp"
             android:foregroundTint="#E8E8E8"
             android:minHeight="48dp"
             android:text="TextView"
-            android:textColor="@color/white"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/memberDP"
             app:layout_constraintTop_toBottomOf="@+id/memberName" />
     </androidx.constraintlayout.widget.ConstraintLayout>

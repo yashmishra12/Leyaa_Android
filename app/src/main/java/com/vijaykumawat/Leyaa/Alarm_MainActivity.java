@@ -48,9 +48,9 @@ protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        mToolbar.setTitle(R.string.app_name);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
+        //setSupportActionBar(mToolbar);
+        mToolbar.setTitle("Reminder");
 
 
         reminderListView = (ListView) findViewById(R.id.list);

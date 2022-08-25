@@ -1,37 +1,31 @@
 
 package com.vijaykumawat.Leyaa;
 
-
-
-        import android.content.Intent;
-
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.widget.Toast;
-
-        import androidx.annotation.NonNull;
-        import androidx.annotation.RequiresApi;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.appcompat.widget.Toolbar;
-        import androidx.core.view.GravityCompat;
-        import androidx.recyclerview.widget.GridLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
-
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.android.material.floatingactionbutton.FloatingActionButton;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.firestore.DocumentReference;
-        import com.google.firebase.firestore.DocumentSnapshot;
-        import com.google.firebase.firestore.FirebaseFirestore;
-
-        import java.util.ArrayList;
-        import java.util.Objects;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class SplitBill_Member_Info extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ArrayList<String> memberIDs;
+    ArrayList<String> memberIDs = new ArrayList<>();
     ArrayList<SplitMemberData> userArrayList;
     SplitMemberDataAdapter myAdapter;
     FirebaseFirestore db;
@@ -39,20 +33,35 @@ public class SplitBill_Member_Info extends AppCompatActivity {
     String roomName;
     String userName;
     FloatingActionButton bill_reminder_flt_btn;
+    Boolean firstLoad = true;
 
     RecyclerView.LayoutManager layoutManager;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainFunction();
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        if (firstLoad ) { firstLoad = false; }
+        else { mainFunction(); }
+
+    }
+
+    public void mainFunction(){
+
         setContentView(R.layout.bill_split_member_info);
 
 
 
-        Toolbar toolbar= findViewById(R.id.toolbar);
+        Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
         FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
 
         bill_reminder_flt_btn = findViewById(R.id.bill_reminder_flt_btn);
@@ -143,12 +152,8 @@ public class SplitBill_Member_Info extends AppCompatActivity {
 
 
 
-
-
-
             Toast.makeText(getApplicationContext(),"Everyone notified of new bill",Toast.LENGTH_LONG).show();
         });
-
     }
 
     private void populateMemberID() {
@@ -160,11 +165,15 @@ public class SplitBill_Member_Info extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot doc = task.getResult();
+
                 memberIDs = (ArrayList<String>) doc.get("members");
 
-
+                memberIDs = (ArrayList<String>) memberIDs.stream().distinct().collect(Collectors.toList());
                 String selfID = FirebaseAuth.getInstance().getUid();
                 memberIDs.remove(selfID);
+
+
+
                 recyclerView.setAdapter(myAdapter);
                 EventChangeListener();
 
@@ -173,8 +182,10 @@ public class SplitBill_Member_Info extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void EventChangeListener() {
-        String mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String mUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+
         for (String memberID: memberIDs) {
             DocumentReference documentReference = db.collection("users").document(memberID);
 

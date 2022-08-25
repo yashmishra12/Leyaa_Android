@@ -22,9 +22,11 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:contentDescription="@string/close"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:fabCustomSize="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:fabCustomSize="30dp"
             app:maxImageSize="15dp"
             app:srcCompat="@android:drawable/ic_delete" />
 
@@ -34,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Item Name"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Amount"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Date"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"

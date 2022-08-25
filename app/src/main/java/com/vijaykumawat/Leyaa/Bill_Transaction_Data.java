@@ -1,12 +1,20 @@
 package com.vijaykumawat.Leyaa;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class Bill_Transaction_Data {
     String itemName;
     Double itemPrice;
     Date timestamp;
+    String payer, contributor;
+
+    public Bill_Transaction_Data(String itemName, Double itemPrice, Date timestamp, String payer, String contributor) {
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.timestamp = timestamp;
+        this.payer = payer;
+        this.contributor = contributor;
+    }
 
     public Bill_Transaction_Data(){}
 
@@ -22,9 +30,11 @@ public class Bill_Transaction_Data {
         return timestamp;
     }
 
-    public Bill_Transaction_Data(String itemName, Double itemPrice, Date timestamp) {
-        this.itemName = itemName;
-        this.itemPrice = itemPrice;
-        this.timestamp = timestamp;
+    public String getPayer() {
+        return payer;
+    }
+
+    public String getContributor() {
+        return contributor;
     }
 }

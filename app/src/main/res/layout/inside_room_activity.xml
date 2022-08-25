@@ -9,10 +9,10 @@
     tools:context=".Inside_Room_Activity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_bill_split_trans"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/toolbar"
+        android:layout_alignEnd="@id/toolbar_bill_split_trans"
         android:background="#004674"
         android:elevation="3dp"
         android:minHeight="?attr/actionBarSize"
@@ -22,7 +22,7 @@
         android:id="@+id/roomBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignBottom="@+id/toolbar_bill_split_trans"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="0dp"
@@ -39,7 +39,7 @@
         android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/toolbar_bill_split_trans"
         android:fitsSystemWindows="false"
         android:layoutDirection="ltr"
         tools:openDrawer="start">
@@ -98,7 +98,7 @@
         android:id="@+id/add_item_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignBottom="@+id/toolbar_bill_split_trans"
         android:layout_alignParentTop="true"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="25dp"
@@ -109,7 +109,7 @@
         android:focusable="true"
         app:fabCustomSize="50dp"
         app:layout_constraintBottom_toTopOf="@+id/drawer"
-        app:layout_constraintEnd_toStartOf="@+id/toolbar"
+        app:layout_constraintEnd_toStartOf="@+id/toolbar_bill_split_trans"
         app:layout_constraintTop_toTopOf="parent"
         app:maxImageSize="30dp"
         app:srcCompat="@drawable/ic_baseline_add_shopping_cart_24"

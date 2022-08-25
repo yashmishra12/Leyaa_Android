@@ -12,7 +12,7 @@ tools:context=".Registration">
 
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_bill_split_trans"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -27,7 +27,7 @@ tools:context=".Registration">
         app:layout_constraintBottom_toTopOf="@+id/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -66,7 +66,7 @@ tools:context=".Registration">
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans"
         app:layout_constraintVertical_bias="0.499"
         tools:ignore="MissingConstraints" />
 

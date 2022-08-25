@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -33,6 +34,7 @@ public class InvitationListActivity extends BaseActivity {
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
 
     private InvitationAdapter adapter;
+    Toolbar mToolbar;
 
 
     @Override
@@ -53,7 +55,8 @@ public class InvitationListActivity extends BaseActivity {
         TextView relaxtext = findViewById(R.id.relaxtext);
 
         RecyclerView rcv = findViewById(R.id.recycler_view_invitation);
-
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
+        mToolbar.setTitle("Invitation");
         setUpRecyclerView();
 
 
@@ -150,7 +153,7 @@ public class InvitationListActivity extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()){
-                            Log.d("TAG", "Error Fetching Device Token");
+
                             return;
                         }
 
