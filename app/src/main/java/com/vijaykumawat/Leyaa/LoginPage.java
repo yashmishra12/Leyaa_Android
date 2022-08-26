@@ -89,7 +89,6 @@ public class LoginPage extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<String> task) {
                             if (!task.isSuccessful()){
-
                                 return;
                             }
 
