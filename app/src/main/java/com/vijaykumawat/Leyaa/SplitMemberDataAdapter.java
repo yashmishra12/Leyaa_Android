@@ -77,6 +77,9 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
                 });
 
 
+
+
+
         db.collection(roomID+"_BILLS")
                 .whereEqualTo("payer", user.getUid() )
                 .whereEqualTo("contributor", FirebaseAuth.getInstance().getUid())
