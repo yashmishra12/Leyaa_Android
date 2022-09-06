@@ -42,6 +42,13 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
     protected void onBindViewHolder(@NonNull RoomHolder holder, int position, @NonNull Invitation_Data model) {
         holder.senderName.setText(model.getSenderName());
         holder.roomName.setText(model.getRoomName());
+        if(model.getMessage().isEmpty()){
+            holder.message.setText("Hey! Accept my room request. Thanks");
+        }
+        else{
+            holder.message.setText(model.getMessage());
+        }
+
         receiverEmail = model.getReceiverEmail();
     }
 
@@ -109,11 +116,13 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
 
         TextView senderName;
         TextView roomName;
+        TextView message;
 
         public RoomHolder(@NonNull View itemView) {
             super(itemView);
             senderName = itemView.findViewById(R.id.sendername);
             roomName = itemView.findViewById(R.id.room_title_inv);
+            message=itemView.findViewById(R.id.invitation_message);
 
 
             //cancel

@@ -68,5 +68,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans" />
 
+    <TextView
+        android:id="@+id/room_title_set"
+        android:layout_width="138dp"
+        android:layout_height="40dp"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="22sp"
+        android:translationZ="90dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bill_reminder_flt_btn"
+        app:layout_constraintEnd_toStartOf="@+id/bill_reminder_flt_btn"
+        app:layout_constraintStart_toStartOf="@+id/toolbar_bill_split_trans"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_bill_split_trans" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

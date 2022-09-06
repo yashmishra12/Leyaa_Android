@@ -165,11 +165,8 @@ public class InvitationListActivity extends BaseActivity {
             }
         });
 
-
-
-
-
     }
+
 
 
     @Override

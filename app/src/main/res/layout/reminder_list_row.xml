@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/reminder_list_row_frame_layout"
+    android:focusable="true"
+    android:paddingTop="12dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:background="#2C6D97"
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/reminder_title_tvw"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingRight="28dp"
+        android:text="Decision Name"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/reminder_tof_tvw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/reminder_title_tvw"
+        android:gravity="end"
+        android:maxLines="1"
+
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/reminder_dof_tvw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reminder_title_tvw"
+        android:maxLines="1"
+        android:paddingTop="8dp"
+        android:text="07/10/2019, 07:00"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+
+
+
+</RelativeLayout>
+
+
+</FrameLayout>

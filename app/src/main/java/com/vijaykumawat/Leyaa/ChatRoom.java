@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ import java.util.Objects;
 
 public class ChatRoom extends AppCompatActivity {
     Toolbar toolbar;
+    TextView roomtitle;
     FloatingActionButton back_btn;
     String roomName;
     String roomID;
@@ -60,6 +62,7 @@ public class ChatRoom extends AppCompatActivity {
 
 
         toolbar = findViewById(R.id.toolbar_bill_split_trans);
+        roomtitle=findViewById(R.id.room_title_set);
         back_btn = findViewById(R.id.char_room_back_flt_btn);
         send_msg_btn = findViewById(R.id.send_msg_btn);
         message_field = findViewById(R.id.message_field);
@@ -86,7 +89,8 @@ public class ChatRoom extends AppCompatActivity {
             });
         }
 
-        toolbar.setTitle(roomName);
+        //toolbar.setTitle(roomName);
+        roomtitle.setText(roomName);
         setUpRecyclerView();
 
         send_msg_btn.setOnClickListener(view -> {

@@ -17,41 +17,26 @@
     <string name="title_activity_edit_reminder">Edit Reminder</string>
 
 
-    <string name="add_reminder">Reminder</string>
-    <string name="details">Details</string>
-    <string name="date">Date</string>
-    <string name="time">Time</string>
-
-    <string name="repeat_off">Off</string>
-
-
+    <string name="teit_error_text">This field is mandatory</string>
+    <string name="del_reminder_dialog_negative_button">Cancel</string>
+    <string name="ra_empty_state_title">No Reminder</string>
+    <string name="ra_empty_state_text">Added reminder will appear here.</string>
+    <string name="ra_copy_confirmation_text">Reminder title copied</string>
+    <string name="delete_reminder_dialog_title">Are you sure?</string>
+    <string name="delete_reminder_dialog_message">This action cannot be undone</string>
+    <string name="delete_reminder_dialog_positive_button">Delete</string>
+    <string name="copy">Copy</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="new_reminder">new Reminder</string>
+    <string name="reminder_set_c">Reminder Set</string>
+    <string name="channel_name">Reminder Notification</string>
+    <string name="channel_description">Reminders</string>
+    <string name="r_r_title">rRTitle</string>
+    <string name="notification_ctitle">Freshness Check</string>
+    <string name="title">Title</string>
     <string name="action_discard_reminder">Discard Reminder</string>
     <string name="action_save_reminder">Save Reminder</string>
-
-    <string name="editor_activity_title_new_reminder">Add Reminder Details</string>
-    <string name="editor_activity_title_edit_reminder">Edit Reminder</string>
-    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
-    <string name="discard">Discard</string>
-
-    <string name="keep_editing">Keep Editing</string>
-    <string name="delete_dialog_msg">Delete this Reminder?</string>
-
-    <string name="delete">Yes</string>
-
-    <string name="cancel">No</string>
-    <string name="editor_delete_reminder_successful">Reminder Deleted</string>
-
-    <string name="editor_delete_reminder_failed">Error with deleting reminder</string>
-
-    <string name="editor_insert_reminder_successful">Reminder Saved</string>
-
-    <string name="editor_insert_reminder_failed">Error with saving reminder</string>
-
-    <string name="editor_update_reminder_successful">Reminder updated</string>
-
-    <string name="editor_update_reminder_failed">Error with updating reminder</string>
-
-    <string name="reminder_title">Freshness Check</string>
 
 
 </resources>
