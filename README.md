@@ -5,9 +5,9 @@
 <img src="https://github.com/yashmishra12/Leyaa/blob/main/assets/icon.png?raw=true" width="200" style="float:left" > 
 
 
-<a href = "https://play.google.com/store/apps/details?id=com.vijaykumawat.Leyaa">
+<a href = "https://apps.apple.com/us/app/leyaa/id1633689299">
 
-<img src="https://github.com/yashmishra12/Leyaa/blob/main/assets/google-play.png?raw=true" width="200" style="float:right; padding-top: 50px;"  > 
+<img src="https://github.com/yashmishra12/Leyaa/blob/main/assets/downloadOnAppStore.png?raw=true" width="200" style="float:right; padding-top: 50px;"  > 
 
 </a>
 

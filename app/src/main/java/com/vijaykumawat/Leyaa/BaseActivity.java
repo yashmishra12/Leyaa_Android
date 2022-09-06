@@ -49,7 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
                     break;
                 }
                 case R.id.navigation_reminder:{
-                    startActivity(new Intent(this, Alarm_MainActivity.class));
+                    startActivity(new Intent(this, RemindersActivity.class));
                     break;
                 }
 

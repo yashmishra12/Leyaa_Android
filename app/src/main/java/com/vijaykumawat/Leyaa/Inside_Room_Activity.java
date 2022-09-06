@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import android.widget.ImageView;
 
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,7 @@ public class Inside_Room_Activity extends BaseActivity {
     String roomName = "";
     String roomID = "";
     String userName = "";
+    int item_count=0;
 
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -84,7 +86,7 @@ public class Inside_Room_Activity extends BaseActivity {
                         rcv.setAdapter(itemAdapter);
 
                         if (itemAdapter.getItemCount()  > 0 ) {
-
+                            item_count=itemAdapter.getItemCount();
                             rcv.smoothScrollToPosition(itemAdapter.getItemCount()-1);
                         }
 
@@ -137,6 +139,8 @@ public class Inside_Room_Activity extends BaseActivity {
         no_item_image.setVisibility(View.GONE);
 
         Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
+        TextView roomtitle=findViewById(R.id.room_title_set);
+
         Bundle extras = getIntent().getExtras();
         FloatingActionButton roomBackButton = findViewById(R.id.roomBackButton);
         add_item_btn = findViewById(R.id.add_item_btn);
@@ -165,7 +169,8 @@ public class Inside_Room_Activity extends BaseActivity {
                         if (documentSnapshot.exists()) {
 
                             roomName = (String) documentSnapshot.get("title");
-                            toolbar.setTitle(roomName);
+                            //toolbar.setTitle(roomName);
+                            roomtitle.setText(roomName);
                         }
                     }
                 }
@@ -442,7 +447,7 @@ public class Inside_Room_Activity extends BaseActivity {
     protected void onResume(){
         super.onResume();
         setUpRecyclerView();
-
+        TextView roomtitle=findViewById(R.id.room_title_set);
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_bill_split_trans);
 
         DocumentReference docRef = db.collection("rooms").document(roomID);
@@ -458,7 +463,8 @@ public class Inside_Room_Activity extends BaseActivity {
 
 
 
-                        toolbar.setTitle(roomName);
+                        //toolbar.setTitle(roomName);
+                        roomtitle.setText(roomName);
                     }
 
                 }

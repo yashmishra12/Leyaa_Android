@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +42,13 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
     protected void onBindViewHolder(@NonNull RoomHolder holder, int position, @NonNull Invitation_Data model) {
         holder.senderName.setText(model.getSenderName());
         holder.roomName.setText(model.getRoomName());
+        if(model.getMessage().isEmpty()){
+            holder.message.setText("Hey! Accept my room request. Thanks");
+        }
+        else{
+            holder.message.setText(model.getMessage());
+        }
+
         receiverEmail = model.getReceiverEmail();
     }
 
@@ -107,11 +116,13 @@ public class InvitationAdapter extends FirestoreRecyclerAdapter<Invitation_Data,
 
         TextView senderName;
         TextView roomName;
+        TextView message;
 
         public RoomHolder(@NonNull View itemView) {
             super(itemView);
             senderName = itemView.findViewById(R.id.sendername);
             roomName = itemView.findViewById(R.id.room_title_inv);
+            message=itemView.findViewById(R.id.invitation_message);
 
 
             //cancel

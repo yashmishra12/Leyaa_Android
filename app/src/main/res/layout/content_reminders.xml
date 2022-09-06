@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/Theme.AndroidLeyaa"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.vijaykumawat.Leyaa.RemindersActivity"
+    tools:showIn="@layout/activity_reminders">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reminders_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity=""
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="55dp"
+        android:padding="7dp"
+        android:scrollbars="vertical"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:paddingRight="16dp"
+        android:id="@+id/ra_empty_state_linear_layout"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+
+            android:layout_height="348dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+
+            android:src="@drawable/no_reminder"
+            />
+
+        <TextView
+            android:id="@+id/ra_empty_state_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="0dp"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/ra_empty_state_text_view"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -13,21 +13,22 @@ tools:context=".Registration">
 
     <include
         android:id="@+id/toolbar_bill_split_trans"
-        layout="@layout/toolbar"
+        layout="@layout/toolbar_signup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="130dp" />
 
     <EditText
-        android:id="@+id/fullName"
-        android:layout_width="323dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Full Name"
-        app:layout_constraintBottom_toTopOf="@+id/username"
+        android:id="@+id/password1"
+        android:layout_width="325dp"
+        android:layout_height="50dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/sign"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintVertical_bias="0.277"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -38,23 +39,37 @@ tools:context=".Registration">
         android:hint="Email"
         app:layout_constraintBottom_toTopOf="@+id/password1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fullName"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/password1"
-        android:layout_width="325dp"
-        android:layout_height="50dp"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/sign"
+        android:id="@+id/fullName"
+        android:layout_width="323dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Full Name"
+        app:layout_constraintBottom_toTopOf="@+id/username"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        app:layout_constraintVertical_bias="0.277"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/alreadyRegistered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already Registered ? Login Here"
+        android:textColor="#FAFBFB"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign"
+        app:layout_constraintVertical_bias="0.064"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -67,21 +82,7 @@ tools:context=".Registration">
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans"
-        app:layout_constraintVertical_bias="0.499"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/alreadyRegistered"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Already Registered ? Login Here"
-        android:textColor="#3F51B5"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign"
-        app:layout_constraintVertical_bias="0.608"
+        app:layout_constraintVertical_bias="0.446"
         tools:ignore="MissingConstraints" />
 
 

@@ -5,6 +5,7 @@ public class Invitation_Data {
     private String senderName;
     private String roomName;
     private String roomID;
+    private String message;
     private String receiverEmail;
     private int pos;
 
@@ -20,10 +21,15 @@ public class Invitation_Data {
         return pos;
     }
 
-    private Invitation_Data(String senderName, String roomName,String receiverEmail){
+    private Invitation_Data(String senderName, String roomName,String receiverEmail,String message){
         this.senderName=senderName;
         this.roomName = roomName;
+        this.message=message;
 
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public String getReceiverEmail() {

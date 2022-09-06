@@ -7,7 +7,11 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
@@ -45,34 +49,9 @@
         <activity android:name=".SplitBill_Member_Info"/>
         <activity android:name=".Split_Add_Bill"/>
         <activity android:name=".Bill_Transaction"/>
+        <activity android:name=".RemindersActivity"/>
 
 
-
-        <activity android:name="Alarm_MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name="AddReminderActivity"
-            android:label="@string/title_activity_add_reminder"
-            android:parentActivityName="Alarm_MainActivity"
-            android:theme="@style/AppTheme">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="Alarm_MainActivity"
-                />
-        </activity>
-        <provider
-            android:name="com.vijaykumawat.Leyaa.data.AlarmReminderProvider"
-            android:authorities="com.vijaykumawat.Leyaa"
-            android:exported="false" />
-
-        <service
-            android:name="com.vijaykumawat.Leyaa.reminder.ReminderAlarmService"
-            android:exported="false" />
 
 
         <activity android:name=".ChatRoom"/>
@@ -85,6 +64,23 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+
+
+        <service
+            android:name="com.vijaykumawat.Leyaa.NotificationService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+        </service>
+
+        <receiver android:name="com.vijaykumawat.Leyaa.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
 
 
     </application>
