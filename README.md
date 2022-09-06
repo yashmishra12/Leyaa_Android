@@ -6,6 +6,14 @@
 
 
 <a href = "https://apps.apple.com/us/app/leyaa/id1633689299">
+<<<<<<< HEAD
+=======
+
+<img src="https://github.com/yashmishra12/Leyaa/blob/main/assets/downloadOnAppStore.png?raw=true" width="200" style="float:right; padding-top: 50px;"  > 
+
+</a>
+<a href = "[[https://apps.apple.com/us/app/leyaa/id1633689299]()](https://play.google.com/store/apps/details?id=com.vijaykumawat.Leyaa)">
+>>>>>>> f41240ef4b6565be95f91a74900f77f01c3042cf
 
 <img src="https://github.com/yashmishra12/Leyaa/blob/main/assets/downloadOnAppStore.png?raw=true" width="200" style="float:right; padding-top: 50px;"  > 
 
@@ -50,7 +58,7 @@ Leyaa helps people living under the same roof communicate better. Unorganized sh
 <h2>Features</h2>
 
 - Create Rooms and send an invitation request to existing Leyaa users.
-- Add items that the house for all to see.
+- Add items to the house for all to see.
 - Notify room members when you go shopping so that they can add items.
 - Set reminders to check on items that can go stale
 - Tell them when it's time to clean the house.
