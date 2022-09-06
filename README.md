@@ -6,16 +6,13 @@
 
 
 <a href = "https://apps.apple.com/us/app/leyaa/id1633689299">
-<<<<<<< HEAD
-=======
 
 <img src="https://github.com/yashmishra12/Leyaa/blob/main/assets/downloadOnAppStore.png?raw=true" width="200" style="float:right; padding-top: 50px;"  > 
 
 </a>
 <a href = "[[https://apps.apple.com/us/app/leyaa/id1633689299]()](https://play.google.com/store/apps/details?id=com.vijaykumawat.Leyaa)">
->>>>>>> f41240ef4b6565be95f91a74900f77f01c3042cf
 
-<img src="https://github.com/yashmishra12/Leyaa/blob/main/assets/downloadOnAppStore.png?raw=true" width="200" style="float:right; padding-top: 50px;"  > 
+<img src="https://github.com/yashmishra12/Leyaa/blob/main/assets/google-play.png?raw=true" width="200" style="float:right; padding-top: 50px;"  > 
 
 </a>
 
