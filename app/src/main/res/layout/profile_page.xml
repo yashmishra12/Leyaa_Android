@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="Sign Out"
+        android:backgroundTint="#0B5387"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/frameLayout" />
 
@@ -204,6 +205,23 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageButton
+                android:id="@+id/share_app_btn_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:foregroundGravity="left"
+                android:translationZ="90dp"
+                android:layout_margin="4dp"
+                android:backgroundTint="#0B5387"
+                app:layout_constraintBottom_toBottomOf="@+id/toolbar_bill_split_trans"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/toolbar_bill_split_trans"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/ic_baseline_share" />
 
 
             <!--            <include-->

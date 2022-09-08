@@ -24,7 +24,7 @@
         <entry key="app/src/main/res/layout/activity_add_reminder.xml" value="0.34156378600823045" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.40630340576171875" />
         <entry key="app/src/main/res/layout/activity_name_change.xml" value="0.2545867919921875" />
-        <entry key="app/src/main/res/layout/activity_reminders.xml" value="0.7450669425677621" />
+        <entry key="app/src/main/res/layout/activity_reminders.xml" value="0.31592039800995025" />
         <entry key="app/src/main/res/layout/activity_view.xml" value="0.20212765957446807" />
         <entry key="app/src/main/res/layout/add_item.xml" value="0.5378448486328126" />
         <entry key="app/src/main/res/layout/alarm_items.xml" value="0.42912332286005433" />
@@ -62,11 +62,11 @@
         <entry key="app/src/main/res/layout/nav_drawer.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/layout/profile_activity.xml" value="0.26106139773954073" />
         <entry key="app/src/main/res/layout/profile_name_change.xml" value="0.24072265625000003" />
-        <entry key="app/src/main/res/layout/profile_page.xml" value="0.4381551362683438" />
+        <entry key="app/src/main/res/layout/profile_page.xml" value="0.19330855018587362" />
         <entry key="app/src/main/res/layout/registration.xml" value="0.2921844482421876" />
         <entry key="app/src/main/res/layout/reminder_activity.xml" value="0.3692098092643052" />
         <entry key="app/src/main/res/layout/reminder_activity_main.xml" value="0.327445652173913" />
-        <entry key="app/src/main/res/layout/reminder_list_row.xml" value="0.3360117594401042" />
+        <entry key="app/src/main/res/layout/reminder_list_row.xml" value="0.4274210611979167" />
         <entry key="app/src/main/res/layout/room_create_manager.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_creation.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/room_invitation.xml" value="0.4043478260869565" />

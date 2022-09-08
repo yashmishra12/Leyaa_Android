@@ -54,7 +54,7 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
     private Toolbar mToolbar;
     View rARootLayout;
     FloatingActionButton question_mark_flt_btn_rem;
-    String rmessage = "1. Long press on reminder to delete, edit and copy.\n\n" +
+    String rmessage = "This is a beta feature which might not work on all android versions and devices.Please test if it runs on your device.\n\n"+"1. Long press on reminder to delete, edit and copy.\n\n" +
             "2. Click on reminder to edit.";
 
 

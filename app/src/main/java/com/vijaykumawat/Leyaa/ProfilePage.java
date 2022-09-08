@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,12 +125,13 @@ Toolbar mToolbar;
         Button saveButton = findViewById(R.id.saveAvatar);
         Button signoutButton = findViewById(R.id.signout_button_profile);
         Button editName = findViewById(R.id.editNameButton);
+        ImageButton sharebtn=findViewById(R.id.share_app_btn_profile);
 
         final String[] avatar = {""};
         final String[] selectedAvatar = {""};
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
-        mToolbar.setTitle("Profile");
+        //mToolbar.setTitle("Profile");
 
 
         TextView fullName =  findViewById(R.id.fullName);
@@ -146,6 +148,14 @@ Toolbar mToolbar;
                 profileAvatar.setImageResource(resID);
 
             }
+        });
+
+        sharebtn.setOnClickListener(view -> {
+            Intent myItent = new Intent(Intent.ACTION_SEND);
+            myItent.setType("text/plain");
+            myItent.putExtra(Intent.EXTRA_SUBJECT, "Leyaa - Shop Better, Live Organized.");
+            myItent.putExtra(Intent.EXTRA_TEXT, secretKey.playStoreURL);
+            startActivity(Intent.createChooser(myItent, "Share Via"));
         });
 
 
