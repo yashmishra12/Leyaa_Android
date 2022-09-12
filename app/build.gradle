@@ -7,14 +7,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.vijaykumawat.Leyaa"
         minSdk 21
-        targetSdk 33
-        versionCode 8
-        versionName "1.1.1"
+        targetSdk 30
+        versionCode 10
+        versionName "1.1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -63,6 +63,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.5.0'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     annotationProcessor 'androidx.room:room-compiler:2.3.0-alpha03'
+    implementation 'androidx.work:work-runtime-ktx:2.7.0-beta01'
 
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -94,6 +95,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:15.0.2'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+
 
 
 
