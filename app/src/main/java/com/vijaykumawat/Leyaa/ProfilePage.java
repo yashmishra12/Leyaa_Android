@@ -131,7 +131,7 @@ Toolbar mToolbar;
         final String[] selectedAvatar = {""};
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
-        //mToolbar.setTitle("Profile");
+         //mToolbar.setTitle("Profile");
 
 
         TextView fullName =  findViewById(R.id.fullName);

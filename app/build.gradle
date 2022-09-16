@@ -16,6 +16,7 @@ android {
         versionCode 10
         versionName "1.1.2"
 
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

@@ -29,7 +29,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import android.widget.Toast;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,7 +57,9 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
     private Toolbar mToolbar;
     View rARootLayout;
     FloatingActionButton question_mark_flt_btn_rem;
+
     String rmessage = "This is a beta feature which might not work on all android versions and devices. Please test if it runs on your device.\n\n"+"-------------------------------------------------------------------\nTo Delete/Edit:\n\n1. Long press on reminder to delete, edit and copy.\n\n" +
+
             "2. Click on reminder to edit.";
 
 
@@ -289,8 +293,10 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
         setRAEmptyState();
         setNextReminderAlarm();
 
+
         Toast.makeText(this, "Saved Reminder", Toast.LENGTH_SHORT).show();
     }
+
     public void updateReminder(final String reminderTitle, final String reminderDTS, final long reminderTIM, final int reminderId, final int reminderPosition) {
         Runnable updateReminderRunnable = new Runnable() {
             @Override
@@ -310,7 +316,9 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
 
         setNextReminderAlarm();
 
+
         Toast.makeText(this, "Reminder Updated", Toast.LENGTH_SHORT).show();
+
     }
 
     public void hideActionBar() {
@@ -488,6 +496,7 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
                             }
 
                             deleteReminderListItem(selectedPosition);
+
                             Toast.makeText(getApplicationContext(), "Reminder Deleted", Toast.LENGTH_SHORT).show();
 
                             setRAEmptyState();

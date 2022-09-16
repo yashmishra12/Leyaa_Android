@@ -37,9 +37,11 @@ public class InvitationListActivity extends BaseActivity {
 
     private InvitationAdapter adapter;
     Toolbar mToolbar;
+
     ImageView relaximage;
     int globalCounter = 10;
     TextView relaxtext;
+
 
 
     @Override
@@ -173,6 +175,7 @@ public class InvitationListActivity extends BaseActivity {
         });
         showImage();
 
+
     }
 
     public void showImage() {
@@ -211,6 +214,7 @@ public class InvitationListActivity extends BaseActivity {
             relaxtext.getLayoutParams().width = 0;
             relaxtext.getLayoutParams().height = 0;
         }
+
 
     }
 
