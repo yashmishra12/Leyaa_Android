@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vijaykumawat.Leyaa">
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.VIBRATE" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,8 +14,8 @@
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher_foreground"
-        android:roundIcon="@mipmap/ic_launcher_foreground"
+        android:icon="@mipmap/ic_launcher_1"
+        android:roundIcon="@mipmap/ic_launcher_1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -73,9 +72,9 @@
             android:permission="android.permission.BIND_JOB_SERVICE">
         </service>
 
-        <receiver android:name="com.vijaykumawat.Leyaa.NotificationReceiver"
-            android:enabled="true"
-            android:exported="false">
+
+        <receiver android:name="com.vijaykumawat.Leyaa.NotificationReceiver">
+
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

@@ -30,6 +30,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import android.widget.Toast;
+
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,7 +57,9 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
     private Toolbar mToolbar;
     View rARootLayout;
     FloatingActionButton question_mark_flt_btn_rem;
-    String rmessage = "1. Long press on reminder to delete, edit and copy.\n\n" +
+
+    String rmessage = "This is a beta feature which might not work on all android versions and devices. Please test if it runs on your device.\n\n"+"-------------------------------------------------------------------\nTo Delete/Edit:\n\n1. Long press on reminder to delete, edit and copy.\n\n" +
+
             "2. Click on reminder to edit.";
 
 
@@ -288,7 +293,8 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
         setRAEmptyState();
         setNextReminderAlarm();
 
-        Snackbar.make(rARootLayout, R.string.reminder_set_c,Snackbar.LENGTH_SHORT).show();
+
+        Toast.makeText(this, "Saved Reminder", Toast.LENGTH_SHORT).show();
     }
 
     public void updateReminder(final String reminderTitle, final String reminderDTS, final long reminderTIM, final int reminderId, final int reminderPosition) {
@@ -310,7 +316,9 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
 
         setNextReminderAlarm();
 
-        Snackbar.make(rARootLayout, "Reminder Updated",Snackbar.LENGTH_SHORT).show();
+
+        Toast.makeText(this, "Reminder Updated", Toast.LENGTH_SHORT).show();
+
     }
 
     public void hideActionBar() {
@@ -476,6 +484,7 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
                                 @Override
                                 public void run() {
                                     remindersDatabaseAdapter.deleteReminder(sReminderId);
+
                                 }
                             };
                             Thread deleteRThread = new Thread(deleteRRunnable);
@@ -487,7 +496,11 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
                             }
 
                             deleteReminderListItem(selectedPosition);
+
+                            Toast.makeText(getApplicationContext(), "Reminder Deleted", Toast.LENGTH_SHORT).show();
+
                             setRAEmptyState();
+
                         }
 
                         dialogInterface.dismiss();

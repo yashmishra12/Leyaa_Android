@@ -9,6 +9,9 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
+
+    android:layout_margin="4dp"
+
     android:clickable="true"
     android:orientation="vertical"
     android:background="#2C6D97"
@@ -21,7 +24,7 @@
 
     <TextView
         android:id="@+id/reminder_title_tvw"
-        android:layout_width="288dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:ellipsize="end"
@@ -31,30 +34,31 @@
         android:textColor="@color/white"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/reminder_tof_tvw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/reminder_title_tvw"
-        android:gravity="end"
-        android:maxLines="1"
 
-        android:textColor="@color/white"
-        android:textSize="16sp" />
 
 
     <TextView
         android:id="@+id/reminder_dof_tvw"
-        android:layout_width="match_parent"
+        android:layout_width="104dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/reminder_title_tvw"
         android:maxLines="1"
         android:paddingTop="8dp"
-        android:text="07/10/2019, 07:00"
+        android:text="07/10/2019"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
+    <TextView
+        android:id="@+id/reminder_tof_tvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reminder_title_tvw"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="9dp"
 
+        android:layout_toEndOf="@+id/reminder_dof_tvw"
+
+        android:textColor="#FAF9F9" />
 
 
 </RelativeLayout>

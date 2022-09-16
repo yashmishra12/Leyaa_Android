@@ -52,8 +52,13 @@
 
         <ImageView
             android:id="@+id/no_room_image"
-            android:layout_width="0dp"
-            android:layout_height="348dp"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="40dp"
+            android:padding="10dp"
+
+            android:contentDescription="image"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/recycler_view_invitation"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_split_trans"
@@ -62,13 +67,16 @@
 
         <TextView
             android:id="@+id/relaxtext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:contentDescription="image"
+            android:visibility="invisible"
+            android:layout_marginTop="10dp"
             android:text="Relax, you've no new request."
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="34sp"
+            android:padding="10dp"
+            android:textSize="31sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/recycler_view_invitation"
             app:layout_constraintTop_toBottomOf="@+id/no_room_image" />

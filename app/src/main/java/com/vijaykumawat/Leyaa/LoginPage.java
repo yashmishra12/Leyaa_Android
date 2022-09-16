@@ -1,5 +1,6 @@
 package com.vijaykumawat.Leyaa;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ public class LoginPage extends AppCompatActivity {
     private EditText user_name, pass_word;
     FirebaseAuth mAuth;
     TextView forgotTextLink;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
