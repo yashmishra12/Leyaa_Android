@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,11 +28,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <ImageView
         android:id="@+id/shopping_cart_image"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
+        android:layout_width="237dp"
+        android:layout_height="224dp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

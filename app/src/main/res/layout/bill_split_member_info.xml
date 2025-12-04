@@ -3,70 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
+    <!-- Toolbar at top -->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back FAB on right, aligned with toolbar -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bill_split_member_back_flt_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:clickable="true"
         android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintTop_toTopOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toEndOf="@id/toolbar" />
 
-        android:foregroundGravity="clip_horizontal|center"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/bill_reminder_flt_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/recycler_view_bill_member"
-        app:layout_constraintEnd_toStartOf="@+id/add_bill"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_waving_hand_24" />
-
+    <!-- Add bill FAB, left of back button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_bill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
         android:contentDescription="@string/action_discard_reminder"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toStartOf="@+id/bill_split_member_back_flt_btn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_bill_24" />
+        app:srcCompat="@drawable/ic_bill_24"
+        app:layout_constraintTop_toTopOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toStartOf="@id/bill_split_member_back_flt_btn" />
 
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
+    <!-- Reminder FAB, left of add bill -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bill_reminder_flt_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:foregroundGravity="center_vertical|center|center_horizontal"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_baseline_waving_hand_24"
+        app:layout_constraintTop_toTopOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toStartOf="@id/add_bill" />
 
+    <!-- List below toolbar -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_bill_member"
-        android:layout_width="387dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

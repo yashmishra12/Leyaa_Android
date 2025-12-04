@@ -8,6 +8,7 @@
     android:layout_margin="3dp"
     android:background="#2C6D97"
     android:backgroundTint="#2C6D97"
+    android:fitsSystemWindows="true"
     android:padding="5dp"
     app:contentPadding="5dp"
    >

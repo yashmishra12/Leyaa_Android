@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -50,6 +51,18 @@ public class Registration extends AppCompatActivity {
         mStore = FirebaseFirestore.getInstance();
         mFullName  = findViewById(R.id.fullName);
         registeredLoginBtn = findViewById(R.id.alreadyRegistered);
+        // --- Start of Toolbar Code ---
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+// Disable the default title so we can use our custom TextView
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+// Now set title on your custom TextView inside toolbar.xml
+        TextView toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
+        toolbarTitle.setText("Shop Better, Live Organized");
 
         btn2_signup.setOnClickListener(new View.OnClickListener() {
 

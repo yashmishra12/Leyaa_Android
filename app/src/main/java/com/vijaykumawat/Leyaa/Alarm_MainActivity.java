@@ -48,9 +48,9 @@ protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        mToolbar.setTitle(R.string.app_name);
+//        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(mToolbar);
+//        mToolbar.setTitle(R.string.app_name);
 
 
         reminderListView = (ListView) findViewById(R.id.list);
@@ -120,11 +120,12 @@ public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 @Override
 public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mCursorAdapter.swapCursor(cursor);
-        if (cursor.getCount() > 0){
         reminderText.setVisibility(View.VISIBLE);
-        }else{
-        reminderText.setVisibility(View.INVISIBLE);
-        }
+//        if (cursor.getCount() > 0){
+//        reminderText.setVisibility(View.GONE);
+//        }else{
+//        reminderText.setVisibility(View.VISIBLE);
+//        }
 
         }
 

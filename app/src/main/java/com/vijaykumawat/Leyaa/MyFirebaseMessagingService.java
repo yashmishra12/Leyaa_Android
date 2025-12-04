@@ -39,7 +39,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
     private static final String TAG = "TAG";
 
      public void onNewToken() {
-         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
 
          FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
              @Override
@@ -56,7 +56,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
      }
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.d("msg", "onMessageReceived: " + remoteMessage.getData().get("message"));
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -85,7 +85,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        String msgTitle = remoteMessage.getNotification().getTitle();
+        String msgTitle = Objects.requireNonNull(remoteMessage.getNotification()).getTitle();
         String msgBody = remoteMessage.getNotification().getBody();
         sendNotification(msgTitle, msgBody);
     }
@@ -93,8 +93,9 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
     private void sendNotification(String msgTitle, String messageBody) {
         Intent intent = new Intent(this, RoomListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+
 
         String channelId = "My channel ID";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

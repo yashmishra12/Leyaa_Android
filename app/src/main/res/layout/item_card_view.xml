@@ -8,6 +8,7 @@
     android:background="#2C6D97"
     android:backgroundTint="#2C6D97"
     android:padding="10dp"
+    android:fitsSystemWindows="true"
     app:contentPadding="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

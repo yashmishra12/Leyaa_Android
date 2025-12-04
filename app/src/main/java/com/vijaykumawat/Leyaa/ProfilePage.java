@@ -25,7 +25,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -122,6 +125,7 @@ public class ProfilePage extends BaseActivity {
         Button resetButton = findViewById(R.id.resetAvatar);
         Button saveButton = findViewById(R.id.saveAvatar);
         Button signoutButton = findViewById(R.id.signout_button_profile);
+        Button deleteAccountButton = findViewById(R.id.delete_account);
         Button editName = findViewById(R.id.editNameButton);
 
         final String[] avatar = {""};
@@ -260,6 +264,52 @@ public class ProfilePage extends BaseActivity {
                                     startActivity(intent);
                                 }
                             });
+
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                        .show();
+
+
+
+
+
+
+            }
+        });
+
+
+        deleteAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new AlertDialog.Builder(view.getContext(),R.style.AlertDialog)
+                        .setTitle("We're Sorry to See You Go")
+                        .setMessage("Do you want to proceed?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+
+                            final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                            DocumentReference docRef = db.collection("users").document(userID);
+
+                            // Prompt the user to re-provide their sign-in credentials
+                            if (user != null) {
+                                docRef.update("deviceToken", "").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        user.delete();
+                                        Toast.makeText(view.getContext(), "Your account has been deleted.", Toast.LENGTH_LONG).show();
+                                        FirebaseAuth.getInstance().signOut();
+                                        Intent intent = new Intent(ProfilePage.this, LoginPage.class);
+
+
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//make sure user cant go back
+                                        startActivity(intent);
+                                    }
+                                });
+
+
+                            }
 
                             dialog.dismiss();
                         })

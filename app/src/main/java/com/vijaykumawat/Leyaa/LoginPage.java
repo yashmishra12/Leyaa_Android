@@ -2,6 +2,7 @@ package com.vijaykumawat.Leyaa;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -14,11 +15,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar; // Import the Toolbar class
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,8 +36,22 @@ public class LoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loginpage);
+        setContentView(R.layout.loginpage); // Assuming your layout file is `loginpage.xml`
 
+        // --- Start of Toolbar Code ---
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+// Disable the default title so we can use our custom TextView
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+// Now set title on your custom TextView inside toolbar.xml
+        TextView toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
+        toolbarTitle.setText("Shop Better, Live Organized");
+
+        // --- End of Toolbar Code ---
 
         user_name=findViewById(R.id.iaminside);
         pass_word=findViewById(R.id.password);
@@ -46,10 +63,10 @@ public class LoginPage extends AppCompatActivity {
 
         forgotTextLink = findViewById(R.id.forgotPassword);
         btn_login.setOnClickListener(v -> {
-//            String email= user_name.getText().toString().trim();
-//            String password=pass_word.getText().toString().trim();
-            String email = "king@kong.com";
-            String password = "kingkong";
+            String email= user_name.getText().toString().trim();
+            String password=pass_word.getText().toString().trim();
+//            String email = "king@kong.com"; // Keep these commented out for production
+//            String password = "kingkong";   // Keep these commented out for production
 
             if(email.isEmpty())
             {
@@ -98,6 +115,7 @@ public class LoginPage extends AppCompatActivity {
                             String token = task.getResult();
                             documentReference.update("deviceToken", token);
                         }
+                        // Added missing closing brace here for onComplete
                     });
 
                 }
@@ -139,7 +157,28 @@ public class LoginPage extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(LoginPage.this, "Error ! Reset Link is Not Sent" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Snackbar snackbar = Snackbar.make(
+                                        findViewById(android.R.id.content),
+                                        "The email you entered doesn’t seem to be registered. Please check and try again.",
+                                        Snackbar.LENGTH_LONG
+                                );
+
+                                snackbar.setDuration(10000);
+                                View sbView = snackbar.getView();
+                                sbView.setBackgroundColor(Color.parseColor("#D32F2F")); // Material Red 700
+
+// Change text color to white
+                                TextView textView = sbView.findViewById(com.google.android.material.R.id.snackbar_text);
+                                textView.setTextColor(Color.WHITE);
+                                textView.setMaxLines(5); // ensures full message shown
+
+                                snackbar.show();
+
+//                                Toast.makeText(LoginPage.this,
+//                                        "The email you entered doesn’t seem to be registered. Please check and try again.",
+//                                        Toast.LENGTH_LONG).show();
+
+//                                Toast.makeText(LoginPage.this, "Error ! Reset Link is Not Sent" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
 

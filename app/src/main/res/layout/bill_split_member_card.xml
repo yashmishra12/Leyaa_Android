@@ -8,6 +8,7 @@
     android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
     android:background="@color/card_color"
+    android:fitsSystemWindows="true"
     android:backgroundTint="@color/card_color">
 
     <androidx.constraintlayout.widget.ConstraintLayout

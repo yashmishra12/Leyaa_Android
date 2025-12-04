@@ -1,223 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+
+    android:fitsSystemWindows="true">
+
+    <!-- Toolbar at top, moved below status bar by fitsSystemWindows -->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Top buttons aligned under toolbar -->
+    <Button
+        android:id="@+id/delete_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Delete Account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <Button
         android:id="@+id/signout_button_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginEnd="8dp"
         android:text="Sign Out"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/frameLayout" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBaseline_toBaselineOf="@id/delete_account" />
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <!-- Bottom navigation (shared layout) anchored to bottom -->
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/element_bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <!-- Avatar controls just above bottom navigation -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/resetAvatar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="24dp"
+            android:text="Reset" />
 
-            <LinearLayout
-                android:id="@+id/imageLinearLayout"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center_horizontal|top"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/fullNameLinearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        <Button
+            android:id="@+id/saveAvatar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="24dp"
+            android:text="Save" />
+    </LinearLayout>
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+    <!-- GridView sits above bottomNav -->
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:numColumns="5"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-                <ImageView
-                    android:id="@+id/profileAvatar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="clip_horizontal|top"
-                    android:layout_marginTop="5dp"
-                    android:maxWidth="200dp"
-                    android:maxHeight="200dp"
-                    android:minWidth="200dp"
-                    android:minHeight="200dp"
-                    tools:srcCompat="@tools:sample/avatars" />
+    <!-- Email text between name and grid -->
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textIsSelectable="true"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/gridView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+    <!-- Full name row between avatar and email -->
+    <LinearLayout
+        android:id="@+id/fullNameLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-            </LinearLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
-            <LinearLayout
-                android:id="@+id/fullNameLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/email"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:id="@+id/fullName"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:minHeight="48dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textIsSelectable="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
 
-                <Space
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+        <Button
+            android:id="@+id/editNameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:padding="4dp"
+            android:text="Edit"
+            android:textAlignment="center"
+            android:textColor="#757575"
+            android:textSize="10sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
-                <TextView
-                    android:id="@+id/fullName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@+id/profileAvatar"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="8dp"
-                    android:minHeight="48dp"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF"
-                    android:textIsSelectable="true"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    tools:ignore="TouchTargetSizeCheck" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 
-                <Button
-                    android:id="@+id/editNameButton"
-                    android:layout_width="37dp"
-                    android:layout_height="21dp"
-                    android:layout_marginStart="10dp"
-                    android:background="#FFFFFF"
+    <!-- Avatar row between top buttons and name -->
+    <LinearLayout
+        android:id="@+id/imageLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal|top"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/signout_button_profile"
+        app:layout_constraintBottom_toTopOf="@id/fullNameLinearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-                    android:clickable="true"
-                    android:contentDescription="@string/close"
-                    android:padding="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="2dp"
-                    android:src="@android:drawable/ic_notification_clear_all"
-                    android:text="Edit"
-                    android:textAlignment="center"
-                    android:textColor="#757575"
-                    android:textSize="10sp"
-                    app:backgroundTint="#00FFFFFF"
-                    app:fabSize="auto"
-                    app:icon="@drawable/ic_baseline_edit_24"
-                    app:iconPadding="0dp"
-                    app:iconSize="12dp"
-                    tools:ignore="TouchTargetSizeCheck" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+        <ImageView
+            android:id="@+id/profileAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxWidth="200dp"
+            android:maxHeight="200dp"
+            android:minWidth="200dp"
+            android:minHeight="200dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:contentDescription="@string/app_name"
-                android:minHeight="48dp"
-                android:text=""
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textIsSelectable="true"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/gridView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <GridView
-                android:id="@+id/gridView"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:numColumns="5"
-                app:layout_constraintBottom_toTopOf="@+id/bottomNav"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" >
-
-            </GridView>
-
-            <LinearLayout
-                android:id="@+id/bottomNav"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/navigation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <Button
-                    android:id="@+id/resetAvatar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_weight="1"
-                    android:text="Reset" />
-
-
-                <Button
-                    android:id="@+id/saveAvatar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="50dp"
-                    android:layout_weight="1"
-                    android:text="Save" />
-
-            </LinearLayout>
-
-            <include
-                android:id="@+id/navigation"
-                layout="@layout/element_bottom_navigation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-            <!--            <include-->
-            <!--                android:id="@+id/navigation"-->
-            <!--                layout="@layout/element_bottom_navigation"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="0dp"-->
-            <!--                android:layout_alignParentBottom="true"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                tools:layout_editor_absoluteY="675dp" />-->
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
-
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

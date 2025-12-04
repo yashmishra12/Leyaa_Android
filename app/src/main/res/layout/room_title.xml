@@ -6,6 +6,7 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
+    android:fitsSystemWindows="true"
     app:cardBackgroundColor="#2C6D97">
 
     <RelativeLayout

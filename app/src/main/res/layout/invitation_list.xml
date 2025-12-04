@@ -6,50 +6,44 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- TOP TOOLBAR -->
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- BOTTOM NAVIGATION -->
+        <include
+            android:id="@+id/navigation"
+            layout="@layout/element_bottom_navigation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- MAIN LIST -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_invitation"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toTopOf="@id/navigation"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="409dp"
-            android:layout_height="63dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <include
-                android:id="@+id/navigation"
-                layout="@layout/element_bottom_navigation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true" />
-
-        </RelativeLayout>
-
+        <!-- NO DATA IMAGE (centered like room XML) -->
         <ImageView
             android:id="@+id/no_room_image"
             android:layout_width="0dp"
@@ -73,7 +67,7 @@
             app:layout_constraintStart_toStartOf="@+id/recycler_view_invitation"
             app:layout_constraintTop_toBottomOf="@+id/no_room_image" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

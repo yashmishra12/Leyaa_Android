@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfilenameChange"
+
     android:id="@+id/nameChangeFrame"
-    >
+    android:fitsSystemWindows="true">
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/back_button_name_change"
