@@ -68,8 +68,8 @@ final Handler handler = new Handler();
         relaximage = findViewById(R.id.no_room_image);
         relaximage.setVisibility(View.GONE);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
-        mToolbar.setTitle("Rooms");
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) mToolbar.setTitle("Rooms");
 
         setUpRecyclerView();
 

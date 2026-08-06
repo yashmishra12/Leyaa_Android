@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.vijaykumawat.Leyaa'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.vijaykumawat.Leyaa"
         minSdk 23
-        targetSdk 35
+        targetSdk 36
         versionCode 26
         versionName "25.12.14"
 

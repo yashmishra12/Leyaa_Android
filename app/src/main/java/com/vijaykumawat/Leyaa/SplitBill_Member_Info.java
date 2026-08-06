@@ -62,8 +62,8 @@ public class SplitBill_Member_Info extends AppCompatActivity {
 
 
 
-        Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
-        TextView roomtitle=findViewById(R.id.room_title_set);
+        Toolbar toolbar= findViewById(R.id.toolbar);
+        TextView roomtitle=findViewById(R.id.toolbarTitle);
         FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
 
         bill_reminder_flt_btn = findViewById(R.id.bill_reminder_flt_btn);

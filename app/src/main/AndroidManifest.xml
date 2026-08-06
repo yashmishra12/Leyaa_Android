@@ -93,7 +93,8 @@
         </service>
 
 
-        <receiver android:name="com.vijaykumawat.Leyaa.NotificationReceiver">
+        <receiver android:name="com.vijaykumawat.Leyaa.NotificationReceiver"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

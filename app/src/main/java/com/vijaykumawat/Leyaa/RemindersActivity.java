@@ -72,9 +72,8 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
 
 
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
-        //setSupportActionBar(mToolbar);
-        mToolbar.setTitle("Reminder");
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) mToolbar.setTitle("Reminder");
 
         question_mark_flt_btn_rem = findViewById(R.id.question_mark_flt_btn_reminder);
         question_mark_flt_btn_rem.setOnClickListener(view -> {

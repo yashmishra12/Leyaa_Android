@@ -47,7 +47,7 @@ public class Split_Add_Bill extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.split_add_bill_mainactivity);
 
-        Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
+        Toolbar toolbar= findViewById(R.id.toolbar);
         save_bill = findViewById(R.id.save_bill);
         bill_item_name = findViewById(R.id.bill_item_name);
 

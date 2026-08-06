@@ -67,7 +67,7 @@ public class SplitBill_Individual_Activity extends AppCompatActivity {
         FirestoreRecyclerOptions<Bill_Transaction_Data> options = new FirestoreRecyclerOptions.Builder<Bill_Transaction_Data>()
                 .setQuery(query, Bill_Transaction_Data.class).build();
 
-        adapter = new Bill_Transaction_Adapter(options);
+        adapter = new Bill_Transaction_Adapter(options, roomID);
 //        RecyclerView recyclerView = findViewById(R.id.recycler_view_indi);
 //        recyclerView.setHasFixedSize(true);
 //        recyclerView.setLayoutManager(new CustLinearLayoutManager(this));

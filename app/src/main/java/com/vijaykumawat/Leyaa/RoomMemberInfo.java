@@ -37,7 +37,7 @@ public class RoomMemberInfo extends BaseActivity {
         super.onCreate(savedInstanceState);
 
 
-        Toolbar toolbar= findViewById(R.id.toolbar_bill_split_trans);
+        Toolbar toolbar= findViewById(R.id.toolbar);
         FloatingActionButton backButtonRMI = findViewById(R.id.bill_split_member_back_flt_btn);
 
         backButtonRMI.setOnClickListener(view -> {

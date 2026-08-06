@@ -64,8 +64,8 @@ public class InvitationListActivity extends BaseActivity {
         relaxtext = findViewById(R.id.relaxtext);
 
         RecyclerView rcv = findViewById(R.id.recycler_view_invitation);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
-        mToolbar.setTitle("Invitation");
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) mToolbar.setTitle("Invitation");
         setUpRecyclerView();
 
 
