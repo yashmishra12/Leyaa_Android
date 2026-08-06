@@ -13,11 +13,11 @@ import java.util.stream.Stream;
 public class SanitizeItemName {
 
     public static String[] assetName = {"almond", "apple", "avocado", "bagel", "banana",
-            "bandaid", "battery", "beer", "bellpepper", "biscuit", "bodylotion",
+            "bandaid", "battery","bean" ,"beer", "bellpepper", "biscuit", "bodylotion",
             "bodywash", "boot", "bottle", "bread", "broccoli", "broom", "bucket",
             "bugspray", "bulb", "butter", "cabbage", "calculator", "candle", "canopener",
             "cap", "carrot", "cashew", "cauliflower", "cereal", "cheese", "cherry",
-            "chicken", "chilli", "chip", "chocolate", "choppingboard", "cigarette",
+            "chicken", "chilli", "chip", "chocolate", "choppingboard", "cigarette","cilantro",
             "cleaner", "clock", "clove", "coffee", "cola", "conditioner", "condom",
             "contactlen", "converse", "cookie", "cookingoil", "corn", "cornflake", "croc",
             "cucumber", "deodorant", "detergent", "dishwasher", "donut", "egg",
@@ -41,10 +41,10 @@ public class SanitizeItemName {
             "whiskey", "wine", "yogurt"};
 
     public static String[] realAssetName = {"Almond", "Apple", "Avocado", "Bagel", "Banana", "BandAid",
-            "Battery", "Beer", "Bell Pepper", "Biscuit", "Body Lotion", "Body Wash", "Boots", "Bottle",
+            "Battery", "Bean" ,"Beer", "Bell Pepper", "Biscuit", "Body Lotion", "Body Wash", "Boots", "Bottle",
             "Bread", "Broccoli", "Broom", "Bucket", "Bug Spray", "Bulb", "Butter", "Cabbage", "Calculator",
             "Candle", "Can Opener", "Cap", "Carrot", "Cashew", "Cauliflower", "Cereal", "Cheese", "Cherry", "Chicken",
-            "Chilli", "Chips", "Chocolate", "Chopping Board", "Cigarette", "Cleaner", "Clock", "Clove", "Coffee", "Cola",
+            "Chilli", "Chips", "Chocolate", "Chopping Board", "Cigarette", "Cilantro" ,"Cleaner", "Clock", "Clove", "Coffee", "Cola",
             "Conditioner", "Condom", "Contact Lens", "Converse", "Cookie", "Cooking Oil", "Corn", "Corn Flake", "Crocs", "Cucumber",
             "Deodorant", "Detergent", "Dish Washer", "Donut", "Egg", "Eggplant", "Energy Drink", "Face Wash", "Fish", "Flour",
             "Flower", "Fork", "Formal Shoes", "Freshener", "Garlic", "Ginger", "Gloves", "Glue", "Grapes", "Guava", "Hand Wash",

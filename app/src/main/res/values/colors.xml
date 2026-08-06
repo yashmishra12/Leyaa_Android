@@ -16,4 +16,9 @@
     <color name="others_msg">#46b088</color>
     <color name="my_msg">#6592fc</color>
     <color name="card_color">#2C6D97</color>
+
+    <color name="recyclerViewItemSelectionColor">#50FF4081</color>
+    <color name="mediumEmphasisTextColor">#99000000</color>
+    <color name="highEmphasisTextColor">#de000000</color>
+    <color name="black_overlay">#66000000</color>
 </resources>

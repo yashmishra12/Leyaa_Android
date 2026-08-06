@@ -3,12 +3,15 @@ package com.vijaykumawat.Leyaa;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -33,6 +36,12 @@ public class InvitationListActivity extends BaseActivity {
     private final FirebaseFirestore mstore = FirebaseFirestore.getInstance();
 
     private InvitationAdapter adapter;
+    Toolbar mToolbar;
+
+    ImageView relaximage;
+    int globalCounter = 10;
+    TextView relaxtext;
+
 
 
     @Override
@@ -49,11 +58,14 @@ public class InvitationListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImageView relaximage = findViewById(R.id.no_room_image);
-        TextView relaxtext = findViewById(R.id.relaxtext);
+        findViewById(R.id.no_room_image).setVisibility(View.GONE);
+        findViewById(R.id.relaxtext).setVisibility(View.GONE);
+        relaximage = findViewById(R.id.no_room_image);
+        relaxtext = findViewById(R.id.relaxtext);
 
         RecyclerView rcv = findViewById(R.id.recycler_view_invitation);
-
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
+        mToolbar.setTitle("Invitation");
         setUpRecyclerView();
 
 
@@ -150,7 +162,7 @@ public class InvitationListActivity extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()){
-                            Log.d("TAG", "Error Fetching Device Token");
+
                             return;
                         }
 
@@ -161,12 +173,51 @@ public class InvitationListActivity extends BaseActivity {
 
             }
         });
-
-
-
+        showImage();
 
 
     }
+
+    public void showImage() {
+        int i;
+        boolean flag = false;
+        for(i=globalCounter; i>0; i--) {
+            if(adapter.getItemCount()==0) {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (adapter.getItemCount()==0) {
+                            relaximage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                            relaximage.getLayoutParams().height = 750;
+                            relaximage.setVisibility(View.VISIBLE);
+
+                            relaxtext.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                            relaxtext.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            relaxtext.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }, 10);
+
+                flag = true;
+                break;
+            }
+        }
+
+        if (!flag) {
+            relaximage.setVisibility(View.GONE);
+            relaximage.getLayoutParams().width = 0;
+            relaximage.getLayoutParams().height = 0;
+
+            relaxtext.setVisibility(View.GONE);
+            relaxtext.getLayoutParams().width = 0;
+            relaxtext.getLayoutParams().height = 0;
+        }
+
+
+    }
+
 
 
     @Override

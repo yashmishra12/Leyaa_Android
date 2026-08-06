@@ -11,9 +11,11 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,6 +42,8 @@ final Handler handler = new Handler();
     FloatingActionButton floatingButton;
     ImageView relaximage;
     int globalCounter = 10;
+    Toolbar mToolbar;
+
 
     String mUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
@@ -64,6 +68,9 @@ final Handler handler = new Handler();
         relaximage = findViewById(R.id.no_room_image);
         relaximage.setVisibility(View.GONE);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_bill_split_trans);
+        mToolbar.setTitle("Rooms");
+
         setUpRecyclerView();
 
         // listen for changes to show image

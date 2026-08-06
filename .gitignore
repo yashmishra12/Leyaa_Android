@@ -23,4 +23,5 @@ keys/
 app/release/Leyaa.apk
 /Leyaa.apk
 
+*.aab
 
