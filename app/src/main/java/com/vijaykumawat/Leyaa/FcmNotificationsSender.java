@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.vijaykumawat.Leyaa.network.FcmApiService;
+import com.vijaykumawat.Leyaa.network.FcmPayload;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FcmNotificationsSender {
 
@@ -20,9 +21,7 @@ public class FcmNotificationsSender {
     private final Context mContext;
     private final Activity mActivity;
 
-    // 🔹 Use your deployed function URL here
-    private static final String BACKEND_URL =
-            "https://us-central1-leyaa-7b042.cloudfunctions.net/sendNotification";
+    private static final String BASE_URL = "https://us-central1-leyaa-7b042.cloudfunctions.net/";
 
     public FcmNotificationsSender(String userFcmToken, String title, String body,
                                   Context context, Activity activity) {
@@ -34,26 +33,24 @@ public class FcmNotificationsSender {
     }
 
     public void SendNotifications() {
-        try {
-            JSONObject payload = new JSONObject();
-            payload.put("token", userFcmToken);
-            payload.put("title", title);
-            payload.put("body", body);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-            RequestQueue queue = Volley.newRequestQueue(mContext);
+        FcmApiService apiService = retrofit.create(FcmApiService.class);
+        FcmPayload payload = new FcmPayload(userFcmToken, title, body);
 
-            JsonObjectRequest req = new JsonObjectRequest(
-                    Request.Method.POST,
-                    BACKEND_URL,
-                    payload,
-                    response -> Log.d("FCM", "Success: " + response),
-                    error -> Log.e("FCM", "Error: " + error.toString())
-            );
+        apiService.sendNotification(payload).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("FCM", "Success: " + response.code());
+            }
 
-            queue.add(req);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("FCM", "Error: " + t.getMessage());
+            }
+        });
     }
 }

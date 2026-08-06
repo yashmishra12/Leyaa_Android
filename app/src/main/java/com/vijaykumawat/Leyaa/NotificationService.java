@@ -11,6 +11,8 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import android.graphics.BitmapFactory;
 
 public class NotificationService extends JobIntentService {
 
@@ -50,12 +52,20 @@ public class NotificationService extends JobIntentService {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_leyaa_logo_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_1))
+                .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setPriority(Notification.PRIORITY_MAX)
                 .setContentTitle(getString(R.string.notification_ctitle))
-                .setContentText(reminderTitle);
+                .setContentText(reminderTitle)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(reminderTitle));
 
         Intent notifyIntent = new Intent(this, RemindersActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE, notifyIntent, flags);
         notificationBuilder.setContentIntent(pendingIntent);
 
         notificationManager.notify(currentNotificationId, notificationBuilder.build());

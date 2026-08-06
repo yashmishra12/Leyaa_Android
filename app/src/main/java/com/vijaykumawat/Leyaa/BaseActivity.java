@@ -13,6 +13,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public abstract class BaseActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
 

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
+        android:name=".LeyaaApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher_1"
@@ -21,6 +22,7 @@
 
         <activity
             android:name=".SplashScreen"
+            android:theme="@style/Theme.App.Starting"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,9 +70,9 @@
             android:authorities="com.vijaykumawat.Leyaa"
             android:exported="false" />
 
-        <!-- ✅ FIX: remove BIND_JOB_SERVICE (wrong for IntentService) -->
-        <service
-            android:name=".reminder.ReminderAlarmService"
+        <!-- ✅ FIX: Use broadcast receiver for alarms to avoid Android 12+ background limits -->
+        <receiver
+            android:name=".reminder.ReminderAlarmReceiver"
             android:exported="false" />
 
 

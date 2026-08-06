@@ -195,7 +195,12 @@ public class RemindersActivity extends BaseActivity implements ActionMode.Callba
 
                     Intent rARIntent = new Intent(this, NotificationReceiver.class);
                     rARIntent.putExtra("lReminderTitle", latestReminder.getReminderTitle());
-                    PendingIntent rARPIntent = PendingIntent.getBroadcast(this, 100, rARIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    
+                    int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        flags |= PendingIntent.FLAG_IMMUTABLE;
+                    }
+                    PendingIntent rARPIntent = PendingIntent.getBroadcast(this, 100, rARIntent, flags);
                     AlarmManager rAAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
 

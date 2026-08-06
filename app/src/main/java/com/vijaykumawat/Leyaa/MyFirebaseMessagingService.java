@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import android.graphics.BitmapFactory;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -60,9 +62,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         );
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.leyaa_logo)  // make sure this exists
+                .setSmallIcon(R.drawable.ic_leyaa_logo_notification)  // Using valid transparent vector icon
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_1))
+                .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setContentTitle(title != null ? title : "Leyaa")
                 .setContentText(body != null ? body : "")
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(body != null ? body : ""))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);

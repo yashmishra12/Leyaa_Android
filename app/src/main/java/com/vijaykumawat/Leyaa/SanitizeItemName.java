@@ -64,7 +64,17 @@ public class SanitizeItemName {
         str = str.toLowerCase(Locale.ROOT);
         str = str.trim();
         str = str.replaceAll("\\s", "");
-        if (str.endsWith("s")) {
+        
+        List<String> assetList = Arrays.asList(assetName);
+        
+        if (assetList.contains(str)) {
+            // Already a perfect match
+        } else if (str.endsWith("es") && assetList.contains(str.substring(0, str.length()-2))) {
+            str = str.substring(0, str.length()-2);
+        } else if (str.endsWith("s") && assetList.contains(str.substring(0, str.length()-1))) {
+            str = str.substring(0, str.length()-1);
+        } else if (str.endsWith("s")) {
+            // Fallback for custom items that end in s but aren't in the asset list
             str = str.substring(0, str.length()-1);
         }
 

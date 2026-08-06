@@ -90,7 +90,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 
                     Intent rARIntent = new Intent(context, NotificationReceiver.class);
                     rARIntent.putExtra("lReminderTitle", latestReminder.getReminderTitle());
-                    PendingIntent rARPIntent = PendingIntent.getBroadcast(context, 100, rARIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    
+                    int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        flags |= PendingIntent.FLAG_IMMUTABLE;
+                    }
+                    PendingIntent rARPIntent = PendingIntent.getBroadcast(context, 100, rARIntent, flags);
                     AlarmManager rAAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
 

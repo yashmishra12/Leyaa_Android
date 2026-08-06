@@ -10,6 +10,15 @@
 
     </style>
 
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background to white (LeyaaTheme light mode) -->
+        <item name="windowSplashScreenBackground">#FFFFFF</item>
+        <!-- Use transparent icon so it doesn't double-draw with our compose animation -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/transparent_pixel</item>
+        <!-- Route to the normal app theme once done -->
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
     <style name="BottomNavigationView" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#0B5387</item>

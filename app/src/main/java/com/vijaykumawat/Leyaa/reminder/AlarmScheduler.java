@@ -12,7 +12,7 @@ public class AlarmScheduler {
         AlarmManager manager = AlarmManagerProvider.getAlarmManager(context);
 
         PendingIntent operation =
-                ReminderAlarmService.getReminderPendingIntent(context, reminderTask);
+                ReminderAlarmReceiver.getReminderPendingIntent(context, reminderTask);
 
 
 
@@ -65,7 +65,7 @@ public class AlarmScheduler {
     public void cancelAlarm(Context context, Uri reminderTask) {
         AlarmManager manager = AlarmManagerProvider.getAlarmManager(context);
         PendingIntent operation =
-                ReminderAlarmService.getReminderPendingIntent(context, reminderTask);
+                ReminderAlarmReceiver.getReminderPendingIntent(context, reminderTask);
 
         if (manager == null) return;
 
