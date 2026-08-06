@@ -30,7 +30,7 @@ import java.util.Objects;
 // you will automatically get parent properties
 public class InvitationListActivity extends BaseActivity {
 
-    private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore mstore = FirebaseFirestore.getInstance();
 
     private InvitationAdapter adapter;
 

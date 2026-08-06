@@ -22,7 +22,7 @@ public class Bill_Transaction extends AppCompatActivity {
     String memberID;
 
     FloatingActionButton bill_split_member_back_flt_btn;
-    private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     private Bill_Transaction_Adapter adapter;
     Bill_Transaction_Adapter adapter2;
     RecyclerView.LayoutManager layoutManager;

@@ -3,8 +3,8 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:fitsSystemWindows="true"
-    android:background="?attr/colorPrimary">
+    android:background="@color/toolbarcolor"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:id="@+id/toolbarTitle"
@@ -13,7 +13,7 @@
         android:layout_gravity="center"
 
         android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 </androidx.appcompat.widget.Toolbar>

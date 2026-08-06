@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-
     tools:context="com.vijaykumawat.Leyaa.Alarm_MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Top toolbar (same include style as Room screen) -->
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"
@@ -24,7 +22,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Bottom navigation pinned to bottom -->
         <include
             android:id="@+id/navigation"
             layout="@layout/element_bottom_navigation"
@@ -34,7 +31,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <!-- Heading under toolbar -->
         <TextView
             android:id="@+id/reminderText"
             android:layout_width="0dp"
@@ -45,11 +41,11 @@
             android:text="Set Reminder for Item Expiry"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- ListView between heading and bottom nav -->
         <ListView
             android:id="@+id/list"
             android:layout_width="0dp"
@@ -61,12 +57,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Empty view overlaying list area -->
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/empty_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@id/list"
             app:layout_constraintBottom_toBottomOf="@id/list"
             app:layout_constraintStart_toStartOf="@id/list"
@@ -74,15 +68,48 @@
 
             <TextView
                 android:id="@+id/no_reminder_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_marginTop="28dp"
                 android:gravity="center"
-                android:padding="16dp"
-                android:text="@string/no_cardetails" />
-        </RelativeLayout>
+                android:padding="8dp"
+                android:text="No reminders yet"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- FAB above bottom nav, bottom-right -->
+            <ImageView
+                android:id="@+id/no_reminder_image"
+                android:layout_width="0dp"
+                android:layout_height="200dp"  android:layout_marginTop="14dp"
+                android:contentDescription="@string/no_cardetails"
+                android:scaleType="fitCenter"
+                android:src="@drawable/waiting"
+                app:layout_constraintTop_toBottomOf="@id/no_reminder_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.75"
+                />
+
+            <TextView
+                android:id="@+id/no_reminder_subtext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Tap + to set your first reminder."
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/no_reminder_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"

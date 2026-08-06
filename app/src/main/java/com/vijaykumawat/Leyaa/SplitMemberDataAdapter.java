@@ -68,10 +68,10 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
 
                         for(DocumentSnapshot ds: documentSnapshotList) {
                             getItemPrice[0] = (Double) ds.get("itemPrice") + getItemPrice[0];
-                            Log.d("TAG", "onSuccess: -----> "+(Double) ds.get("itemPrice"));
+                            Log.d("TAG", "onSuccess: -----> "+ ds.get("itemPrice"));
                         }
 
-                        holder.get.setText(String.valueOf("$"+getItemPrice[0]));
+                        holder.get.setText("$" + getItemPrice[0]);
 
                     }
                 });
@@ -91,7 +91,7 @@ public class SplitMemberDataAdapter extends RecyclerView.Adapter<SplitMemberData
                             payItemPrice[0] =+ (Double) ds.get("itemPrice");
                         }
 
-                        holder.pay.setText(String.valueOf("$"+payItemPrice[0]));
+                        holder.pay.setText("$" + payItemPrice[0]);
 
                     }
                 });

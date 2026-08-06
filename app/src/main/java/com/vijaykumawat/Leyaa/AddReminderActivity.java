@@ -84,7 +84,7 @@ public class AddReminderActivity extends AppCompatActivity implements
     private static final long milWeek = 604800000L;
     private static final long milMonth = 2592000000L;
 
-    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+    private final View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             mVehicleHasChanged = true;
@@ -117,10 +117,10 @@ public class AddReminderActivity extends AppCompatActivity implements
 
 
         // Initialize Views
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mTitleText = (EditText) findViewById(R.id.reminder_title);
-        mDateText = (TextView) findViewById(R.id.set_date);
-        mTimeText = (TextView) findViewById(R.id.set_time);
+        mToolbar = findViewById(R.id.toolbar);
+        mTitleText = findViewById(R.id.reminder_title);
+        mDateText = findViewById(R.id.set_date);
+        mTimeText = findViewById(R.id.set_time);
 
 
 
@@ -248,24 +248,29 @@ public class AddReminderActivity extends AppCompatActivity implements
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
         mHour = hourOfDay;
         mMinute = minute;
-        if (minute < 10) {
-            mTime = hourOfDay + ":" + "0" + minute;
-        } else {
-            mTime = hourOfDay + ":" + minute;
-        }
+        boolean isPM = hourOfDay >= 12;
+        int hour12 = hourOfDay % 12;
+        if (hour12 == 0) hour12 = 12;
+
+        String minStr = (minute < 10) ? ("0" + minute) : ("" + minute);
+        String ampm = isPM ? "PM" : "AM";
+
+        mTime = hour12 + ":" + minStr + " " + ampm;
         mTimeText.setText(mTime);
+
     }
 
     // Obtain date from date picker
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        monthOfYear ++;
+        monthOfYear++;
         mDay = dayOfMonth;
-        mMonth = monthOfYear;
+        mMonth = monthOfYear;  // 1..12
         mYear = year;
         mDate = dayOfMonth + "/" + monthOfYear + "/" + year;
         mDateText.setText(mDate);
     }
+
 
 
 
@@ -425,7 +430,8 @@ public class AddReminderActivity extends AppCompatActivity implements
 
 
         // Set up calender for creating the notification
-        mCalendar.set(Calendar.MONTH, --mMonth);
+        mCalendar.set(Calendar.MONTH, mMonth - 1);
+
         mCalendar.set(Calendar.YEAR, mYear);
         mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
         mCalendar.set(Calendar.HOUR_OF_DAY, mHour);
@@ -438,19 +444,15 @@ public class AddReminderActivity extends AppCompatActivity implements
 
 
         if (mCurrentReminderUri == null) {
-            // This is a NEW reminder, so insert a new reminder into the provider,
-            // returning the content URI for the new reminder.
             Uri newUri = getContentResolver().insert(AlarmReminderContract.AlarmReminderEntry.CONTENT_URI, values);
 
-            // Show a toast message depending on whether or not the insertion was successful.
             if (newUri == null) {
-                // If the new content URI is null, then there was an error with insertion.
                 Toast.makeText(this, getString(R.string.editor_insert_reminder_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
-                // Otherwise, the insertion was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_insert_reminder_successful),
                         Toast.LENGTH_SHORT).show();
+                mCurrentReminderUri = newUri;   // <-- IMPORTANT
             }
         } else {
 
@@ -469,14 +471,20 @@ public class AddReminderActivity extends AppCompatActivity implements
         }
 
         // Create a new notification
-        if (mActive.equals("true")) {
-            if (mRepeat.equals("true")) {
-                new AlarmScheduler().setRepeatAlarm(getApplicationContext(), selectedTimestamp, mCurrentReminderUri, mRepeatTime);
-            } else if (mRepeat.equals("false")) {
-                new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, mCurrentReminderUri);
+        if (mActive.equals("true") && mCurrentReminderUri != null) {
+            long now = System.currentTimeMillis();
+            if (selectedTimestamp <= now) {
+                // If user picked a past time (common), push it to next day
+                selectedTimestamp += 24L * 60L * 60L * 1000L;
             }
 
+            if (mRepeat.equals("true")) {
+                new AlarmScheduler().setRepeatAlarm(getApplicationContext(), selectedTimestamp, mCurrentReminderUri, mRepeatTime);
+            } else {
+                new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, mCurrentReminderUri);
+            }
         }
+
 
         // Create toast to confirm new reminder
         Toast.makeText(getApplicationContext(), "Reminder Saved",

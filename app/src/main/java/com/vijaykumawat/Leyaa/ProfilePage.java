@@ -94,7 +94,7 @@ public class ProfilePage extends BaseActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
-                        TextView fullname = (TextView) findViewById(R.id.fullName);
+                        TextView fullname = findViewById(R.id.fullName);
 
                         String userName  = (String) doc.get("fullname");
                         fullname.setText(userName);
@@ -127,6 +127,10 @@ public class ProfilePage extends BaseActivity {
         Button signoutButton = findViewById(R.id.signout_button_profile);
         Button deleteAccountButton = findViewById(R.id.delete_account);
         Button editName = findViewById(R.id.editNameButton);
+
+        TextView versionText = findViewById(R.id.app_version);
+        versionText.setText("App Version : " + BuildConfig.VERSION_NAME);
+
 
         final String[] avatar = {""};
         final String[] selectedAvatar = {""};

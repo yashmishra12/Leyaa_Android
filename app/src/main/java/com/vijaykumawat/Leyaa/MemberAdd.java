@@ -68,16 +68,32 @@ public class MemberAdd extends AppCompatActivity {
         });
 
 
+
         share_email.requestFocus();
 
         // Share App Pressed
+//        share_app.setOnClickListener(view -> {
+//            Intent myItent = new Intent(Intent.ACTION_SEND);
+//            myItent.setType("text/plain");
+//            myItent.putExtra(Intent.EXTRA_SUBJECT, "Leyaa - Shop Better, Live Organized.");
+//            myItent.putExtra(Intent.EXTRA_TEXT, secretKey.playStoreURL);
+//            startActivity(Intent.createChooser(myItent, "Share Via"));
+//        });
+
         share_app.setOnClickListener(view -> {
-            Intent myItent = new Intent(Intent.ACTION_SEND);
-            myItent.setType("text/plain");
-            myItent.putExtra(Intent.EXTRA_SUBJECT, "Leyaa - Shop Better, Live Organized.");
-            myItent.putExtra(Intent.EXTRA_TEXT, secretKey.playStoreURL);
-            startActivity(Intent.createChooser(myItent, "Share Via"));
+
+            String shareText =
+                    "Leyaa – Shop Better, Live Organized.\n\n" +
+                            "Download here:\n" +
+                            secretKey.playStoreURL;   // Firebase Hosting / Branch / landing page link
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, shareText);
+
+            startActivity(Intent.createChooser(intent, "Share Leyaa"));
         });
+
 
         // Send Invite Pressed
         send_invite.setOnClickListener(view -> {

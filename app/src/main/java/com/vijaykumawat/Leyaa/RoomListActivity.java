@@ -35,7 +35,7 @@ public class RoomListActivity extends BaseActivity {
 
 //    private FirebaseAuth mAuth;
 final Handler handler = new Handler();
-    private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     private RoomAdapter adapter;
     FloatingActionButton floatingButton;
     ImageView relaximage;

@@ -22,7 +22,7 @@ public class SplitBill_Individual_Activity extends AppCompatActivity {
     TextView userID_tv;
     TextView roomID_tv;
     FloatingActionButton bill_split_member_back_flt_btn;
-    private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     private Bill_Transaction_Adapter adapter;
     String mUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 

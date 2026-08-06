@@ -9,13 +9,14 @@
     android:background="#2C6D97"
     android:backgroundTint="#2C6D97"
     android:fitsSystemWindows="true"
-    android:padding="5dp"
-    app:contentPadding="5dp"
+
    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/bill_del_flt_btn"

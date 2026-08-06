@@ -444,7 +444,7 @@ public class Inside_Room_Activity extends BaseActivity {
         super.onResume();
         setUpRecyclerView();
 
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar= findViewById(R.id.toolbar);
 
         DocumentReference docRef = db.collection("rooms").document(roomID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

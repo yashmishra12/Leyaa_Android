@@ -5,11 +5,12 @@ pluginManagement {
         mavenCentral()
     }
 }
+// In settings.gradle or build.gradle (project level)
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
-        google()
+        google() // REQUIRED for ConstraintLayout, AndroidX, and many Google/Firebase libraries
         mavenCentral()
+        // If you have any other custom Maven repos, ensure they are still correct
     }
 }
 rootProject.name = "Leyaa"

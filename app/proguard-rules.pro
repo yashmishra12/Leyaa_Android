@@ -19,3 +19,19 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+# =======================
+#  APP-SPECIFIC RULES
+# =======================
+
+
+# Keep ALL app model classes (Firebase / Gson / RecyclerView)
+# This prevents "No properties to serialize found" crashes in release builds
+-keep class com.vijaykumawat.Leyaa.** {
+    *;
+}
+
+# Keep annotations and generic type info (important for serializers)
+-keepattributes *Annotation*
+-keepattributes Signature

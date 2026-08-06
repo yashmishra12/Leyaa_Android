@@ -31,6 +31,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Room_Creation extends AppCompatActivity {
@@ -83,8 +84,8 @@ public class Room_Creation extends AppCompatActivity {
                         Map<String,Object> room = new HashMap<>();
 
                         room.put("lastItemID","");
-                        room.put("members", Arrays.asList(userID));
-                        room.put("newItems", Arrays.asList());
+                        room.put("members", List.of(userID));
+                        room.put("newItems", List.of());
                         room.put("title", nameRoom);
 
 
@@ -99,7 +100,7 @@ public class Room_Creation extends AppCompatActivity {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Log.d(TAG, "onFailure: " + e.toString());
+                                        Log.d(TAG, "onFailure: " + e);
                                     }
                                 });
 

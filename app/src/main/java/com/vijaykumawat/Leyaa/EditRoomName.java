@@ -44,7 +44,7 @@ public class EditRoomName extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         String nameVal = "";
-        EditText newNameText = (EditText) findViewById(R.id.newroomname);
+        EditText newNameText = findViewById(R.id.newroomname);
         Button saveNewName = findViewById(R.id.btn_update_room_name);
         String roomID = "";
 

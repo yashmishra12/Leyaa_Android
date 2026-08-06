@@ -56,9 +56,9 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == getNavigationMenuItemId()) {
-            return true;
-        }
+//        if (item.getItemId() == getNavigationMenuItemId()) {
+//            return true;
+//        }
 
         switch (item.getItemId()) {
 

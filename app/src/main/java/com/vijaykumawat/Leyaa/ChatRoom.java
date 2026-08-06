@@ -1,11 +1,10 @@
 package com.vijaykumawat.Leyaa;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -15,13 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,35 +33,44 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.UUID;
 
 public class ChatRoom extends AppCompatActivity {
+
+    public static final String EXTRA_ROOM_ID = "roomID";
+    public static final String EXTRA_ROOM_NAME = "roomName";
+
     Toolbar toolbar;
     FloatingActionButton back_btn;
     String roomName;
     String roomID;
     ImageButton send_msg_btn;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference msgRef;
     EditText message_field;
     FloatingActionButton wave_hand_flt_btn;
     FloatingActionButton question_mark_flt_btn;
     RecyclerView rv;
     ArrayList<String> memberList;
+
     String message = "1. Long press on your avatar to delete message.\n\n" +
             "2. Hit the 'Wave' button if you want to send notifications to everyone. 'Wall Messages' is meant for important posts and not conversation.";
 
     private MsgAdapter adapter;
-
     String userName;
 
+    // Helper to create a proper Intent for this Activity
+    public static Intent createIntent(Context context, String roomId, String roomName) {
+        Intent intent = new Intent(context, ChatRoom.class);
+        intent.putExtra(EXTRA_ROOM_ID, roomId);
+        intent.putExtra(EXTRA_ROOM_NAME, roomName);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_room);
-
-
 
         toolbar = findViewById(R.id.toolbar);
         back_btn = findViewById(R.id.char_room_back_flt_btn);
@@ -74,29 +80,55 @@ public class ChatRoom extends AppCompatActivity {
         wave_hand_flt_btn = findViewById(R.id.wave_hand_flt_btn);
         question_mark_flt_btn = findViewById(R.id.question_mark_flt_btn);
 
+        // Read intent extras
+        handleIntent(getIntent());
 
-        Bundle extras = getIntent().getExtras();
-
-        if (extras != null ) {
-            roomName =  extras.getString("roomName");
-            roomID = extras.getString("roomID");
-            msgRef = db.collection(roomID);
-
-            db.collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                       userName =  (String) documentSnapshot.get("fullname");
-                    }
-                }
-            });
+        // If room info is missing, don't continue
+        if (roomID == null || roomName == null) {
+            Toast.makeText(this, "Room information missing.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
         toolbar.setTitle(roomName);
         setUpRecyclerView();
 
+        // listen for changes to show image / auto-scroll
+        if (rv.getAdapter() != null) {
+            Objects.requireNonNull(rv.getAdapter()).registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    super.onItemRangeInserted(positionStart, itemCount);
+                    smoothMsgScroll();
+                }
+
+                @Override
+                public void onItemRangeRemoved(int positionStart, int itemCount) {
+                    super.onItemRangeRemoved(positionStart, itemCount);
+                    smoothMsgScroll();
+                }
+            });
+        }
+
+        rv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v,
+                                       int left, int top, int right, int bottom,
+                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                smoothMsgScroll();
+            }
+        });
+
         send_msg_btn.setOnClickListener(view -> {
+            if (message_field.getText().toString().trim().isEmpty()) {
+                return;
+            }
+
+            if (roomID == null) {
+                Toast.makeText(ChatRoom.this, "Room not available.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             HashMap<String, Object> chatObj = new HashMap<>();
             DocumentReference docRef = db.collection(roomID).document();
 
@@ -105,118 +137,125 @@ public class ChatRoom extends AppCompatActivity {
             chatObj.put("text", message_field.getText().toString());
             chatObj.put("timestamp", new Date());
 
-
-            docRef.set(chatObj).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    message_field.getText().clear();
-                    message_field.requestFocus();
-                }
+            docRef.set(chatObj).addOnCompleteListener(task -> {
+                message_field.getText().clear();
+                message_field.requestFocus();
             });
-
         });
-
 
         back_btn.setOnClickListener(view -> finish());
 
         wave_hand_flt_btn.setOnClickListener(view -> {
+            if (roomID == null) {
+                Toast.makeText(ChatRoom.this, "Room not available.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
+            DocumentReference docRef = db.collection("rooms").document(roomID);
 
-            DocumentReference docRef =  db.collection("rooms").document(roomID);
+            docRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
 
+                    memberList = (ArrayList<String>) documentSnapshot.get("members");
 
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    if (memberList == null) return;
 
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
+                    for (String member : memberList) {
+                        if (!Objects.equals(member, FirebaseAuth.getInstance().getUid())) {
+                            DocumentReference userRef = db.collection("users").document(member);
 
-                        memberList = (ArrayList<String>) documentSnapshot.get("members");
-
-                        assert memberList != null;
-                        for (String member: memberList) {
-                            if (!Objects.equals(member, FirebaseAuth.getInstance().getUid())) {
-                                DocumentReference userRef = db.collection("users").document(member);
-
-                                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot ds = task.getResult();
-                                            String userDeviceToken = (String) ds.get("deviceToken");
-                                            String title = "Room: " + roomName;
-                                            String message = userName+" has posted a new message.";
-                                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(userDeviceToken, title, message, getApplicationContext(), ChatRoom.this );
-                                            notificationsSender.SendNotifications();
-                                        }
-                                    }
-                                });
-                            }
+                            userRef.get().addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    DocumentSnapshot ds = task1.getResult();
+                                    String userDeviceToken = (String) ds.get("deviceToken");
+                                    String title = "Room: " + roomName;
+                                    String msg = userName + " has posted a new message.";
+                                    FcmNotificationsSender notificationsSender =
+                                            new FcmNotificationsSender(
+                                                    userDeviceToken,
+                                                    title,
+                                                    msg,
+                                                    getApplicationContext(),
+                                                    ChatRoom.this);
+                                    notificationsSender.SendNotifications();
+                                }
+                            });
                         }
-
                     }
                 }
             });
 
-
-
-
-
-
-            Toast.makeText(getApplicationContext(),"Everyone notified of your new post.",Toast.LENGTH_LONG).show();
-
+            Toast.makeText(getApplicationContext(),
+                    "Everyone notified of your new post.",
+                    Toast.LENGTH_LONG).show();
         });
-
 
         question_mark_flt_btn.setOnClickListener(view -> {
-            //Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            new AlertDialog.Builder(view.getContext(),R.style.AlertDialog)
+            new AlertDialog.Builder(view.getContext(), R.style.AlertDialog)
                     .setTitle("Wall Post")
                     .setMessage(message)
-                    .setPositiveButton("Okay", (dialog, which) -> {
-
-                        dialog.dismiss();
-                    })
+                    .setPositiveButton("Okay", (dialog, which) -> dialog.dismiss())
                     .show();
-        });
-
-
-        // listen for changes to show image
-        Objects.requireNonNull(rv.getAdapter()).registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                smoothMsgScroll();
-
-            }
-
-            @Override
-            public void onItemRangeRemoved(int positionStart, int itemCount) {
-                super.onItemRangeRemoved(positionStart, itemCount);
-                 smoothMsgScroll();
-            }
-        });
-
-
-        rv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-
-            public void onLayoutChange(View v, int left, int top, int right,int bottom, int oldLeft, int oldTop,int oldRight, int oldBottom)
-            {
-
-                smoothMsgScroll();
-
-            }
         });
     }
 
-    private void setUpRecyclerView(){
+    // Handle when Activity is reused (launchMode singleTop / notification tapping again)
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntent(intent);
+
+        if (roomID == null || roomName == null) {
+            Toast.makeText(this, "Room information missing.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        toolbar.setTitle(roomName);
+        // If you ever want to support switching rooms in same activity,
+        // you could re-create adapter here with new roomID.
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent == null) return;
+
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            roomName = extras.getString(EXTRA_ROOM_NAME);
+            roomID = extras.getString(EXTRA_ROOM_ID);
+
+            if (roomID != null) {
+                msgRef = db.collection(roomID);
+            }
+
+            if (FirebaseAuth.getInstance().getUid() != null) {
+                db.collection("users")
+                        .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                userName = (String) documentSnapshot.get("fullname");
+                            }
+                        });
+            }
+        }
+    }
+
+    private void setUpRecyclerView() {
+        if (msgRef == null) {
+            Log.e("ChatRoom", "msgRef is null. Cannot set up RecyclerView.");
+            return;
+        }
+
         Query query = msgRef.orderBy("timestamp", Query.Direction.ASCENDING);
-        FirestoreRecyclerOptions<Message_Data> options = new FirestoreRecyclerOptions.Builder<Message_Data>()
-                                                        .setQuery(query, Message_Data.class)
-                                                        .build();
+
+        FirestoreRecyclerOptions<Message_Data> options =
+                new FirestoreRecyclerOptions.Builder<Message_Data>()
+                        .setQuery(query, Message_Data.class)
+                        .build();
 
         adapter = new MsgAdapter(options, ChatRoom.this, roomID);
         rv.setHasFixedSize(true);
@@ -224,37 +263,38 @@ public class ChatRoom extends AppCompatActivity {
         rv.setAdapter(adapter);
 
         smoothMsgScroll();
-
-
-
-
     }
 
-    private void smoothMsgScroll(){
-        int[] countFinal = new int[1];
+    private void smoothMsgScroll() {
+        if (roomID == null) return;
 
         FirebaseFirestore.getInstance().collection(roomID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            countFinal[0]  = task.getResult().size();
-                            if ( countFinal[0]  > 0 ) {
-                                rv.smoothScrollToPosition( countFinal[0]-1);
+                            int count = task.getResult().size();
+                            if (count > 0) {
+                                rv.smoothScrollToPosition(count - 1);
                             }
-
                         }
                     }
                 });
     }
 
-    protected void onStart(){
+    @Override
+    protected void onStart() {
         super.onStart();
-        adapter.startListening();
+        if (adapter != null) {
+            adapter.startListening();
+        }
     }
 
-    protected void onStop(){
+    @Override
+    protected void onStop() {
         super.onStop();
-        adapter.stopListening();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
     }
 }

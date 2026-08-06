@@ -140,7 +140,7 @@ public class Registration extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onFailure: " + e.toString());
+                                    Log.d(TAG, "onFailure: " + e);
                                 }
                             });
 

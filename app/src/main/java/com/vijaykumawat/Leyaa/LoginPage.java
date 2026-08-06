@@ -95,38 +95,35 @@ public class LoginPage extends AppCompatActivity {
                 pass_word.requestFocus();
                 return;
             }
-            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
-                if(task.isSuccessful())
-                {
-                    Intent i = new Intent(LoginPage.this, RoomListActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//make sure user cant go back
-                    startActivity(i);
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Intent i = new Intent(LoginPage.this, RoomListActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(i);
 
-                    DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            DocumentReference documentReference = FirebaseFirestore.getInstance()
+                                    .collection("users")
+                                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-                        @Override
-                        public void onComplete(@NonNull Task<String> task) {
-                            if (!task.isSuccessful()){
-                                Log.d("TAG", "Error Fetching Device Token");
-                                return;
-                            }
+                            FirebaseMessaging.getInstance().getToken()
+                                    .addOnCompleteListener(tokenTask -> {
+                                        if (!tokenTask.isSuccessful()) {
+                                            Log.e("LoginPage", "Error fetching device token", tokenTask.getException());
+                                            return;
+                                        }
+                                        String token = tokenTask.getResult();
+                                        documentReference.update("deviceToken", token);
+                                    });
 
-                            String token = task.getResult();
-                            documentReference.update("deviceToken", token);
+                        } else {
+                            Exception e = task.getException();
+                            Log.e("LoginPage", "Login failed", e);
+                            Toast.makeText(LoginPage.this,
+                                    "Login failed: " + (e != null ? e.getMessage() : "Unknown error"),
+                                    Toast.LENGTH_LONG).show();
                         }
-                        // Added missing closing brace here for onComplete
                     });
-
-                }
-                else
-                {
-                    Toast.makeText(LoginPage.this,
-                            "Please Check Your login Credentials",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-            });
         });
 
         //Switch to Registration
