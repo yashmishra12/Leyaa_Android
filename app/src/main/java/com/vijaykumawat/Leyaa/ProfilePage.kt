@@ -73,7 +73,7 @@ class ProfilePage : ComponentActivity() {
                     },
                     onBottomNavClick = { intent ->
                         startActivity(intent)
-                        overridePendingTransition(0, 0)
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                     },
                     context = this
                 )
@@ -124,7 +124,10 @@ fun ProfileScreen(
                         "profile" -> Intent(context, ProfilePage::class.java)
                         else -> null
                     }
-                    intent?.let { onBottomNavClick(it) }
+                    intent?.let { 
+                        it.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                        onBottomNavClick(it) 
+                    }
                 }
             )
         }

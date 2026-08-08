@@ -3,6 +3,8 @@ package com.vijaykumawat.Leyaa
 import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -92,6 +94,8 @@ fun ChatScreen(
         }
     }
 
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
+
     // Listen to messages
     DisposableEffect(roomID) {
         val listener = db.collection(roomID)
@@ -169,7 +173,7 @@ fun ChatScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.85f)
                 )
             )
         },
@@ -214,6 +218,7 @@ fun ChatScreen(
                                 )
                                 
                                 docRef.set(chatObj)
+                                haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
                             }
                         },
                         modifier = Modifier
@@ -307,26 +312,34 @@ fun MessageBubble(
             Spacer(modifier = Modifier.width(8.dp))
         }
 
+        val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
         Column(
             horizontalAlignment = if (isMe) Alignment.End else Alignment.Start,
             modifier = Modifier
-                .clickable {
-                    if (isMe) onDelete()
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onLongPress = {
+                            if (isMe) {
+                                haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+                                onDelete()
+                            }
+                        }
+                    )
                 }
         ) {
             Surface(
                 color = if (isMe) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondaryContainer,
-                shape = RoundedCornerShape(
-                    topStart = 16.dp,
-                    topEnd = 16.dp,
-                    bottomStart = if (isMe) 16.dp else 4.dp,
-                    bottomEnd = if (isMe) 4.dp else 16.dp
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(
+                    topStart = 20.dp,
+                    topEnd = 20.dp,
+                    bottomStart = if (isMe) 20.dp else 2.dp,
+                    bottomEnd = if (isMe) 2.dp else 20.dp
                 ),
-                shadowElevation = 2.dp
+                shadowElevation = 0.dp
             ) {
                 Text(
                     text = message.text,
-                    modifier = Modifier.padding(12.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                     color = if (isMe) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer,
                     fontSize = 16.sp
                 )

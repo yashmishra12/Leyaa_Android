@@ -13,8 +13,8 @@
         android:name=".LeyaaApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher_1"
-        android:roundIcon="@mipmap/ic_launcher_1"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true"
         android:theme="@style/AppTheme"
@@ -37,6 +37,10 @@
         <activity android:name=".InvitationListActivity"/>
         <activity android:name=".Room_Creation" />
         <activity android:name=".Inside_Room_Activity" />
+        <activity android:name=".RoomRemindersActivity" />
+        <activity android:name=".RoomChoresActivity" />
+        <activity android:name=".RoomNoticeBoardActivity" />
+        <activity android:name=".ThreadedDiscussionActivity" />
         <activity android:name=".EditRoomName" />
         <activity android:name=".ProfilenameChange" />
         <activity android:name=".ProfilePage" />

@@ -174,7 +174,7 @@ fun MemberCard(member: MemberData, context: android.content.Context) {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = member.fullname,
                     fontWeight = FontWeight.Bold,
@@ -187,6 +187,16 @@ fun MemberCard(member: MemberData, context: android.content.Context) {
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
                     )
+                }
+            }
+
+            if (member.email.isNotBlank()) {
+                val clipboardManager = androidx.compose.ui.platform.LocalClipboardManager.current
+                TextButton(onClick = {
+                    clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(member.email))
+                    android.widget.Toast.makeText(context, "Email copied", android.widget.Toast.LENGTH_SHORT).show()
+                }) {
+                    Text("Copy")
                 }
             }
         }

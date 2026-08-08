@@ -8,6 +8,8 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.ui.draw.scale
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -90,7 +92,7 @@ fun RoomListScreen(
             TopAppBar(
                 title = { Text("My Rooms", fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.85f),
                     titleContentColor = MaterialTheme.colorScheme.onBackground
                 )
             )
@@ -117,9 +119,10 @@ fun RoomListScreen(
                         else -> null
                     }
                     intent?.let { 
+                        it.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                         context.startActivity(it)
                         // Cast context to Activity if possible to override transition
-                        (context as? android.app.Activity)?.overridePendingTransition(0, 0)
+                        (context as? android.app.Activity)?.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                     }
                 }
             )
@@ -198,15 +201,28 @@ fun RoomCard(room: RoomModel, onClick: () -> Unit) {
         }
     }
 
+    val interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by androidx.compose.animation.core.animateFloatAsState(targetValue = if (isPressed) 0.95f else 1f, label = "scale")
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() },
+            .scale(scale)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = androidx.compose.foundation.LocalIndication.current,
+                onClick = {
+                    haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+                    onClick()
+                }
+            ),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier

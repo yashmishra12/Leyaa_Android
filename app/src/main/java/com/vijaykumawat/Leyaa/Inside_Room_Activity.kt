@@ -5,9 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.ui.draw.scale
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.Image
 import kotlinx.coroutines.delay
 import androidx.compose.foundation.background
@@ -84,9 +87,10 @@ class Inside_Room_Activity : ComponentActivity() {
                 InsideRoomScreen(
                     roomID = roomID,
                     onNavigateBack = { finish() },
-                    onBottomNavClick = { intent ->
+                    onBottomNavClick = { intent -> 
+                        intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                         startActivity(intent)
-                        overridePendingTransition(0, 0)
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                     },
                     context = this
                 )
@@ -134,8 +138,10 @@ fun InsideRoomScreen(
     var roomAvatar by remember { mutableStateOf("") }
     var userName by remember { mutableStateOf("") }
     var items by remember { mutableStateOf<List<RoomItem>>(emptyList()) }
-    var deletedItems by remember { mutableStateOf<List<RoomItem>>(emptyList()) }
+    var filteredItems by remember { mutableStateOf<List<RoomItem>>(emptyList()) }
     var boughtItems by remember { mutableStateOf<List<RoomItem>>(emptyList()) }
+    var deletedItems by remember { mutableStateOf<List<RoomItem>>(emptyList()) }
+    var showSuccessAnimation by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(true) }
     
     var showAddDialog by remember { mutableStateOf(false) }
@@ -232,9 +238,26 @@ fun InsideRoomScreen(
                         context.startActivity(intent)
                         scope.launch { drawerState.close() }
                     },
+                    icon = { Icon(Icons.Filled.Email, "Message Wall") },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                /*
+                NavigationDrawerItem(
+                    label = { Text("Notice Board") },
+                    selected = false,
+                    onClick = { 
+                        val intent = Intent(context, RoomNoticeBoardActivity::class.java).apply {
+                            putExtra("roomID", roomID)
+                            putExtra("roomName", roomName)
+                            putExtra("userName", userName)
+                        }
+                        context.startActivity(intent)
+                        scope.launch { drawerState.close() }
+                    },
                     icon = { Icon(Icons.Filled.Email, "Chat") },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
+                */
                 NavigationDrawerItem(
                     label = { Text("Split Bill") },
                     selected = false,
@@ -250,6 +273,40 @@ fun InsideRoomScreen(
                     icon = { Icon(Icons.Filled.List, "Split Bill") },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
+                /*
+                NavigationDrawerItem(
+                    label = { Text("Utility Reminders") },
+                    selected = false,
+                    onClick = { 
+                        val intent = Intent(context, RoomRemindersActivity::class.java).apply {
+                            putExtra("roomID", roomID)
+                            putExtra("roomName", roomName)
+                            putExtra("userName", userName)
+                        }
+                        context.startActivity(intent)
+                        scope.launch { drawerState.close() }
+                    },
+                    icon = { Icon(Icons.Filled.DateRange, "Utility Reminders") },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                */
+                /*
+                NavigationDrawerItem(
+                    label = { Text("Chores") },
+                    selected = false,
+                    onClick = { 
+                        val intent = Intent(context, RoomChoresActivity::class.java).apply {
+                            putExtra("roomID", roomID)
+                            putExtra("roomName", roomName)
+                            putExtra("userName", userName)
+                        }
+                        context.startActivity(intent)
+                        scope.launch { drawerState.close() }
+                    },
+                    icon = { Icon(Icons.Filled.CheckCircle, "Chores") },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                */
                 NavigationDrawerItem(
                     label = { Text("Room Members") },
                     selected = false,
@@ -376,7 +433,7 @@ fun InsideRoomScreen(
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.background
+                        containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.85f)
                     )
                 )
             },
@@ -420,6 +477,16 @@ fun InsideRoomScreen(
                 } else {
                     Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
                         if (items.isEmpty()) {
+                            val infiniteTransition = androidx.compose.animation.core.rememberInfiniteTransition(label = "pulse")
+                            val pulseScale by infiniteTransition.animateFloat(
+                                initialValue = 1f,
+                                targetValue = 1.1f,
+                                animationSpec = androidx.compose.animation.core.infiniteRepeatable(
+                                    animation = androidx.compose.animation.core.tween(1000),
+                                    repeatMode = androidx.compose.animation.core.RepeatMode.Reverse
+                                ),
+                                label = "scale"
+                            )
                             Column(
                                 modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.Center,
@@ -430,6 +497,7 @@ fun InsideRoomScreen(
                                     contentDescription = "Empty",
                                     modifier = Modifier
                                         .size(100.dp)
+                                        .scale(pulseScale)
                                         .alpha(0.3f),
                                     tint = MaterialTheme.colorScheme.onBackground
                                 )
@@ -492,7 +560,7 @@ fun InsideRoomScreen(
                                                         }
                                                     }.addOnSuccessListener {
                                                         if (dismissValue == SwipeToDismissBoxValue.StartToEnd) {
-                                                            Toast.makeText(context, "Marked as Bought", Toast.LENGTH_SHORT).show()
+                                                            showSuccessAnimation = true
                                                         } else {
                                                             Toast.makeText(context, "Item Deleted", Toast.LENGTH_SHORT).show()
                                                         }
@@ -544,7 +612,8 @@ fun InsideRoomScreen(
                                                         Icon(
                                                             imageVector = it,
                                                             contentDescription = null,
-                                                            tint = Color.White
+                                                            tint = Color.White,
+                                                            modifier = Modifier.scale(1f + (dismissState.progress * 0.3f))
                                                         )
                                                     }
                                                 }
@@ -866,12 +935,26 @@ fun ItemCard(
     val avatarName = SanitizeItemName.sanitizeItemName(item.name)
     val resId = context.resources.getIdentifier(avatarName, "drawable", context.packageName)
     
+    val interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by androidx.compose.animation.core.animateFloatAsState(targetValue = if (isPressed) 0.95f else 1f, label = "scale")
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
+
     Card(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .scale(scale)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = androidx.compose.foundation.LocalIndication.current,
+                onClick = {
+                    haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+                    onClick()
+                }
+            )
     ) {
         Row(
             modifier = Modifier
@@ -1069,13 +1152,27 @@ fun CatalogItemCard(
     val avatarName = SanitizeItemName.sanitizeItemName(itemName)
     val resId = context.resources.getIdentifier(avatarName, "drawable", context.packageName)
     
+    val interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by androidx.compose.animation.core.animateFloatAsState(targetValue = if (isPressed) 0.90f else 1f, label = "scale")
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
+    
     Card(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f)
-            .clickable(onClick = onClick)
+            .scale(scale)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = androidx.compose.foundation.LocalIndication.current,
+                onClick = {
+                    haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+                    onClick()
+                }
+            )
     ) {
         Column(
             modifier = Modifier

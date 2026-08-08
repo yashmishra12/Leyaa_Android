@@ -15,7 +15,7 @@ fun BottomNavBar(
     onNavigate: (String) -> Unit
 ) {
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
         contentColor = MaterialTheme.colorScheme.onSurface
     ) {
         NavigationBarItem(
