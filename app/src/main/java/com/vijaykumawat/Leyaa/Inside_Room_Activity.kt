@@ -4,6 +4,18 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+
+import android.speech.RecognizerIntent
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import java.io.File
+import android.provider.MediaStore
+
 import android.widget.Toast
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.ui.draw.scale
@@ -133,6 +145,7 @@ fun InsideRoomScreen(
     val auth = FirebaseAuth.getInstance()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
     
     var roomName by remember { mutableStateOf("Loading...") }
     var roomAvatar by remember { mutableStateOf("") }
@@ -458,6 +471,7 @@ fun InsideRoomScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = { showQuickAddDialog = true },
+                    modifier = Modifier.offset(y = 16.dp),
                     containerColor = MaterialTheme.colorScheme.primary
                 ) {
                     Icon(Icons.Filled.Add, "Add Item")
@@ -523,7 +537,7 @@ fun InsideRoomScreen(
                                 )
                                 LazyColumn(
                                     modifier = Modifier.fillMaxSize(),
-                                    contentPadding = PaddingValues(16.dp),
+                                    contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 88.dp),
                                     verticalArrangement = Arrangement.spacedBy(12.dp)
                                 ) {
                                     groupedItems.forEach { (category, categoryItems) ->
@@ -544,6 +558,7 @@ fun InsideRoomScreen(
                                         val dismissState = rememberSwipeToDismissBoxState(
                                             confirmValueChange = { dismissValue ->
                                                 if (dismissValue == SwipeToDismissBoxValue.StartToEnd || dismissValue == SwipeToDismissBoxValue.EndToStart) {
+                                                    haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
                                                     val itemMap = mapOf(
                                                         "id" to item.id,
                                                         "name" to item.name,
@@ -797,6 +812,13 @@ fun InsideRoomScreen(
                     roomRef.update("lastItemID", uniqueID)
                 }
             },
+            onMultipleItemsSelected = { selectedNames ->
+                val newItems = selectedNames.map { name ->
+                    mapOf("id" to java.util.UUID.randomUUID().toString(), "name" to name, "qty" to "1", "desc" to "")
+                }
+                val roomRef = db.collection("rooms").document(roomID)
+                roomRef.update("newItems", com.google.firebase.firestore.FieldValue.arrayUnion(*newItems.toTypedArray()))
+            },
             onCustomItem = {
                 initialNameForAdd = ""
                 showQuickAddDialog = false
@@ -1010,10 +1032,80 @@ fun QuickAddCatalog(
     context: android.content.Context,
     onDismiss: () -> Unit,
     onItemSelected: (String) -> Unit,
+    onMultipleItemsSelected: (List<String>) -> Unit,
     onCustomItem: () -> Unit
 ) {
+    var ocrResultItems by remember { mutableStateOf<List<String>>(emptyList()) }
+    var showOcrDialog by remember { mutableStateOf(false) }
+
     var searchQuery by remember { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
+
+    val speechLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val spokenText: String? = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.let { results ->
+                results[0]
+            }
+            if (!spokenText.isNullOrBlank()) {
+                searchQuery = spokenText
+            }
+        }
+    }
+
+    var cameraUri by remember { mutableStateOf<Uri?>(null) }
+
+    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        if (success && cameraUri != null) {
+            try {
+                val image = InputImage.fromFilePath(context, cameraUri!!)
+                val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+                recognizer.process(image)
+                    .addOnSuccessListener { visionText ->
+                        val lines = visionText.text.split("\n").map { it.trim() }.filter { it.isNotBlank() }
+                        if (lines.isNotEmpty()) {
+                            ocrResultItems = lines
+                            showOcrDialog = true
+                        } else {
+                            Toast.makeText(context, "No text found", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "OCR failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        if (isGranted) {
+            val imagePath = File(context.cacheDir, "images")
+            imagePath.mkdirs()
+            val newFile = File(imagePath, "camera_image.jpg")
+            val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", newFile)
+            cameraUri = uri
+            cameraLauncher.launch(uri)
+        } else {
+            Toast.makeText(context, "Camera permission required for OCR", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    val micPermissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        if (isGranted) {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            }
+            try {
+                speechLauncher.launch(intent)
+            } catch (e: Exception) {
+                Toast.makeText(context, "Voice input not supported", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(context, "Microphone permission required", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     var addedItemMessage by remember { mutableStateOf("") }
     
     LaunchedEffect(addedItemMessage) {
@@ -1072,10 +1164,82 @@ fun QuickAddCatalog(
                         .focusRequester(focusRequester),
                     placeholder = { Text("Search items...") },
                     leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
+                    trailingIcon = {
+                        Row {
+                            IconButton(onClick = {
+                                micPermissionLauncher.launch(android.Manifest.permission.RECORD_AUDIO)
+                            }) {
+                                Icon(Icons.Filled.Mic, contentDescription = "Voice Input")
+                            }
+                            IconButton(onClick = {
+                                cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+                            }) {
+                                Icon(Icons.Filled.CameraAlt, contentDescription = "Camera Input")
+                            }
+                        }
+                    },
                     singleLine = true,
                     shape = RoundedCornerShape(12.dp)
                 )
                 
+                if (showOcrDialog) {
+                    androidx.compose.ui.window.Dialog(onDismissRequest = { showOcrDialog = false }) {
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = MaterialTheme.colorScheme.surface,
+                            modifier = Modifier.fillMaxWidth().heightIn(max = 500.dp)
+                        ) {
+                            var checkedStates by remember { mutableStateOf(ocrResultItems.map { it to true }.toMap()) }
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text("Select items to add", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                                Spacer(modifier = Modifier.height(16.dp))
+                                LazyColumn(modifier = Modifier.weight(1f)) {
+                                    items(ocrResultItems) { item ->
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth().clickable {
+                                                checkedStates = checkedStates.toMutableMap().apply {
+                                                    this[item] = !(this[item] ?: true)
+                                                }
+                                            }.padding(vertical = 8.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Checkbox(
+                                                checked = checkedStates[item] ?: true,
+                                                onCheckedChange = { isChecked ->
+                                                    checkedStates = checkedStates.toMutableMap().apply {
+                                                        this[item] = isChecked
+                                                    }
+                                                }
+                                            )
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Text(item)
+                                        }
+                                    }
+                                }
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                                    TextButton(onClick = { showOcrDialog = false }) {
+                                        Text("Cancel")
+                                    }
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Button(onClick = {
+                                        val selectedItems = checkedStates.filter { it.value }.keys.toList()
+                                        if (selectedItems.isNotEmpty()) {
+                                            onMultipleItemsSelected(selectedItems)
+                                            showOcrDialog = false
+                                            onDismiss() // Close QuickAddCatalog too
+                                        } else {
+                                            Toast.makeText(context, "No items selected", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }) {
+                                        Text("Add Selected")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 AnimatedVisibility(visible = addedItemMessage.isNotEmpty()) {
                     Box(
                         modifier = Modifier

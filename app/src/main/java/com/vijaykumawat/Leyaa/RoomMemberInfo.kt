@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -192,11 +193,15 @@ fun MemberCard(member: MemberData, context: android.content.Context) {
 
             if (member.email.isNotBlank()) {
                 val clipboardManager = androidx.compose.ui.platform.LocalClipboardManager.current
-                TextButton(onClick = {
+                IconButton(onClick = {
                     clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(member.email))
                     android.widget.Toast.makeText(context, "Email copied", android.widget.Toast.LENGTH_SHORT).show()
                 }) {
-                    Text("Copy")
+                    Icon(
+                        imageVector = androidx.compose.material.icons.Icons.Default.ContentCopy,
+                        contentDescription = "Copy Email",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
                 }
             }
         }

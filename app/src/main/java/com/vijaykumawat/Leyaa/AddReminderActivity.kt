@@ -122,7 +122,7 @@ fun AddReminderScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (isEditMode) "Edit Alarm" else "New Alarm", fontWeight = FontWeight.Bold) },
+                title = { Text(if (isEditMode) "Edit Reminder" else "New Reminder", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -182,10 +182,10 @@ fun AddReminderScreen(
                             scheduler.cancelAlarm(context, savedUri)
                         }
 
-                        Toast.makeText(context, "Alarm Saved", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Reminder Saved", Toast.LENGTH_SHORT).show()
                         onNavigateBack()
                     } else {
-                        Toast.makeText(context, "Error saving alarm", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Error saving reminder", Toast.LENGTH_SHORT).show()
                     }
                 },
                 containerColor = MaterialTheme.colorScheme.primary
@@ -204,7 +204,7 @@ fun AddReminderScreen(
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
-                label = { Text("Alarm Title") },
+                label = { Text("Reminder Title") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp)
@@ -253,7 +253,7 @@ fun AddReminderScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Alarm Active", fontWeight = FontWeight.Bold)
+                Text("Reminder Active", fontWeight = FontWeight.Bold)
                 Switch(checked = active, onCheckedChange = { active = it })
             }
         }
@@ -303,14 +303,14 @@ fun AddReminderScreen(
     if (showDeleteDialog && uri != null) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Delete Alarm?") },
-            text = { Text("This will permanently remove the alarm.") },
+            title = { Text("Delete Reminder?") },
+            text = { Text("This will permanently remove the reminder.") },
             confirmButton = {
                 TextButton(onClick = {
                     showDeleteDialog = false
                     AlarmScheduler().cancelAlarm(context, uri)
                     context.contentResolver.delete(uri, null, null)
-                    Toast.makeText(context, "Alarm Deleted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Reminder Deleted", Toast.LENGTH_SHORT).show()
                     onNavigateBack()
                 }) {
                     Text("Delete", color = MaterialTheme.colorScheme.error)

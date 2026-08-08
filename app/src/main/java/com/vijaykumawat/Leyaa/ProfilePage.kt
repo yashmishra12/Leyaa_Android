@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -145,11 +146,39 @@ fun ProfileScreen(
                     .padding(16.dp)
                     .clip(RoundedCornerShape(24.dp))
                     .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .padding(24.dp),
-                contentAlignment = Alignment.Center
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    val avatarResId = context.resources.getIdentifier(currentAvatar, "drawable", context.packageName)
+                // Top Action Row
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    IconButton(onClick = {
+                        val shareIntent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            type = "text/plain"
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                "🛒 Tired of forgetting groceries? Stop the madness!\n\nCheck out Leyaa - the ultimate shared shopping list that keeps your household in sync. Shop better. Live better. 🏡✨\n\nDownload now:\n🤖 Android: https://play.google.com/store/apps/details?id=com.vijaykumawat.Leyaa&pcampaignid=web_share\n🍎 iOS: https://apps.apple.com/us/app/leyaa/id1633689299"
+                            )
+                        }
+                        context.startActivity(Intent.createChooser(shareIntent, "Share Leyaa via"))
+                    }) {
+                        Icon(Icons.Filled.Share, contentDescription = "Share App", tint = MaterialTheme.colorScheme.primary)
+                    }
+                    IconButton(onClick = {
+                        val intent = Intent(context, ProfilenameChange::class.java)
+                        intent.putExtra("nameValue", fullName)
+                        context.startActivity(intent)
+                    }) {
+                        Icon(Icons.Filled.Edit, contentDescription = "Edit Profile", tint = MaterialTheme.colorScheme.primary)
+                    }
+                }
+                
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(top = 24.dp, bottom = 24.dp, start = 24.dp, end = 24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    val avatarResId = context.resources.getIdentifier(selectedAvatar, "drawable", context.packageName)
                     val displayResId = if (avatarResId != 0) avatarResId else R.drawable.imagenotfound
                     
                     Image(
@@ -267,40 +296,21 @@ fun ProfileScreen(
                     }
                 }
 
-                Button(
-                    onClick = {
-                        val intent = Intent(context, ProfilenameChange::class.java)
-                        intent.putExtra("nameValue", fullName)
-                        context.startActivity(intent)
-                    },
+                OutlinedButton(
+                    onClick = { showSignOutDialog = true },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Icon(Icons.Default.Edit, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Edit Profile Name")
-                }
-
-                Button(
-                    onClick = { showSignOutDialog = true },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer, contentColor = MaterialTheme.colorScheme.onSecondaryContainer)
-                ) {
-                    Icon(Icons.Default.ExitToApp, contentDescription = null)
+                    Icon(Icons.Filled.ExitToApp, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(8.dp))
                     Text("Sign Out")
                 }
                 
-                Button(
+                TextButton(
                     onClick = { showDeleteDialog = true },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.errorContainer, contentColor = MaterialTheme.colorScheme.onErrorContainer)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Icon(Icons.Default.Warning, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Delete Account")
+                    Text("Delete Account", color = MaterialTheme.colorScheme.error)
                 }
             }
         }
@@ -309,19 +319,19 @@ fun ProfileScreen(
     if (showSignOutDialog) {
         AlertDialog(
             onDismissRequest = { showSignOutDialog = false },
-            title = { Text("Sign Out") },
-            text = { Text("Are you sure you want to sign out?") },
+            title = { Text("Heading out? 🚪", fontWeight = FontWeight.Bold) },
+            text = { Text("Are you sure you want to sign out? Your shared lists will be waiting for you when you get back! 🛒") },
             confirmButton = {
                 TextButton(onClick = {
                     showSignOutDialog = false
                     onSignOut()
                 }) {
-                    Text("Yes")
+                    Text("Sign Out", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showSignOutDialog = false }) {
-                    Text("No")
+                Button(onClick = { showSignOutDialog = false }) {
+                    Text("Stay signed in")
                 }
             }
         )
@@ -330,19 +340,19 @@ fun ProfileScreen(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Delete Account") },
-            text = { Text("Are you sure you want to delete your account? This action cannot be undone.") },
+            title = { Text("Leaving so soon? 🥺", fontWeight = FontWeight.Bold) },
+            text = { Text("We'd really hate to see you go! If you delete your account, you'll lose all your shared lists and items forever.\n\nAre you absolutely sure you want to leave your housemates hanging?") },
             confirmButton = {
                 TextButton(onClick = {
                     showDeleteDialog = false
                     onDeleteAccount()
                 }) {
-                    Text("Yes", color = MaterialTheme.colorScheme.error)
+                    Text("Yes, delete it", color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("No")
+                Button(onClick = { showDeleteDialog = false }) {
+                    Text("I'll stay! 🏡")
                 }
             }
         )

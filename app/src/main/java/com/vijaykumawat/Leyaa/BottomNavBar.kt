@@ -29,8 +29,8 @@ fun BottomNavBar(
             )
         )
         NavigationBarItem(
-            icon = { Icon(painterResource(id = R.drawable.ic_baseline_hourglass_bottom_24), contentDescription = "Alarms") },
-            label = { Text("Alarms") },
+            icon = { Icon(painterResource(id = R.drawable.ic_baseline_hourglass_bottom_24), contentDescription = "Reminders") },
+            label = { Text("Reminders") },
             selected = currentRoute == "alarms",
             onClick = { if (currentRoute != "alarms") onNavigate("alarms") },
             colors = NavigationBarItemDefaults.colors(

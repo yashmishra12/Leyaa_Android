@@ -153,7 +153,7 @@ fun AlarmScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("My Alarms", fontWeight = FontWeight.Bold) },
+                title = { Text("My Reminders", fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     titleContentColor = MaterialTheme.colorScheme.onBackground
@@ -187,7 +187,7 @@ fun AlarmScreen(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "Add Alarm")
+                Icon(Icons.Filled.Add, contentDescription = "Add Reminder")
             }
         }
     ) { paddingValues ->
@@ -209,13 +209,13 @@ fun AlarmScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Notifications,
-                        contentDescription = "No Alarms",
+                        contentDescription = "No Reminders",
                         modifier = Modifier.size(100.dp).alpha(0.3f),
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "No alarms set.\nTap + to create one.",
+                        text = "No reminders set.\nTap + to create one.",
                         fontSize = 18.sp,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
                         textAlign = TextAlign.Center
