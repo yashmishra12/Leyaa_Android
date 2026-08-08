@@ -53,6 +53,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.TextRange
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -1038,7 +1040,7 @@ fun QuickAddCatalog(
     var ocrResultItems by remember { mutableStateOf<List<String>>(emptyList()) }
     var showOcrDialog by remember { mutableStateOf(false) }
 
-    var searchQuery by remember { mutableStateOf("") }
+    var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     val focusRequester = remember { FocusRequester() }
 
     val speechLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1047,7 +1049,7 @@ fun QuickAddCatalog(
                 results[0]
             }
             if (!spokenText.isNullOrBlank()) {
-                searchQuery = spokenText
+                searchQuery = TextFieldValue(spokenText, selection = TextRange(spokenText.length))
             }
         }
     }
@@ -1061,7 +1063,19 @@ fun QuickAddCatalog(
                 val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
                 recognizer.process(image)
                     .addOnSuccessListener { visionText ->
-                        val lines = visionText.text.split("\n").map { it.trim() }.filter { it.isNotBlank() }
+                        val lines = visionText.text.split("\n")
+                            .map { it.trim() }
+                            .filter { line ->
+                                line.isNotBlank() &&
+                                line.length > 2 &&
+                                !line.uppercase().contains("TOTAL") &&
+                                !line.uppercase().contains("SUBTOTAL") &&
+                                !line.uppercase().contains("TAX") &&
+                                !line.uppercase().contains("CASH") &&
+                                !line.uppercase().contains("VISA") &&
+                                !line.matches(Regex(".*\\d{3,}.*")) && 
+                                !line.matches(Regex("^\\$?\\d+\\.\\d{2}$")) 
+                            }
                         if (lines.isNotEmpty()) {
                             ocrResultItems = lines
                             showOcrDialog = true
@@ -1117,12 +1131,12 @@ fun QuickAddCatalog(
     
     val allItems = remember { SanitizeItemName.realAssetName.toList().sorted() }
     val filteredItems = remember(searchQuery) {
-        if (searchQuery.isBlank()) {
+        if (searchQuery.text.isBlank()) {
             allItems
         } else {
-            val queryNoSpaces = searchQuery.replace("\\s".toRegex(), "")
+            val queryNoSpaces = searchQuery.text.replace("\\s".toRegex(), "")
             allItems.filter { 
-                it.contains(searchQuery, ignoreCase = true) || 
+                it.contains(searchQuery.text, ignoreCase = true) || 
                 it.replace("\\s".toRegex(), "").contains(queryNoSpaces, ignoreCase = true)
             }
         }
@@ -1256,16 +1270,16 @@ fun QuickAddCatalog(
                     }
                 }
 
-                if (filteredItems.isEmpty() && searchQuery.isNotBlank()) {
+                if (filteredItems.isEmpty() && searchQuery.text.isNotBlank()) {
                     Button(
                         onClick = { 
-                            onItemSelected(searchQuery.trim())
-                            addedItemMessage = "${searchQuery.trim()} Added!"
-                            searchQuery = ""
+                            onItemSelected(searchQuery.text.trim())
+                            addedItemMessage = "${searchQuery.text.trim()} Added!"
+                            searchQuery = TextFieldValue("")
                         },
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
                     ) {
-                        Text("Add '${searchQuery.trim()}'")
+                        Text("Add '${searchQuery.text.trim()}'")
                     }
                     Box(modifier = Modifier.fillMaxSize().padding(16.dp), contentAlignment = Alignment.Center) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -1276,7 +1290,7 @@ fun QuickAddCatalog(
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                "No items found for '${searchQuery}'",
+                                "No items found for '${searchQuery.text}'",
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                             )
                         }
@@ -1296,7 +1310,7 @@ fun QuickAddCatalog(
                                 onClick = { 
                                     onItemSelected(itemName)
                                     addedItemMessage = "$itemName Added!"
-                                    searchQuery = ""
+                                    searchQuery = TextFieldValue("")
                                 }
                             )
                         }
