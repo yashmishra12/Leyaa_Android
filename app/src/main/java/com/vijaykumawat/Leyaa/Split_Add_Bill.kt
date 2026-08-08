@@ -60,11 +60,12 @@ fun SplitAddBillScreen(
     var roomName by remember { mutableStateOf("Add Bill") }
     var itemName by remember { mutableStateOf("") }
     var totalAmount by remember { mutableStateOf("") }
+    var isRecurring by remember { mutableStateOf(false) }
+
     
     // Store member data and their entered bill amounts
     var members by remember { mutableStateOf<List<MemberData>>(emptyList()) }
     val memberAmounts = remember { mutableStateMapOf<String, String>() }
-    
     var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(roomID) {
@@ -152,15 +153,28 @@ fun SplitAddBillScreen(
                             // Save all bills
                             val batch = db.batch()
                             val collection = db.collection("${roomID}_BILLS")
+                            
+                            var recurringCollection = db.collection("rooms").document(roomID).collection("recurring_bills")
+                            val dateFormat = java.text.SimpleDateFormat("yyyy-MM", java.util.Locale.US)
+                            val currentMonth = dateFormat.format(java.util.Date())
+                            
                             for (bill in billsToSave) {
                                 val docRef = collection.document()
                                 batch.set(docRef, bill)
+                                
+                                if (isRecurring) {
+                                    val recurringDoc = recurringCollection.document()
+                                    val recBill = bill.toMutableMap()
+                                    recBill["lastProcessedMonth"] = currentMonth
+                                    batch.set(recurringDoc, recBill)
+                                }
                             }
 
                             batch.commit().addOnSuccessListener {
                                 Toast.makeText(context, "Bill Added.", Toast.LENGTH_SHORT).show()
                                 itemName = ""
                                 totalAmount = ""
+                                isRecurring = false
                                 memberAmounts.keys.forEach { memberAmounts[it] = "" }
                             }.addOnFailureListener {
                                 Toast.makeText(context, "Failed to save bill.", Toast.LENGTH_SHORT).show()
@@ -214,7 +228,7 @@ fun SplitAddBillScreen(
                         // Split evenly among all members plus the payer
                         val equalShare = total / (members.size + 1)
                         members.forEach { member ->
-                            memberAmounts[member.email] = String.format("%.2f", equalShare)
+                            memberAmounts[member.email] = String.format(java.util.Locale.US, "%.2f", equalShare)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
@@ -231,6 +245,21 @@ fun SplitAddBillScreen(
                 ) {
                     Text("Set All Zero")
                 }
+            }
+            
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Recurring Monthly Bill", fontWeight = FontWeight.SemiBold)
+                Switch(
+                    checked = isRecurring,
+                    onCheckedChange = { isRecurring = it },
+                    colors = SwitchDefaults.colors(checkedThumbColor = MaterialTheme.colorScheme.primary)
+                )
             }
 
             if (isLoading) {

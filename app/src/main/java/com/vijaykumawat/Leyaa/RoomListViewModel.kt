@@ -47,7 +47,36 @@ class RoomListViewModel @Inject constructor(
             }
             
             val roomList = mutableListOf<RoomModel>()
+            val currentMonth = java.text.SimpleDateFormat("yyyy-MM", java.util.Locale.US).format(java.util.Date())
+            
             snapshot?.documents?.forEach { doc ->
+                val roomId = doc.id
+                
+                // Process recurring bills safely using transactions
+                db.collection("rooms").document(roomId).collection("recurring_bills").get()
+                    .addOnSuccessListener { recBills ->
+                        if (!recBills.isEmpty) {
+                            val activeBillsRef = db.collection("${roomId}_BILLS")
+                            for (recDoc in recBills.documents) {
+                                val lastProcessed = recDoc.getString("lastProcessedMonth")
+                                if (lastProcessed != currentMonth) {
+                                    db.runTransaction { transaction ->
+                                        val freshDoc = transaction.get(recDoc.reference)
+                                        val freshLastProcessed = freshDoc.getString("lastProcessedMonth")
+                                        if (freshLastProcessed != currentMonth) {
+                                            val newBillRef = activeBillsRef.document()
+                                            val newBillData = freshDoc.data?.toMutableMap() ?: return@runTransaction
+                                            newBillData.remove("lastProcessedMonth")
+                                            newBillData.remove("frequency")
+                                            newBillData["timestamp"] = java.util.Date()
+                                            transaction.set(newBillRef, newBillData)
+                                            transaction.update(recDoc.reference, "lastProcessedMonth", currentMonth)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 val title = doc.getString("title") ?: "Untitled Room"
                 val avatar = doc.getString("avatar") ?: ""
                 val newItems = doc.get("newItems") as? List<Map<String, Any>>

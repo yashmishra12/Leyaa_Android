@@ -7,18 +7,25 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -74,7 +81,97 @@ fun BillTransactionScreen(
     
     var getTransactions by remember { mutableStateOf<List<BillTransactionData>>(emptyList()) }
     var payTransactions by remember { mutableStateOf<List<BillTransactionData>>(emptyList()) }
+    var deletedTransactions by remember { mutableStateOf<List<BillTransactionData>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
+    var showSettleDialog by remember { mutableStateOf(false) }
+    var netTotalForDialog by remember { mutableStateOf(0.0) }
+    var settleAmountText by remember { mutableStateOf("") }
+    
+    if (showSettleDialog) {
+        val maxAmount = kotlin.math.abs(netTotalForDialog)
+        
+        AlertDialog(
+            onDismissRequest = { showSettleDialog = false },
+            title = { Text("Settle Up") },
+            text = {
+                Column {
+                    Text("How much are you settling? (Max: \$${String.format(java.util.Locale.US, "%.2f", maxAmount)})")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = settleAmountText,
+                        onValueChange = { settleAmountText = it },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = { Text("Amount") }
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        val amount = settleAmountText.toDoubleOrNull() ?: 0.0
+                        if (amount <= 0 || amount > maxAmount) {
+                            Toast.makeText(context, "Invalid amount.", Toast.LENGTH_SHORT).show()
+                            return@Button
+                        }
+                        
+                        showSettleDialog = false
+                        
+                        if (amount >= maxAmount - 0.01) {
+                            val allTransactions = getTransactions + payTransactions
+                            val activeCollection = db.collection("${roomID}_BILLS")
+                            val deletedCollection = db.collection("${roomID}_BILLS_DELETED")
+                            
+                            db.runBatch { batch ->
+                                for (tx in allTransactions) {
+                                    val txData = hashMapOf(
+                                        "itemName" to tx.itemName,
+                                        "itemPrice" to tx.itemPrice,
+                                        "timestamp" to tx.timestamp,
+                                        "payer" to tx.payer,
+                                        "contributor" to tx.contributor
+                                    )
+                                    batch.delete(activeCollection.document(tx.docId))
+                                    batch.set(deletedCollection.document(tx.docId), txData)
+                                }
+                            }.addOnSuccessListener {
+                                val title = "Room: $roomName"
+                                val message = "$userName has cleared all dues."
+                                val sender = FcmNotificationsSender(memberDevToken, title, message, context.applicationContext, context as android.app.Activity)
+                                sender.SendNotifications()
+                                Toast.makeText(context, "All bills settled!", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            val payerId = if (netTotalForDialog > 0) memberID else currentUid
+                            val contributorId = if (netTotalForDialog > 0) currentUid else memberID
+                            
+                            val partialBill = hashMapOf(
+                                "itemName" to "Partial Settlement",
+                                "itemPrice" to amount,
+                                "timestamp" to java.util.Date(),
+                                "payer" to payerId,
+                                "contributor" to contributorId
+                            )
+                            
+                            db.collection("${roomID}_BILLS").add(partialBill).addOnSuccessListener {
+                                val title = "Room: $roomName"
+                                val message = "$userName recorded a partial payment of \$${String.format(java.util.Locale.US, "%.2f", amount)}."
+                                val sender = FcmNotificationsSender(memberDevToken, title, message, context.applicationContext, context as android.app.Activity)
+                                sender.SendNotifications()
+                                Toast.makeText(context, "Partial payment recorded!", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                ) {
+                    Text("Confirm")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showSettleDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 
     LaunchedEffect(roomID, memberID) {
         if (roomID.isEmpty() || memberID.isEmpty()) return@LaunchedEffect
@@ -95,7 +192,6 @@ fun BillTransactionScreen(
         db.collection("${roomID}_BILLS")
             .whereEqualTo("contributor", memberID)
             .whereEqualTo("payer", currentUid)
-            .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, _ ->
                 if (snapshot != null) {
                     val list = mutableListOf<BillTransactionData>()
@@ -111,7 +207,7 @@ fun BillTransactionScreen(
                             )
                         )
                     }
-                    getTransactions = list
+                    getTransactions = list.sortedByDescending { it.timestamp }
                 }
             }
             
@@ -119,7 +215,6 @@ fun BillTransactionScreen(
         db.collection("${roomID}_BILLS")
             .whereEqualTo("contributor", currentUid)
             .whereEqualTo("payer", memberID)
-            .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, _ ->
                 if (snapshot != null) {
                     val list = mutableListOf<BillTransactionData>()
@@ -135,8 +230,36 @@ fun BillTransactionScreen(
                             )
                         )
                     }
-                    payTransactions = list
+                    payTransactions = list.sortedByDescending { it.timestamp }
                     isLoading = false
+                }
+            }
+            
+        // Listen to DELETED transactions
+        db.collection("${roomID}_BILLS_DELETED")
+            .limit(30)
+            .addSnapshotListener { snapshot, _ ->
+                if (snapshot != null) {
+                    val list = mutableListOf<BillTransactionData>()
+                    for (doc in snapshot.documents) {
+                        val payer = doc.getString("payer") ?: ""
+                        val contributor = doc.getString("contributor") ?: ""
+                        
+                        if ((payer == currentUid && contributor == memberID) || 
+                            (payer == memberID && contributor == currentUid)) {
+                            list.add(
+                                BillTransactionData(
+                                    docId = doc.id,
+                                    itemName = doc.getString("itemName") ?: "",
+                                    itemPrice = doc.getDouble("itemPrice") ?: 0.0,
+                                    timestamp = doc.getDate("timestamp"),
+                                    payer = payer,
+                                    contributor = contributor
+                                )
+                            )
+                        }
+                    }
+                    deletedTransactions = list.sortedByDescending { it.timestamp }
                 }
             }
     }
@@ -184,21 +307,45 @@ fun BillTransactionScreen(
 
                 Button(
                     onClick = {
-                        val title = "Room: $roomName"
-                        val message = "$userName has cleared dues."
-                        val sender = FcmNotificationsSender(memberDevToken, title, message, context.applicationContext, context as android.app.Activity)
-                        sender.SendNotifications()
-                        Toast.makeText(context, "Notification Sent", Toast.LENGTH_SHORT).show()
+                        val totalNet = getTransactions.sumOf { it.itemPrice } - payTransactions.sumOf { it.itemPrice }
+                        if (totalNet == 0.0) {
+                            Toast.makeText(context, "No active balance to settle.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            netTotalForDialog = totalNet
+                            settleAmountText = String.format(java.util.Locale.US, "%.2f", kotlin.math.abs(totalNet))
+                            showSettleDialog = true
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                 ) {
-                    Text("Paid", color = MaterialTheme.colorScheme.onSecondary, fontWeight = FontWeight.Bold)
+                    Text("Settle Up", color = MaterialTheme.colorScheme.onSecondary, fontWeight = FontWeight.Bold)
                 }
             }
             
+            val getTotal = getTransactions.sumOf { it.itemPrice }
+            val payTotal = payTransactions.sumOf { it.itemPrice }
+            val netTotal = getTotal - payTotal
+            
+            val netSummaryText = if (netTotal > 0) {
+                "Net: $memberName owes you \$${String.format("%.1f", netTotal)}"
+            } else if (netTotal < 0) {
+                "Net: You owe $memberName \$${String.format("%.1f", -netTotal)}"
+            } else {
+                "Net: Settled up!"
+            }
+
+            Text(
+                text = netSummaryText,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                fontSize = 15.sp,
+                color = if (netTotal > 0) MaterialTheme.colorScheme.primary else if (netTotal < 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
+            )
+            
             Divider()
 
-            Row(modifier = Modifier.fillMaxSize()) {
+            Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
                 // GET Column
                 Column(
                     modifier = Modifier
@@ -210,17 +357,37 @@ fun BillTransactionScreen(
                         text = "GET",
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
                         fontSize = 18.sp
+                    )
+                    Text(
+                        text = "\$${String.format("%.1f", getTotal)}",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(bottom = 12.dp)
                     )
                     
                     if (getTransactions.isEmpty() && !isLoading) {
                         Text("No records", modifier = Modifier.padding(16.dp), color = MaterialTheme.colorScheme.onSurfaceVariant)
                     } else {
                         LazyColumn(contentPadding = PaddingValues(8.dp)) {
-                            items(getTransactions) { transaction ->
+                            items(getTransactions, key = { it.docId }) { transaction ->
                                 TransactionCard(transaction = transaction, onDelete = {
-                                    db.collection("${roomID}_BILLS").document(transaction.docId).delete()
+                                    val transactionData = hashMapOf(
+                                        "itemName" to transaction.itemName,
+                                        "itemPrice" to transaction.itemPrice,
+                                        "timestamp" to transaction.timestamp,
+                                        "payer" to transaction.payer,
+                                        "contributor" to transaction.contributor
+                                    )
+                                    val activeRef = db.collection("${roomID}_BILLS").document(transaction.docId)
+                                    val deletedRef = db.collection("${roomID}_BILLS_DELETED").document(transaction.docId)
+                                    
+                                    activeRef.delete().addOnSuccessListener {
+                                        deletedRef.set(transactionData)
+                                        Toast.makeText(context, "Bill Deleted", Toast.LENGTH_SHORT).show()
+                                    }
                                 })
                             }
                         }
@@ -245,20 +412,77 @@ fun BillTransactionScreen(
                         text = "PAY",
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
                         fontSize = 18.sp
+                    )
+                    Text(
+                        text = "\$${String.format("%.1f", payTotal)}",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(bottom = 12.dp)
                     )
                     
                     if (payTransactions.isEmpty() && !isLoading) {
                         Text("No records", modifier = Modifier.padding(16.dp), color = MaterialTheme.colorScheme.onSurfaceVariant)
                     } else {
                         LazyColumn(contentPadding = PaddingValues(8.dp)) {
-                            items(payTransactions) { transaction ->
+                            items(payTransactions, key = { it.docId }) { transaction ->
                                 TransactionCard(transaction = transaction, onDelete = {
-                                    db.collection("${roomID}_BILLS").document(transaction.docId).delete()
+                                    val transactionData = hashMapOf(
+                                        "itemName" to transaction.itemName,
+                                        "itemPrice" to transaction.itemPrice,
+                                        "timestamp" to transaction.timestamp,
+                                        "payer" to transaction.payer,
+                                        "contributor" to transaction.contributor
+                                    )
+                                    val activeRef = db.collection("${roomID}_BILLS").document(transaction.docId)
+                                    val deletedRef = db.collection("${roomID}_BILLS_DELETED").document(transaction.docId)
+                                    
+                                    activeRef.delete().addOnSuccessListener {
+                                        deletedRef.set(transactionData)
+                                        Toast.makeText(context, "Bill Deleted", Toast.LENGTH_SHORT).show()
+                                    }
                                 })
                             }
                         }
+                    }
+                }
+            }
+            
+            if (deletedTransactions.isNotEmpty()) {
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                Text(
+                    "Recently Removed",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                )
+                LazyRow(
+                    contentPadding = PaddingValues(start = 16.dp, top = 8.dp, end = 96.dp, bottom = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(deletedTransactions, key = { it.docId }) { transaction ->
+                        DeletedTransactionCard(
+                            transaction = transaction,
+                            onRestore = {
+                                val transactionData = hashMapOf(
+                                    "itemName" to transaction.itemName,
+                                    "itemPrice" to transaction.itemPrice,
+                                    "timestamp" to transaction.timestamp,
+                                    "payer" to transaction.payer,
+                                    "contributor" to transaction.contributor
+                                )
+                                val activeRef = db.collection("${roomID}_BILLS").document(transaction.docId)
+                                val deletedRef = db.collection("${roomID}_BILLS_DELETED").document(transaction.docId)
+                                
+                                deletedRef.delete().addOnSuccessListener {
+                                    activeRef.set(transactionData)
+                                    Toast.makeText(context, "Bill Restored", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        )
                     }
                 }
             }
@@ -309,7 +533,7 @@ fun TransactionCard(transaction: BillTransactionData, onDelete: () -> Unit) {
             Spacer(modifier = Modifier.height(8.dp))
             
             Text(
-                text = "$${String.format("%.1f", transaction.itemPrice)}",
+                text = "\$${String.format("%.1f", transaction.itemPrice)}",
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 15.sp,
                 color = MaterialTheme.colorScheme.onSurface
@@ -320,6 +544,43 @@ fun TransactionCard(transaction: BillTransactionData, onDelete: () -> Unit) {
             Text(
                 text = dateString,
                 fontSize = 11.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+@Composable
+fun DeletedTransactionCard(transaction: BillTransactionData, onRestore: () -> Unit) {
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)),
+        modifier = Modifier
+            .width(140.dp)
+            .clickable(onClick = onRestore)
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                Icons.Filled.Refresh,
+                contentDescription = "Restore",
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = transaction.itemName,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = "\$${String.format("%.1f", transaction.itemPrice)}",
+                fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

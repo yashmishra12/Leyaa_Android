@@ -7,13 +7,20 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import kotlinx.coroutines.delay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items as rowItems
+import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -22,6 +29,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,6 +51,28 @@ data class RoomItem(
     val qty: String,
     val desc: String
 )
+
+fun getCategory(itemName: String): String {
+    val name = itemName.lowercase()
+    val categories = mapOf(
+        "Dairy & Eggs" to listOf("milk", "egg", "cheese", "butter", "yogurt", "cream"),
+        "Meat & Seafood" to listOf("chicken", "beef", "pork", "fish", "salmon", "tuna", "bacon", "sausage", "meat"),
+        "Produce" to listOf("apple", "banana", "orange", "carrot", "tomato", "potato", "onion", "garlic", "lettuce", "spinach", "broccoli", "fruit", "veg"),
+        "Bakery" to listOf("bread", "bagel", "croissant", "muffin", "cake", "pie", "bun"),
+        "Pantry" to listOf("pasta", "rice", "flour", "sugar", "oil", "salt", "pepper", "spice", "sauce", "cereal", "bean", "can"),
+        "Snacks" to listOf("chip", "cookie", "candy", "chocolate", "nut", "popcorn", "snack"),
+        "Beverages" to listOf("water", "juice", "soda", "coffee", "tea", "beer", "wine", "drink"),
+        "Household" to listOf("soap", "detergent", "paper towel", "toilet paper", "trash bag", "cleaner", "bleach", "sponge"),
+        "Personal Care" to listOf("shampoo", "conditioner", "toothpaste", "toothbrush", "deodorant", "lotion", "body wash", "razor")
+    )
+    
+    for ((category, keywords) in categories) {
+        if (keywords.any { name.contains(it) }) {
+            return category
+        }
+    }
+    return "Other"
+}
 
 class Inside_Room_Activity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +134,8 @@ fun InsideRoomScreen(
     var roomAvatar by remember { mutableStateOf("") }
     var userName by remember { mutableStateOf("") }
     var items by remember { mutableStateOf<List<RoomItem>>(emptyList()) }
+    var deletedItems by remember { mutableStateOf<List<RoomItem>>(emptyList()) }
+    var boughtItems by remember { mutableStateOf<List<RoomItem>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     
     var showAddDialog by remember { mutableStateOf(false) }
@@ -142,6 +175,24 @@ fun InsideRoomScreen(
             if (snapshot != null && snapshot.exists()) {
                 val itemsList = snapshot.get("newItems") as? List<Map<String, String>> ?: emptyList()
                 items = itemsList.map { 
+                    RoomItem(
+                        id = it["id"] ?: "",
+                        name = it["name"] ?: "",
+                        qty = it["qty"] ?: "",
+                        desc = it["desc"] ?: ""
+                    )
+                }
+                val deletedList = snapshot.get("deletedItems") as? List<Map<String, String>> ?: emptyList()
+                deletedItems = deletedList.map { 
+                    RoomItem(
+                        id = it["id"] ?: "",
+                        name = it["name"] ?: "",
+                        qty = it["qty"] ?: "",
+                        desc = it["desc"] ?: ""
+                    )
+                }
+                val boughtList = snapshot.get("boughtItems") as? List<Map<String, String>> ?: emptyList()
+                boughtItems = boughtList.map { 
                     RoomItem(
                         id = it["id"] ?: "",
                         name = it["name"] ?: "",
@@ -366,56 +417,256 @@ fun InsideRoomScreen(
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }
-                } else if (items.isEmpty()) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "Empty",
-                            modifier = Modifier
-                                .size(100.dp)
-                                .alpha(0.3f),
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            "No items here yet.\nTap + to add some!",
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
-                            fontSize = 18.sp
-                        )
-                    }
                 } else {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        contentPadding = PaddingValues(16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(items) { item ->
-                            ItemCard(
-                                item = item,
-                                context = context,
-                                onDelete = {
-                                    val itemMap = mapOf(
-                                        "id" to item.id,
-                                        "name" to item.name,
-                                        "qty" to item.qty,
-                                        "desc" to item.desc
-                                    )
-                                    db.collection("rooms").document(roomID)
-                                        .update("newItems", FieldValue.arrayRemove(itemMap))
-                                        .addOnSuccessListener {
-                                            Toast.makeText(context, "Item Deleted", Toast.LENGTH_SHORT).show()
-                                        }
-                                },
-                                onClick = {
-                                    editingItem = item
-                                }
+                    Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                        if (items.isEmpty()) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ShoppingCart,
+                                    contentDescription = "Empty",
+                                    modifier = Modifier
+                                        .size(100.dp)
+                                        .alpha(0.3f),
+                                    tint = MaterialTheme.colorScheme.onBackground
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Text(
+                                    "No items here yet.\nTap + to add some!",
+                                    textAlign = TextAlign.Center,
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                                    fontSize = 18.sp
+                                )
+                            }
+                        } else {
+                            val groupedItems = items.groupBy { getCategory(it.name) }.toSortedMap(
+                                compareBy<String> { if (it == "Other") 1 else 0 }.thenBy { it }
                             )
+                            Column(modifier = Modifier.fillMaxSize()) {
+                                Text(
+                                    text = "Swipe left to delete, swipe right to mark as bought",
+                                    fontSize = 12.sp,
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                                )
+                                LazyColumn(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentPadding = PaddingValues(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                                ) {
+                                    groupedItems.forEach { (category, categoryItems) ->
+                                    item(key = "header_$category") {
+                                        Text(
+                                            text = category,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            fontSize = 18.sp,
+                                            modifier = Modifier.padding(
+                                                top = if (category == groupedItems.keys.first()) 0.dp else 16.dp, 
+                                                bottom = 4.dp
+                                            )
+                                        )
+                                    }
+                                    
+                                    items(categoryItems, key = { it.id }) { item ->
+                                        val dismissState = rememberSwipeToDismissBoxState(
+                                            confirmValueChange = { dismissValue ->
+                                                if (dismissValue == SwipeToDismissBoxValue.StartToEnd || dismissValue == SwipeToDismissBoxValue.EndToStart) {
+                                                    val itemMap = mapOf(
+                                                        "id" to item.id,
+                                                        "name" to item.name,
+                                                        "qty" to item.qty,
+                                                        "desc" to item.desc
+                                                    )
+                                                    val roomRef = db.collection("rooms").document(roomID)
+                                                    db.runBatch { batch ->
+                                                        batch.update(roomRef, "newItems", FieldValue.arrayRemove(itemMap))
+                                                        if (dismissValue == SwipeToDismissBoxValue.StartToEnd) {
+                                                            batch.update(roomRef, "boughtItems", FieldValue.arrayUnion(itemMap))
+                                                        } else {
+                                                            batch.update(roomRef, "deletedItems", FieldValue.arrayUnion(itemMap))
+                                                        }
+                                                    }.addOnSuccessListener {
+                                                        if (dismissValue == SwipeToDismissBoxValue.StartToEnd) {
+                                                            Toast.makeText(context, "Marked as Bought", Toast.LENGTH_SHORT).show()
+                                                        } else {
+                                                            Toast.makeText(context, "Item Deleted", Toast.LENGTH_SHORT).show()
+                                                        }
+                                                        roomRef.get().addOnSuccessListener { doc ->
+                                                            if (dismissValue == SwipeToDismissBoxValue.StartToEnd) {
+                                                                val bItems = doc.get("boughtItems") as? List<Map<String, String>> ?: emptyList()
+                                                                if (bItems.size > 10) {
+                                                                    roomRef.update("boughtItems", bItems.takeLast(10))
+                                                                }
+                                                            } else {
+                                                                val dItems = doc.get("deletedItems") as? List<Map<String, String>> ?: emptyList()
+                                                                if (dItems.size > 10) {
+                                                                    roomRef.update("deletedItems", dItems.takeLast(10))
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    true
+                                                } else {
+                                                    false
+                                                }
+                                            }
+                                        )
+                                        
+                                        SwipeToDismissBox(
+                                            state = dismissState,
+                                            backgroundContent = {
+                                                val color = when (dismissState.targetValue) {
+                                                    SwipeToDismissBoxValue.StartToEnd -> Color(0xFF4CAF50) // Green
+                                                    SwipeToDismissBoxValue.EndToStart -> MaterialTheme.colorScheme.error // Red
+                                                    else -> Color.Transparent
+                                                }
+                                                val icon = when (dismissState.targetValue) {
+                                                    SwipeToDismissBoxValue.StartToEnd -> Icons.Default.Check
+                                                    SwipeToDismissBoxValue.EndToStart -> Icons.Default.Delete
+                                                    else -> null
+                                                }
+                                                Box(
+                                                    modifier = Modifier
+                                                        .fillMaxSize()
+                                                        .background(color, RoundedCornerShape(12.dp))
+                                                        .padding(horizontal = 20.dp),
+                                                    contentAlignment = when (dismissState.targetValue) {
+                                                        SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
+                                                        else -> Alignment.CenterEnd
+                                                    }
+                                                ) {
+                                                    icon?.let {
+                                                        Icon(
+                                                            imageVector = it,
+                                                            contentDescription = null,
+                                                            tint = Color.White
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        ) {
+                                            ItemCard(
+                                                item = item,
+                                                context = context,
+                                                onDelete = {}, // Delete button removed in UI, handled by swipe
+                                                onClick = { editingItem = item }
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                    
+                    if (boughtItems.isNotEmpty()) {
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                "Recently Bought",
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp,
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                            )
+                            TextButton(
+                                onClick = {
+                                    db.collection("rooms").document(roomID).update("boughtItems", emptyList<Any>()).addOnSuccessListener {
+                                        Toast.makeText(context, "Bought items cleared", Toast.LENGTH_SHORT).show()
+                                    }
+                                },
+                                contentPadding = PaddingValues(0.dp),
+                                modifier = Modifier.height(24.dp)
+                            ) {
+                                Text("Clear All", fontSize = 12.sp)
+                            }
+                        }
+                        LazyRow(
+                            contentPadding = PaddingValues(start = 16.dp, top = 8.dp, end = 96.dp, bottom = 16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            rowItems(boughtItems) { item ->
+                                DeletedItemCard(
+                                    item = item,
+                                    context = context,
+                                    onRestore = {
+                                        val itemMap = mapOf(
+                                            "id" to item.id,
+                                            "name" to item.name,
+                                            "qty" to item.qty,
+                                            "desc" to item.desc
+                                        )
+                                        val roomRef = db.collection("rooms").document(roomID)
+                                        db.runBatch { batch ->
+                                            batch.update(roomRef, "boughtItems", FieldValue.arrayRemove(itemMap))
+                                            batch.update(roomRef, "newItems", FieldValue.arrayUnion(itemMap))
+                                        }.addOnSuccessListener {
+                                            Toast.makeText(context, "Item Restored", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    if (deletedItems.isNotEmpty()) {
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                "Recently Removed",
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp,
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                            )
+                            TextButton(
+                                onClick = {
+                                    db.collection("rooms").document(roomID).update("deletedItems", emptyList<Any>()).addOnSuccessListener {
+                                        Toast.makeText(context, "Removed items cleared", Toast.LENGTH_SHORT).show()
+                                    }
+                                },
+                                contentPadding = PaddingValues(0.dp),
+                                modifier = Modifier.height(24.dp)
+                            ) {
+                                Text("Clear All", fontSize = 12.sp)
+                            }
+                        }
+                        LazyRow(
+                            contentPadding = PaddingValues(start = 16.dp, top = 8.dp, end = 96.dp, bottom = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            rowItems(deletedItems) { item ->
+                                DeletedItemCard(
+                                    item = item,
+                                    context = context,
+                                    onRestore = {
+                                        val itemMap = mapOf(
+                                            "id" to item.id,
+                                            "name" to item.name,
+                                            "qty" to item.qty,
+                                            "desc" to item.desc
+                                        )
+                                        val roomRef = db.collection("rooms").document(roomID)
+                                        db.runBatch { batch ->
+                                            batch.update(roomRef, "deletedItems", FieldValue.arrayRemove(itemMap))
+                                            batch.update(roomRef, "newItems", FieldValue.arrayUnion(itemMap))
+                                        }.addOnSuccessListener {
+                                            Toast.makeText(context, "Item Restored", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -474,11 +725,8 @@ fun InsideRoomScreen(
                 )
                 val roomRef = db.collection("rooms").document(roomID)
                 roomRef.update("newItems", FieldValue.arrayUnion(newItemMap)).addOnSuccessListener {
-                    roomRef.update("lastItemID", uniqueID).addOnSuccessListener {
-                        Toast.makeText(context, "$selectedName Added", Toast.LENGTH_SHORT).show()
-                    }
+                    roomRef.update("lastItemID", uniqueID)
                 }
-                showQuickAddDialog = false
             },
             onCustomItem = {
                 initialNameForAdd = ""
@@ -619,74 +867,55 @@ fun ItemCard(
     val resId = context.resources.getIdentifier(avatarName, "drawable", context.packageName)
     
     Card(
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(0.85f)
             .clickable(onClick = onClick)
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                if (resId != 0) {
-                    Image(
-                        painter = painterResource(id = resId),
-                        contentDescription = item.name,
-                        modifier = Modifier.size(64.dp)
-                    )
-                } else {
-                    Icon(
-                        Icons.Default.ShoppingCart,
-                        contentDescription = "Item",
-                        modifier = Modifier.size(64.dp),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (resId != 0) {
+                Image(
+                    painter = painterResource(id = resId),
+                    contentDescription = item.name,
+                    modifier = Modifier.size(48.dp)
+                )
+            } else {
+                Icon(
+                    Icons.Default.ShoppingCart,
+                    contentDescription = "Item",
+                    modifier = Modifier.size(48.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+            
+            Spacer(modifier = Modifier.width(16.dp))
+            
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = item.name,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
-                    textAlign = TextAlign.Center
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
-                if (item.qty.isNotBlank()) {
+                if (item.qty.isNotBlank() || item.desc.isNotBlank()) {
+                    val subtext = mutableListOf<String>()
+                    if (item.qty.isNotBlank()) subtext.add("Qty: ${item.qty}")
+                    if (item.desc.isNotBlank()) subtext.add(item.desc)
                     Text(
-                        text = "Qty: ${item.qty}",
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                        text = subtext.joinToString(" • "),
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
-                if (item.desc.isNotBlank()) {
-                    Text(
-                        text = item.desc,
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                        lineHeight = 14.sp
-                    )
-                }
-            }
-            
-            IconButton(
-                onClick = onDelete,
-                modifier = Modifier.align(Alignment.TopEnd)
-            ) {
-                Icon(
-                    Icons.Filled.Close,
-                    contentDescription = "Delete",
-                    tint = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.size(20.dp)
-                )
             }
         }
     }
@@ -701,16 +930,25 @@ fun QuickAddCatalog(
     onCustomItem: () -> Unit
 ) {
     var searchQuery by remember { mutableStateOf("") }
+    val focusRequester = remember { FocusRequester() }
+    var addedItemMessage by remember { mutableStateOf("") }
+    
+    LaunchedEffect(addedItemMessage) {
+        if (addedItemMessage.isNotEmpty()) {
+            delay(1500)
+            addedItemMessage = ""
+        }
+    }
     
     val allItems = remember { SanitizeItemName.realAssetName.toList().sorted() }
     val filteredItems = remember(searchQuery) {
         if (searchQuery.isBlank()) {
             allItems
         } else {
-            val sanitizedQuery = SanitizeItemName.sanitizeItemName(searchQuery)
+            val queryNoSpaces = searchQuery.replace("\\s".toRegex(), "")
             allItems.filter { 
                 it.contains(searchQuery, ignoreCase = true) || 
-                (sanitizedQuery != "imagenotfound" && it.contains(sanitizedQuery, ignoreCase = true))
+                it.replace("\\s".toRegex(), "").contains(queryNoSpaces, ignoreCase = true)
             }
         }
     }
@@ -739,18 +977,49 @@ fun QuickAddCatalog(
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
                 )
                 
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                }
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .focusRequester(focusRequester),
                     placeholder = { Text("Search items...") },
                     leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
                     singleLine = true,
                     shape = RoundedCornerShape(12.dp)
                 )
+                
+                AnimatedVisibility(visible = addedItemMessage.isNotEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.primaryContainer)
+                            .padding(12.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = addedItemMessage, 
+                            color = MaterialTheme.colorScheme.onPrimaryContainer, 
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
                 if (filteredItems.isEmpty() && searchQuery.isNotBlank()) {
+                    Button(
+                        onClick = { 
+                            onItemSelected(searchQuery.trim())
+                            addedItemMessage = "${searchQuery.trim()} Added!"
+                            searchQuery = ""
+                        },
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
+                        Text("Add '${searchQuery.trim()}'")
+                    }
                     Box(modifier = Modifier.fillMaxSize().padding(16.dp), contentAlignment = Alignment.Center) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Icon(
@@ -763,10 +1032,6 @@ fun QuickAddCatalog(
                                 "No items found for '${searchQuery}'",
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                             )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Button(onClick = { onItemSelected(searchQuery.trim()) }) {
-                                Text("Add '${searchQuery.trim()}'")
-                            }
                         }
                     }
                 } else {
@@ -781,7 +1046,11 @@ fun QuickAddCatalog(
                             CatalogItemCard(
                                 itemName = itemName,
                                 context = context,
-                                onClick = { onItemSelected(itemName) }
+                                onClick = { 
+                                    onItemSelected(itemName)
+                                    addedItemMessage = "$itemName Added!"
+                                    searchQuery = ""
+                                }
                             )
                         }
                     }
@@ -837,6 +1106,55 @@ fun CatalogItemCard(
                 textAlign = TextAlign.Center,
                 lineHeight = 14.sp,
                 maxLines = 2
+            )
+        }
+    }
+}
+
+@Composable
+fun DeletedItemCard(
+    item: RoomItem,
+    context: android.content.Context,
+    onRestore: () -> Unit
+) {
+    val avatarName = SanitizeItemName.sanitizeItemName(item.name)
+    val resId = context.resources.getIdentifier(avatarName, "drawable", context.packageName)
+    
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+        modifier = Modifier.clickable(onClick = onRestore)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (resId != 0) {
+                Image(
+                    painter = painterResource(id = resId),
+                    contentDescription = item.name,
+                    modifier = Modifier.size(24.dp)
+                )
+            } else {
+                Icon(
+                    Icons.Default.ShoppingCart,
+                    contentDescription = "Item",
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = item.name,
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Icon(
+                Icons.Filled.Add,
+                contentDescription = "Restore",
+                modifier = Modifier.size(16.dp),
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
